@@ -45,47 +45,14 @@ On company A
 - Go to AWS Backup > Settings
 - Enable 'Cross-account backup'
 - Go to your vault, click on a restore point
-- Copy it => select another account and backup vault
-- 
+- Copy it => select another account and backup vault. Make sure to use the IAM role under 'DailyBackupRole' from the "Resources" section of your stack in CloudFormation
+- Todo: copying fails?
 
 https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html
 
 
-
-
-
-
-
-===== old
-### Copy the Vault
-Here we follow the same approach, we share the vault from company A with company B.
-
-To do that:
-- Go to AWS Backup
-- Open the vault you want to copy/share
-- Under 'Permissions', click 'Add permissions'
-- Select 'Allow account level access to a Backup vault'
-- Complete the Access policy, by replacing `[AccountID]` with the Account ID  of company B
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "backup:CopyIntoBackupVault",
-            "Resource": "*",
-            "Principal": {
-                "AWS": [
-                    "arn:aws:iam::[AccountID]:root"
-                ]
-            }
-        }
-    ]
-}
-```
-
-For more details and steps: [https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html#share-vault-cab](https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html#share-vault-cab]
-
+Links:
+[https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html#share-vault-cab](https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html#share-vault-cab]
 https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html
 
 
