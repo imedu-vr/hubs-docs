@@ -1,0 +1,8 @@
+# Stack migration between different AWS accounts
+
+## Context
+We have a running AWS stack on AWS company account A, and want to move it to AWS company account B 
+
+
+- Create a new AWS account form company B
+
