@@ -7,7 +7,7 @@
 This is basically a standard AWS script that you can use to update your stack without having to login and go through the UI. It requires you to provide the (new) template parameter values, or you can use 'UsePreviousValue' to keep it the same. The parameters are the same as the ones in the templates as shown in Cloudformation
 
 ## Some notes:
-- There are different ways to provide parameters to this AWS CLI script, but I had issues with the space in the 'Offline - Temporarily shut off servers' setting. This JSON format was the only one that worked. 
+- There are different ways to provide parameters to this AWS CLI script, but I had issues with the spaces in the 'Offline - Temporarily shut off servers' setting. This JSON format was the only one that worked. 
 - I'm sure you can also adjust this script for multi-server templates, probably you just try to run it (use a test stack!), and it will complain if you miss any parameters.
 
 ## Usage:
