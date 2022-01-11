@@ -1,16 +1,16 @@
 # AWS CLI Scripts for remotely updating your stack
 
-Requirements:
+## Requirements:
 - Install the AWS CLI (see https://aws.amazon.com/cli/)
 - Make sure you have access to the private key which was used to create the stack
 
 This is basically a standard AWS script that you can use to update your stack without having to login and go through the UI. It requires you to provide the (new) template parameter values, or you can use 'UsePreviousValue' to keep it the same. The parameters are the same as the ones in the templates as shown in Cloudformation
 
-Some notes:
+## Some notes:
 - There are different ways to provide parameters to this AWS CLI script, but I had issues with the space in the 'Offline - Temporarily shut off servers' setting. This JSON format was the only one that worked. 
 - I'm sure you can also adjust this script for multi-server templates, probably you just try to run it (use a test stack!), and it will complain if you miss any parameters.
 
-Usage:
+## Usage:
 I added parameters for 3 common changes, but you can adjust the script to add more. You can even run this with a cron-job or automate it in a serverscript that scales your stack based on expected load.
 
 `./updatestack.sh -s my-hubs-stack -i t3.medium -m online`
