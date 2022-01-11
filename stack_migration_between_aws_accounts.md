@@ -1,4 +1,4 @@
-# Stack migration between different AWS accounts
+# Stack migration between different AWS accounts (WORK IN PROGRESS)
 
 ## Context
 We have a running AWS stack on AWS company account A, and want to move it to AWS company account B.
@@ -32,8 +32,7 @@ The solution is to:
 For more details and steps: [https://aws.amazon.com/premiumsupport/knowledge-center/share-encrypted-rds-snapshot-kms-key/](https://aws.amazon.com/premiumsupport/knowledge-center/share-encrypted-rds-snapshot-kms-key/)
 
 
-
-
+# TODO: figure out how copy the vault....
 Here we take the following approach:
 - Log in to company B, make sure you are in the same region as company A
 - Create a new Customer managed Key in AWS KMS
@@ -46,11 +45,10 @@ On company A
 - Enable 'Cross-account backup'
 - Go to your vault, click on a restore point
 - Copy it => select another account and backup vault. Make sure to use the IAM role under 'DailyBackupRole' from the "Resources" section of your stack in CloudFormation
+
 - Todo: copying fails?
 
 https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html
-
-
 Links:
 [https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html#share-vault-cab](https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html#share-vault-cab]
 https://docs.aws.amazon.com/aws-backup/latest/devguide/create-cross-account-backup.html
