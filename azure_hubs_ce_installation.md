@@ -1,6 +1,9 @@
 *Disclaimer: this is work in progress, and are more 'installation notes' then a full manual.*
 
 _TODO_
+- Dialog server not working?
+- Showing 404s on some files from https://assets.yourdomain when opening Spoke
+- App logo's from assets.domaim not loading 
 - Attach static storage for recticulum: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>
 - Use a static database: ??
 
