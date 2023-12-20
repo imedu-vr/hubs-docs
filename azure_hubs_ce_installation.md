@@ -4,11 +4,10 @@ _Disclaimer: this is work in progress, and are more 'installation notes' then a 
 
 - Dialog server not working?
 
-- Showing 404s on some files from https://assets.yourdomain when opening Spoke
-
-- App logo's from assets.domaim not loading
+- Showing 404s on some files from https://assets.yourdomain when opening Spoke (e.g. the spoke logo)
 
 - Consider to use a seperate database service? (now it's using persistent storage)
+
 
 # Installation process
 
