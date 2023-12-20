@@ -99,7 +99,7 @@ configs                     Opaque              20     40h
 - The easiest way is to delete the secret and recreate them with the same name and your own certificates. (**Don't forget to create them in the right namespace, in this case `hcce`, and create a backup of the certs before you delete them. This can be done by using the portal to view the contents of the secrets as explained further below**)
 ```
 kubectl delete secret cert-<your-domain> -n hcce
-kubectl create secret tls cert-<your-domain> -n hcce --cert=backup-certs/certificate.pem --key=backup-certs/key.pem
+kubectl create secret tls cert-<your-domain> -n hcce --cert=path_to_certs/certificate.pem --key=path_to_certs/key.pem
 ```
 - Make sure to build your certificate.pem with the domain certificate _on top_ and paste the cabundle below that.
 - If you already visited your cluster, it might take a while before the cached self-signed certificates are updated. You could check the validity of your new certificates at e.g. https://stream.<your-domain> as that might not have been cached yet.
