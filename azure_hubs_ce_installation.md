@@ -5,16 +5,10 @@ _Disclaimer: this is work in progress, and are more 'installation notes' then a 
 - Dialog server not working?
 
 - Showing 404s on some files from https://assets.yourdomain when opening Spoke
-<<<<<<< Updated upstream
-- App logo's from assets.domain not loading 
-=======
 
-- App logo's from assets.domaim not loading 
+- App logo's from assets.domaim not loading
 
->>>>>>> Stashed changes
-- Attach static storage for recticulum: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>
-
-- Use a static database: ??
+- Consider to use a seperate database service? (now it's using persistent storage)
 
 # Installation process
 
@@ -73,7 +67,7 @@ To set up an SMTP service, follow this tutorial:  <https://learn.microsoft.com/e
 
 >Important! Make sure to add noreply@\<yourdomain\> as a verified Sender address in the Email Communication Service, otherwise you will see errors in the recticulum logs, saying 'Email sender address not allowed' and no login mails will be sent.
 
-## How to open a CLI to your cluster:
+## How to open a CLI to your cluster
 
 - Find you cluster in the portal (Kubernetes services)
 
@@ -91,7 +85,7 @@ Read this manual for detailed steps => <https://hubs.mozilla.com/labs/community-
 
 - Change the setup values in the installation script `render_hcce_sh`
 
-- Follow the instructions and run : `bash render_hcce.sh && kubectl apply -f hcce.yaml` 
+- Follow the instructions and run : `bash render_hcce.sh && kubectl apply -f hcce.yaml`
 
 >Tip: use a docker image to avoid issues with local versions of openssl, see 'Use Docker image to deploy' below
 
@@ -140,59 +134,45 @@ kubectl create secret tls cert-<your-domain> -n hcce --cert=path_to_certs/certif
 
 - If you already visited your cluster, it might take a while before the cached self-signed certificates are updated. You could check the validity of your new certificates at e.g. https://stream.\<your-domain\> as that might not have been cached yet.
 
-## Add persistent storage
+## Add persistent storage for recticulum files and database
 
-By default the volumens in the pod are ephemeral, which results in data-loss when deleting a pod. To work around that we need to connect our volumes to a persistent storage solution. See this article for more details about (persistant) storage in Azure Kubernetes Services: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>
+By default the volumes in the pod are ephemeral, which results in data-loss when deleting a pod. To work around that we need to connect our volumes to a persistent storage solution. See this article for more details about (persistant) storage in Azure Kubernetes Services: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>
+
+The cluster contains a recticulum server and a postgress DB, which both store their data on disk. In these steps we are moving this storage to a persistent Azure Disk.
+
+> Make sure to test this well. With this setup you should be able to delete all pods, while keeping accounts, scenes, rooms and objects in rooms.
 
 - Create a new storage account, (use default settings where given)
 
-- On the 'Networking' tab, set the `network access` to Enable public access from selected virtual networks and IP addresses. In the configuration field, choose the Virtual Network in which your cluster is installed.
+- On the 'Networking' tab, set the `network access` to Enable public access from selected virtual networks and IP addresses. In the configuration field, choose the Virtual Network in which your cluster is installed. This should block public access.
 
 - Finish the process and create your storage account
 
-In order to use a persistent storage, we need to add `Persistent Volume` and a `Persistent Volumce Claim` to our cluster, and adjust the hubs configuration in `hcce.yaml`
+We need to add a `Persistent Volume Claim` to our cluster, to which we can connect our recticulum storage. Note that this will automatically create a `Persistent volume`, based on the given (default) Storage Class. Once we created this, we can change the recticulum and postgresdb config in `hcce.yaml` to use this new persistent storage. For details see: <https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision>
 
-For details see: <https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision>
-
-- Create and adjust the following azure-pvc.yaml file, to specify the PV and PVC:
+- Create and adjust the following azure-pvc.yaml file, to create the PVC:
 
 ```yaml
 apiVersion: v1
-kind: PersistentVolume
+kind: PersistentVolumeClaim
 metadata:
-  name: example-azure-disk-pv
+  name: example-disk
 spec:
-  capacity:
-    storage: 10Gi
   accessModes:
-  - ReadWriteOnce
-  azureDisk:
-    kind: Managed
-    diskName: <your-disk-name>
-    diskURI: <your-disk-uri>
-    cachingMode: ReadWrite
-    fsType: ext4
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: example-azurefile-pv
-spec:
-  capacity:
-    storage: 5Gi
-  accessModes:
-  - ReadWriteMany
-  azureFile:
-    secretName: azure-secret
-    shareName: <your-file-share-name>
-    readOnly: false
+    - ReadWriteOnce
+  storageClassName: default
+  resources:
+    requests:
+      storage: 10Gi
 ```
 
-- Apply the configuration with `kubectl apply`
+- Apply the configuration to your cluster with `kubectl apply -f azure-pvc.yaml -n hcce`
 
-- Adjust this part of the recticulm configuration in `hcce.yam`/`hcce.yaml`:
+- Adjust these parts of the configuration in `hcce.yam` to map the volumes of recticulum and postgresdb to the PVC:
 
 ```yaml
+
+#for recticulum
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -217,8 +197,33 @@ metadata:
 
       - name: config
         configMap:
-          name: ret-config           
+          name: ret-config
+
+... 
+#and further down for postrgresql
+...
+          volumeMounts:
+            - name: postgresql-data
+              mountPath: /var/lib/postgresql/data
+
+#             ADD THIS LINE:
+              subPath: postgres
+
+        volumes:
+        - name: postgresql-data
+
+#       REPLACE THESE LINES:
+          hostPath:
+            path: /tmp/pgsql_data
+#       WITH THESE:
+          persistentVolumeClaim:
+            claimName: imedu-disk           
 ```
+
+- We use the subPath for the Postgresql volume, because postgressql likes to start in an empty folder (<https://stackoverflow.com/questions/51168558/how-to-mount-a-postgresql-volume-using-aws-ebs-in-kubernete>)
+- Update your cluster by running the render and apply scripts `bash render_hcce.sh && kubectl apply -f hcce.yaml` (note: only changed items will be recreated)
+
+- You should now see your persistent storage in the Azure portal, under `Kubernetes service`  > `Storage`
 
 # Tips & resolving errors
 
@@ -276,7 +281,7 @@ docker run --rm -it -v REPLACE_PATH:/app hubs-ce-builder:latest
 to build the yaml files 😄
 ```
 
-> Important: Make sure to remove ALL pods after relaunching (not sure that all are needed, but that worked for me)
+> Important: Make sure to remove ALL pods after relaunching (not sure that all are needed maybe only recticulum, but this worked for me) with `kubectl delete --all pods --namespace=hcce`. Note that this will also delete any accounts or data unless you have implemented persistent storage.
 
 ## How to check secrets and logs in Azure portal
 
