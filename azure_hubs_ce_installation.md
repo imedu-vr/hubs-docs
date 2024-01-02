@@ -1,5 +1,5 @@
 
-> This document is still work in progress, although most of it is wokirng. Remaining issues are listed under TODO
+> This document is still work in progress, although most of it is working. Remaining issues are listed under TODO
 
 # TODO
 
