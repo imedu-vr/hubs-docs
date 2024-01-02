@@ -239,9 +239,10 @@ https://discord.com/channels/498741086295031808/1181690949156470925/118174270500
 
 By default the volumes in the pod are ephemeral, which results in data-loss when deleting a pod. To work around that we need to connect our volumes to a persistent storage solution. See this article for more details about (persistant) storage in Azure Kubernetes Services: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>
 
+> Applying this will remove existing accounts and content as it moves the storage location of files and database. Make sure to test this well before you start actively using your cluster. With this setup you should be able to delete all pods, while keeping accounts, scenes, rooms and objects in rooms.
+
 The cluster contains a recticulum server and a postgress DB, which both store their data on disk. In these steps we are moving this storage to a persistent Azure Disk.
 
-> Make sure to test this well. With this setup you should be able to delete all pods, while keeping accounts, scenes, rooms and objects in rooms.
 
 - Create a new storage account, (use default settings where given)
 
