@@ -85,11 +85,11 @@ Every service in Azure automatically gets a system assigned managed identity. An
 
 #### User assigned managed identities
 
-Besides the system assigned managed identities, you can assign 'custom' managed identities as a user. These can be created as much as you liked, and can also be used in role based assignments. By default these identities are not linked to a service, but you can do that by going to the 'Identity' page under a service. Here you can add alternative identites for the service.
+Besides the system assigned managed identities, you can assign 'custom' managed identities as a user. These can be created as much as you like, and can also be used in role based assignments. By default these identities are not linked to a service, but you can do that by going to the 'Identity' page under a service. Here you can add alternative identites for the service.
 
 #### Authenticate as a service principal using Entra ID applications
 
-Finally, there are registered applications in Azure Active Directory ('Microsoft Entra ID'). These provide authentication and authorization services for applications. When you register an app in Microsoft Entra ID it also creates a service principal in the backend, that you can use in the same way for role-based access. Besides that, you can also generate credentials, so you can authenticate as that servivce principal from an external system.
+Finally, there are registered applications in Azure Active Directory ('Microsoft Entra ID'). These provide authentication and authorization services for applications. When you register an app in Microsoft Entra ID it also creates a service principal in the backend, that you can use in the same way for role-based access. Besides that, you can also generate seperate credentials so you can authenticate as that service principal from an external system.
 
 For a good introduction + video, see: <https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview>
 
