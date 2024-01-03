@@ -130,6 +130,8 @@ brew install Azure/kubelogin/kubelogin
     - Select the region and availability zones where you want to run your cluster
 
     - Select how you want to Authorize and Authenticate. This depends on how you want to manage accounts and access across your Azure enviroment. Default 'Local accounts with Kubernetes RBAC' should be ok for your (first) installation. You can also use Active Directory to control your accounts and optionally control role based access.
+   
+    - If you need/want to change the VM size for your node pool, DS2_v2 sounds like a good start as it has a similar number of cores and more memory then AWS EC2 C4 large (which was always recommended by Hubs to choose). However, this might need some further monitoring and investigation.   
 
 ### Create access for user when using Azure RBAC (not tested yet!)
 
@@ -142,15 +144,15 @@ See this manual for detailed steps => <https://learn.microsoft.com/en-us/azure/a
 
 ## Setup your domain + email service
 
-Use an external DNS provider to buy the domain and optionally buy/request a wildcard certificate (see below 'Connect your domain'). Or you can partially use Azure Hosted Zones for this, which I don't know about.
+Use an external DNS provider to buy the domain and optionally buy/request a wildcard certificate (see below 'Connect your domain'). Or you should be able to (partially) use Azure Hosted Zones for this, which I don't know about so I can't elaborate about that.
 
 To set up an SMTP service, follow these steps:
 
 - Set up an Azure Communication service to serve as an SMTP service. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource>
-- Set up an active Azure Communication Services Resource connected with Email Domain and a Connection String. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/connect-email-communication-resource>
+- Set up an active Azure Email Communication Services Resource connected with Email Domain and a Connection String. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/connect-email-communication-resource>.
 - Set up a new Entra app with rights to write/send emails, and provide SMTP access via an Entra app that has access to the Azure Communication Service. Leveraging the service principal of an Entra app (and not just a user managed identity) is apparently how Azure implements SMTP credentials. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/send-email-smtp/smtp-authentication>
 
->Important! Make sure to add noreply@\<yourdomain\> as a verified Sender address in the Email Communication Service, otherwise you will see errors in the recticulum logs, saying 'Email sender address not allowed' and no login mails will be sent.
+>Important! Make sure to add noreply@\<yourdomain\> as a verified Sender address in the Email Communication Service. Open your domain under 'Provision domains' and click 'MailFrom addresses' to add it. Otherwise you will see errors in the recticulum logs, saying 'Email sender address not allowed' and no login mails will be sent.
 
 ## Access your cluster
 
