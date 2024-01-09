@@ -7,7 +7,7 @@ Note: some parts of this document are still under investigation, but you can use
 
 * Add solution for data migration from Hubs Cloud
 
-* Check video support now support for Youtube video seems to be removed (ytll).
+* Check video support, while support for Youtube video seems to be removed (ytll).
 <https://discord.com/channels/498741086295031808/819188464145924117/1186738741755256942>
 
 * Still showing 404s on some files from https://assets.yourdomain when opening Spoke (e.g. the spoke logo)
