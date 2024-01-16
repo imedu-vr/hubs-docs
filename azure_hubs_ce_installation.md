@@ -1,4 +1,10 @@
 
+Welcome to this installation guide for Hubs CE on Azure. As this was the first time I deployed on Azure, it also serves to explain (a bit) how Kubernetes on Azure works.
+
+Some parts of this document are still under investigation, but you can use it to set up a working Hubs CE edition with persistent storage on Azure.
+
+---
+
 # Remaining issues / todo
 
 Note: some parts of this document are still under investigation, but you can use it to set up a working Hubs CE edition with persistent storage on Azure.
@@ -7,7 +13,7 @@ Note: some parts of this document are still under investigation, but you can use
 
 * Add solution for data migration from Hubs Cloud
 
-* Check video support now support for Youtube video seems to be removed (ytll).
+* Check video support, while support for Youtube video seems to be removed (ytll).
 <https://discord.com/channels/498741086295031808/819188464145924117/1186738741755256942>
 
 * Still showing 404s on some files from https://assets.yourdomain when opening Spoke (e.g. the spoke logo)
@@ -48,45 +54,45 @@ Note: some parts of this document are still under investigation, but you can use
 
 This installation manual for Hubs Community Edition on Azure was based on community edition status of Dec 18 2023, and includes some tips from the Hubs community. Disclaimer: I'm not an expert on Azure, so their might be betters ways to do this.
 
-Make sure to read the whole manual before starting, including the steps for installing Hubs (under Deploy hubs), to see which domains and other settings you need.
-
-There is a lot to learn about Kubernetes and Azure, which you can find in the online tutorials. Here are some important concepts to understand for this manual:
+Make sure to read the whole manual before starting, including the steps for installing Hubs (under Deploy hubs), to see which domains and other settings you need. There is a lot to learn about Kubernetes and Azure, which you can find in the online tutorials. Here are some important concepts to understand for this manual:
 
 ## Understanding Docker and Kubernetes
 
 While Kubernetes works with docker containers, you need to have some basic understand how these are created, managed and used for installations. This could be a good introduction: <https://www.youtube.com/watch?v=pg19Z8LL06w>
 
-Understanding the core concepts of Kubernetes will also be essential to help you understand the installation steps and structure in Azure.
-
-This video provides a good overview in about 30 minutes: <https://youtu.be/s_o8dwzRlu4?si=B0Ay2rvhrLTO9Hq1> (you can optionally skip the second part where they setup a cluster on a different platform)
+Understanding the core concepts of Kubernetes will also be essential to help you understand the installation steps and structure in Azure. This video provides a good overview in about 30 minutes: <https://youtu.be/s_o8dwzRlu4?si=B0Ay2rvhrLTO9Hq1> (you can optionally skip the second part where they setup a cluster on a different platform)
 
 ## Understanding Azure
 
-Explaining Azure and all it's services and options goes beyond the scope of this instruction. The best way to start is probably the 'Quickstart Center' (you can find that in the portal) <https://portal.azure.com/#view/Microsoft_Azure_Resources/QuickstartCenterBlade>
+Explaining Azure and all it's services and options goes beyond the scope of this instruction. The best way to start is probably the 'Quickstart Center' (you can find that in the portal <https://portal.azure.com/#view/Microsoft_Azure_Resources/QuickstartCenterBlade>
 
 ### Introduction to Azure Kubernetes Service
 
-If you prefer to 'learn while doing', it might be smart to at least read this overview of AKS (a managed Kubernetes service on Azure): <https://learn.microsoft.com/en-us/azure/aks/intro-kubernetes>
+Even if you prefer to 'learn while doing', it might be smart to at least read this overview of AKS (a managed Kubernetes service on Azure): <https://learn.microsoft.com/en-us/azure/aks/intro-kubernetes>
 
 ### Access control using Managed Identities and Service Principals
 
-Managed identies are a way to let services use other services within your Azure environment, without having to store or manage credentials.
+Managed identies are a way to let services use other services within your Azure environment, without having to store or manage credentials. We will need this for setting up our email service, so it is good to understand the basics.
 
-Managed identities are handled by Active Directory (called Microsoft Entra ID), and a managed identity is linked to a 'service principal' in the AD backend. So most of the time you could see this as two things referring to the same thing. There is a seperate portal section for creating managed identities, just search for 'Managed Identities' to find it.
+These Managed identities are handled by Active Directory (called Microsoft Entra ID), and a managed identity is always linked to a 'service principal' in the AD backend. Most of the time you could see this as two things referring to the same. There is a seperate portal section for creating managed identities, just search for 'Managed Identities' to find it.
+
+For a good introduction and video, see: <https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview>
+
+If you don't like to watch the video, here is a short description of the three types of managed identities:
 
 #### System assigned managed identities
 
-Every service in Azure automatically gets a system assigned managed identity. And you can use this identity when assigning role based access. When the service dissappears, the managed identity also dissappears, including the access rights.
+Every service in Azure automatically gets a `system assigned managed identity`. And you can use these automatic identities when assigning role based access. The advantage is that when the service disappears, the managed identity also disappears, including the access rights.
 
 #### User assigned managed identities
 
-Besides the system assigned managed identities, you can assign 'custom' managed identities as a user. These can be created as much as you liked, and can also be used in role based assignments. By default these identities are not linked to a service, but you can do that by going to the 'Identity' page under a service. Here you can add alternative identites for the service.
+Besides the system assigned managed identities, you can assign 'custom' managed identities as a user called `user assigned managed identities`. These can be created as much as you liked, and can also be used in role based assignments. 
+
+The difference with system assigned managed identities is that the 'user assigned' are not linked to a service by default, but you need to do that manually by going to the 'Identity' page under a service. Here you can add alternative identites for the service.
 
 #### Authenticate as a service principal using Entra ID applications
 
-Finally, there are registered applications in Azure Active Directory ('Microsoft Entra ID'). These provide authentication and authorization services for applications. When you register an app in Microsoft Entra ID it also creates a service principal in the backend, that you can use in the same way for role-based access. Besides that, you can also generate credentials, so you can authenticate as that servivce principal from an external system.
-
-For a good introduction + video, see: <https://learn.microsoft.com/en-us/entra/identity/managed-identities-azure-resources/overview>
+Finally, there are `registered applications` in Azure Active Directory ('Microsoft Entra ID'). These provide authentication and authorization services for applications. When you register an app in Microsoft Entra ID it also creates a service principal in the backend, that you can use in the same way for role-based access. Besides that, you can also generate credentials to e.g. authenticate as that service principal from an external system.
 
 # Installation process
 
@@ -103,11 +109,11 @@ brew install kubectl
 brew install Azure/kubelogin/kubelogin 
 ```
 
-(see <https://azure.github.io/kubelogin/install.html> )
+See: <https://azure.github.io/kubelogin/install.html>
 
 ## Create a Kubernetes cluster
 
-Although you might find it easier to create a cluster using the portal UI, we use the CLI here because we can't find a way to set the --enable-node-public_ip through the portal interface
+Although you might find it easier to create a cluster using the portal UI, we use the CLI here because we can't find a way to set the `--enable-node-public_ip` through the portal interface
 
 1) First we create a new resource group for our cluster
 
@@ -143,11 +149,17 @@ See this manual for detailed steps => <https://learn.microsoft.com/en-us/azure/a
 
 3) Add a role assigment for K8 (Use 'Admin Cluster') and include your user as 'member' of the role assignment
 
-## Setup your domain + email service
+## Buy a domain
 
-Use an external DNS provider to buy the domain and optionally buy/request a wildcard certificate (see below 'Connect your domain'). Or you should be able to (partially) use Azure Hosted Zones for this, which I don't know about so I can't elaborate about that.
+Use an external DNS provider to buy the domain and optionally buy an SSL certificate, I would advice to use a wildcard as you also need to secure several subdomains. 
 
-To set up an SMTP service, follow these steps:
+> You should also be able to (partially) use Azure Hosted Zones for this, which I don't know about so I can't elaborate about that.
+
+## Set up an email service
+
+In order to authenticate on our cluster we need an SMTP service. As we like to have everything in the same place, we are going to install and use an SMTP service from azure. 
+
+To set this up, follow these steps:
 
 1) Set up an Azure Communication service to serve as an SMTP service. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource>
 
@@ -159,13 +171,15 @@ __Important! Make sure to add noreply@\<yourdomain\> as a verified Sender addres
 
 ## Access your cluster
 
+Now your cluster is ready, and you have an email service, we can start to deploy Hubs CE. To do that we first need access to the cluster from the command line.
+
 1) Find you cluster in the portal (Kubernetes services)
 
-2) Click on 'connect' and follow the instructions in a terminal, to connect to your cluster on the command line
+2) On the overview page, click on 'connect' in the top navigation bar, and follow the instructions in a terminal, to connect to your cluster on the command line
 
 ## Deploy Hubs CE
 
-1) Read this manual for detailed steps => <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/>
+1) Although it was written for a different cloud environment (but still with Kubernetes), you can read this installation manual for a good understanding of the required steps: <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/> .
 
 2) Clone the hubs repo
 
@@ -183,19 +197,21 @@ __Important: Make sure to check the ouput logs, you are problably missing an NPM
 
 ## Connect your domain to Hubs CE
 
+Now your cluster is running, you need to connect it to your domain. This needs to be done at your DNS provider.
+
 1) To find the public IP of your Kubernetes cluster on Azure, call:
 
 ```bash
 kubectl -n hcce get svc lb
 ```
 
-The namespace (by default 'hcce'), was set during deployment and can be found in the yaml file or portal.
+*The namespace (by default 'hcce'), was set during deployment and can be found in the yaml file or portal.*
 
-Alternatively you can go to `Serices and ingresses` under you Kubernetes service in the Azure portal, and look for the `External IP` for the loadbalancer service (`lb`)
+Alternatively you can go to `Services and ingresses` under you Kubernetes service in the Azure portal, and look for the `External IP` for the loadbalancer service (`lb`)
 
-2) Set the DNS entries for `<your-domain>`, `assets.<domain>`, `stream.<domain>` and `cors.<domain>` to the public IP of the cluster
+2) At your DNS provider, change the DNS 'A-entries' for `<your-domain>`, `assets.<domain>`, `stream.<domain>` and `cors.<domain>` to the public IP of the cluster
 
-**You should now be able to access your cluster (with bypassing the warning for self-signed certificates)!**
+__You should now be able to access your cluster (with bypassing the warning for self-signed certificates)!__
 
 ## Set up your certificates
 
@@ -263,7 +279,6 @@ https://discord.com/channels/498741086295031808/1181690949156470925/118174270500
 ```
 
 ## Add persistent storage for files and database
-
 
 By default the Hubs CE configuration uses the local storage of the pods to store the pgsql database and reticulum files. However, these volumes on pods are ephemeral, which results in data-loss when deleting a pod. 
 
