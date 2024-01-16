@@ -3,7 +3,7 @@
 
 Note: some parts of this document are still under investigation, but you can use it to set up a working Hubs CE edition with persistent storage on Azure.
 
-* Test & finalize instructions for custom client
+* Test instructions for custom client
 
 * Add solution for data migration from Hubs Cloud
 
@@ -109,13 +109,13 @@ brew install Azure/kubelogin/kubelogin
 
 Although you might find it easier to create a cluster using the portal UI, we use the CLI here because we can't find a way to set the --enable-node-public_ip through the portal interface
 
-* First we create a new resource group for our cluster
+1) First we create a new resource group for our cluster
 
 ```bash
 az group create --name <resource group name> --location <location eg. 'westeurope'>
 ```
 
-* Then we create the cluster. This command creates a simple cluster for testing/development purposes. For a production environment you might want to consider to set more options like a 'prodcution preset configuration' and a more secure network type or policy. See: <https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli>
+2) Then we create the cluster. This command creates a simple cluster for testing/development purposes. For a production environment you might want to consider to set more options like a 'prodcution preset configuration' and a more secure network type or policy. See: <https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli>
 
 ```bash
 az aks create -g <resource group name> -n <cluster name> -l <location eg. 'westeurope'>  --enable-node-public-ip
@@ -137,11 +137,11 @@ This step can be skipped if you are using Local accounts with kubernetes RBAC.
 
 See this manual for detailed steps => <https://learn.microsoft.com/en-us/azure/aks/manage-azure-rbac#create-role-assignments-for-users-to-access-cluster>
 
-* Go to the new Resource group in Azure portal
+1) Go to the new Resource group in Azure portal
 
-* Go to the IAM section
+2) Go to the IAM section
 
-* Add a role assigment for K8 (Use 'Admin Cluster') and include your user as 'member' of the role assignment
+3) Add a role assigment for K8 (Use 'Admin Cluster') and include your user as 'member' of the role assignment
 
 ## Setup your domain + email service
 
@@ -149,31 +149,33 @@ Use an external DNS provider to buy the domain and optionally buy/request a wild
 
 To set up an SMTP service, follow these steps:
 
-* Set up an Azure Communication service to serve as an SMTP service. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource>
-* Set up an active Azure Email Communication Services Resource connected with Email Domain and a Connection String. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/connect-email-communication-resource>.
-* Set up a new Entra app with rights to write/send emails, and provide SMTP access via an Entra app that has access to the Azure Communication Service. Leveraging the service principal of an Entra app (and not just a user managed identity) is apparently how Azure implements SMTP credentials. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/send-email-smtp/smtp-authentication>
+1) Set up an Azure Communication service to serve as an SMTP service. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/create-email-communication-resource>
+
+2) Set up an active Azure Email Communication Services Resource connected with Email Domain and a Connection String. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/connect-email-communication-resource>.
+
+3) Set up a new Entra app with rights to write/send emails, and provide SMTP access via an Entra app that has access to the Azure Communication Service. Leveraging the service principal of an Entra app (and not just a user managed identity) is apparently how Azure implements SMTP credentials. <https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/email/send-email-smtp/smtp-authentication>
 
 __Important! Make sure to add noreply@\<yourdomain\> as a verified Sender address in the Email Communication Service. Open your domain under 'Provision domains' and click 'MailFrom addresses' to add it. Otherwise you will see errors in the reticulum  logs, saying 'Email sender address not allowed' and no login mails will be sent__
 
 ## Access your cluster
 
-* Find you cluster in the portal (Kubernetes services)
+1) Find you cluster in the portal (Kubernetes services)
 
-* Click on 'connect' and follow the instructions in a terminal, to connect to your cluster on the command line
+2) Click on 'connect' and follow the instructions in a terminal, to connect to your cluster on the command line
 
 ## Deploy Hubs CE
 
-Read this manual for detailed steps => <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/>
+1) Read this manual for detailed steps => <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/>
 
-* Clone the hubs repo
+2) Clone the hubs repo
 
-* Go to the /community-edition directory
+3) Go to the /community-edition directory
 
-* Connect to your cluster (see above)
+4) Connect to your cluster (see above)
 
-* Change the setup values in the installation script `render_hcce_sh`
+5) Change the setup values in the installation script `render_hcce_sh`
 
-* Follow the instructions and run : `bash render_hcce.sh && kubectl apply -f hcce.yaml`
+6) Follow the instructions and run : `bash render_hcce.sh && kubectl apply -f hcce.yaml`
 
 >Tip: use a docker image to avoid issues with local versions of openssl, see 'Use Docker image to deploy' below
 
@@ -181,7 +183,7 @@ __Important: Make sure to check the ouput logs, you are problably missing an NPM
 
 ## Connect your domain to Hubs CE
 
-* To find the public IP of your Kubernetes cluster on Azure, call:
+1) To find the public IP of your Kubernetes cluster on Azure, call:
 
 ```bash
 kubectl -n hcce get svc lb
@@ -191,7 +193,7 @@ The namespace (by default 'hcce'), was set during deployment and can be found in
 
 Alternatively you can go to `Serices and ingresses` under you Kubernetes service in the Azure portal, and look for the `External IP` for the loadbalancer service (`lb`)
 
-* Set the DNS entries for `<your-domain>`, `assets.<domain>`, `stream.<domain>` and `cors.<domain>` to the public IP of the cluster
+2) Set the DNS entries for `<your-domain>`, `assets.<domain>`, `stream.<domain>` and `cors.<domain>` to the public IP of the cluster
 
 **You should now be able to access your cluster (with bypassing the warning for self-signed certificates)!**
 
@@ -205,7 +207,7 @@ You could try installing the certificates with certobot (see <https://hubs.mozil
 
 To install your own certificates, you need to update the respective Azure secrets for you main domain and the assets, cors, stream subdomains
 
-* To list all secrets: `kubectl get secrets -n hcce`
+1) To list all secrets: `kubectl get secrets -n hcce`
 
 You will see something like this:
 
@@ -222,26 +224,27 @@ cert-stream.<your domain>   kubernetes.io/tls   2      36h
 
 ```
 
-* The bottom part show all secrets we need to set up or add (if they aren't there). Note while tls secrets are immutable, you can't edit existing secrets unfortunately, and you might need to remove existing secrets first like this:
+2) The bottom part show all secrets we need to set up or add (if they aren't there). Note while tls secrets are immutable, you can't edit existing secrets unfortunately, and you might need to remove existing secrets first like this:
 
 ```bash
 kubectl delete secret cert-<your-domain> -n hcce
 ```
 
-* Then (re)create the secret it with the same name and as content your own certificates.
+3) Then (re)create the secret it with the same name and as content your own certificates.
 
 ```bash
 kubectl create secret tls cert-<your-domain> -n hcce --cert=path_to_certs/certificate.pem --key=path_to_certs/key.pem
 ```
 
-* Some things to check:
-  * Don't forget to create them in the right namespace, in this case `hcce`. 
-  
-  * If you want to create a backup of the existing certs before you delete them (not sure why but it might feel safe), this can be done by using the portal to view the contents of the secrets as explained further below
+Some things to check:
 
-  * Make sure to build your certificate.pem with the domain certificate _on top_ and paste the cabundle below that.
+* Don't forget to create them in the right namespace, in this case `hcce`. 
 
-  * If you already visited your cluster, it might take a while before the cached self-signed certificates are updated. You could check the validity of your new certificates at e.g. https://stream.\<your-domain\> as that might not have been cached yet in your network.
+* If you want to create a backup of the existing certs before you delete them (not sure why but it might feel safe), this can be done by using the portal to view the contents of the secrets as explained further below
+
+* Make sure to build your certificate.pem with the domain certificate _on top_ and paste the cabundle below that.
+
+* If you already visited your cluster, it might take a while before the cached self-signed certificates are updated. You could check the validity of your new certificates at e.g. https://stream.\<your-domain\> as that might not have been cached yet in your network.
 
 ### Adjust kubernetes configuration to make sure your main domain certificate is working
 
@@ -272,17 +275,20 @@ __Important: Applying this step will remove existing accounts and content as it 
 
 The cluster contains a reticulum  server and a postgress DB, which both store their data on disk. In these steps we are moving this storage to a persistent Azure Disk. The steps are as follows:
 
-* Create a new storage account, (use default settings where given)
+1) Go to 'Storage Account and click on `Create`
 
-* On the 'Networking' tab, set the `network access` to Enable public access from selected virtual networks and IP addresses. In the configuration field, choose the Virtual Network in which your cluster is installed. This should block public access.
+2) Fill in the form to create a new storage account, use default settings where given
 
-* Finish the process and create your storage account
+* On the 'Networking' tab, set the `network access` to Enable public access from selected virtual networks and IP addresses. 
+* In the configuration field, choose the Virtual Network in which your cluster is installed. This should block public access.
+
+3) Finish the process and create your storage account
 
 ### Create a persistent volume claim
 
 We need to add a `Persistent Volume Claim` to our cluster, to which we can connect our reticulum  storage. Note that this will automatically create a `Persistent volume`, based on the given (default) Storage Class. Once we created this, we can change the reticulum  and postgresdb config in `hcce.yaml` to use this new persistent storage. For details see: <https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision>
 
-* Create and adjust the following azure-pvc.yaml file to create the your PVC's. We use seperate PVC's here for reticulum (files) and the Postgress database, although you could also use the same:
+1) Create and adjust the following azure-pvc.yaml file to create the your PVC's. We use seperate PVC's here for reticulum (files) and the Postgress database, although you could also use the same:
 
 ```yaml
 apiVersion: v1
@@ -310,9 +316,9 @@ spec:
       storage: 10Gi
 ```
 
-* Apply the configuration to your cluster with `kubectl apply -f azure-pvc.yaml -n hcce`
+2) Apply the configuration to your cluster with `kubectl apply -f azure-pvc.yaml -n hcce`
 
-* Adjust these parts of the configuration in `hcce.yam` to map the volumes of reticulum  and postgresdb to the PVC's:
+3) Adjust these parts of the configuration in `hcce.yam` to map the volumes of reticulum  and postgresdb to the PVC's:
 
 ```yaml
 
@@ -366,11 +372,11 @@ metadata:
 #--
 ```
 
-* We add a `subPath` for the Postgresql volume because postgresql likes to start in an empty folder (<https://stackoverflow.com/questions/51168558/how-to-mount-a-postgresql-volume-using-aws-ebs-in-kubernete>)
+4) We add a `subPath` for the Postgresql volume because postgresql likes to start in an empty folder (<https://stackoverflow.com/questions/51168558/how-to-mount-a-postgresql-volume-using-aws-ebs-in-kubernete>)
 
-* Update your cluster by running the render and apply scripts `bash render_hcce.sh && kubectl apply -f hcce.yaml` (note: this will only apply the changes)
+5) Update your cluster by running the render and apply scripts `bash render_hcce.sh && kubectl apply -f hcce.yaml` (note: this will only apply the changes)
 
-* You should now have persistent storage. You can find it in the Azure portal, under `Kubernetes service`  > `Storage`
+6) You should now have persistent storage. You can find it in the Azure portal, under `Kubernetes service`  > `Storage`
 
 Some thoughts / things to consider:
 
@@ -385,12 +391,12 @@ Some thoughts / things to consider:
 To make sure our dialog server works, we need to create a few inbound network security group (NSG) rules for our Azure Kubernetes Service (AKS) cluster. These will open the TCP ports 4443, 5349, and UDP ports 35000-60000 on our cluster.
 See: <https://discord.com/channels/498741086295031808/1179831347984998411/1182434406015701063>
 
-* In Azure portal, go to your AKS cluster
-* On the 'properties' page, find your 'Infrastructure resource group', and click on it to open
-* In the list of Resources, find the Network security group
-* Click on 'inbound security rules' in the menu pane on the left
-* If the port is already present, check the settings. If not click on 'Add' to add new rules
-* Use these settings:
+1) In Azure portal, go to your AKS cluster
+2) On the 'properties' page, find your 'Infrastructure resource group', and click on it to open
+3) In the list of Resources, find the Network security group
+4) Click on 'inbound security rules' in the menu pane on the left
+5) If the port is already present, check the settings. If not click on 'Add' to add new rules
+6) Use these settings:
   * Source: IP addresses
   * Source IP addresses: 0.0.0.0/0
   * Source port ranges: *
@@ -401,7 +407,7 @@ See: <https://discord.com/channels/498741086295031808/1179831347984998411/118243
   * Action: Allow
   * Priority: Use the default (note that lower numbers will be prioritized)
   * Name & description: a clear recognizable name/description for this port setting
-* Do the same for port range 5349 with TCP, and port range 35000-60000 for UDP
+7) Do the same for port range 5349 with TCP, and port range 35000-60000 for UDP
 
 ## Setup container registry for custom client code
 
@@ -423,11 +429,11 @@ You can set it up via the Azure portal, as follows:
 
 Here we can leverage the managed identity that is automatically created for the Kubernetes cluster (as it is for every Azure entity).
 
-* Go to Access Control (IAM) in the Azure Container Registry
-* Add a new role assignment
-* Choose the role 'AcrPull'
-* Assign it to a 'Managed identity', and under 'Select members', select your Kubernetes cluster.
-* Store changes
+1) Go to Access Control (IAM) in the Azure Container Registry
+2) Add a new role assignment
+3) Choose the role 'AcrPull'
+4) Assign it to a 'Managed identity', and under 'Select members', select your Kubernetes cluster.
+5) Store changes
 
 ### Allow command line access to push/pull our custom code
 
@@ -435,22 +441,22 @@ See <https://learn.microsoft.com/en-us/azure/container-registry/container-regist
 
 When you try to login with your admin account, this won't be allowed as it doesn't have access to the ACR by default. Theoretically you could allow this, but this is not recommened as the admin account obviously has too much rights.
 
-The recommended way is to set up an Entra app (similar to how we provided access to the SMTP service), give that the rights to push/pull to the registry, and use the credentials from the Entra app to login with our docker client.
+The recommended way is to set up an Entra app (similar to how we provided access to the SMTP service), give that rights to push/pull to the registry, and use the credentials from the Entra app to login with our docker client.
 
-* In Azure portal, go to Microsoft Entra ID
-* Go to 'App registrations'
-* Click 'New registration' and create your app (leave default settings)
-* When your app has been created, open it and go to 'Certificates and secrets'
-* Create a new 'client secret', this will create a password that you will need later. Make sure to store it somewhere safe, as it will only be visible just after you created it.
+1) In Azure portal, go to Microsoft Entra ID
+2) Go to 'App registrations'
+3) Click 'New registration' and create your app (leave default settings)
+4) When your app has been created, open it and go to 'Certificates and secrets'
+5) Create a new 'client secret', this will create a password that you will need later. Make sure to store it somewhere safe, as it will only be visible just after you created it.
 
 Now we need to give this new service principal access to the Azure Container Registry.
 
-* Go to Access Control (IAM) in the Azure Container Registry
-* Add a new role assignment
-* Choose the role 'AcrPush'
-* Assign it to the service principal of the Entra app you just created
-* Store changes
-* Add a similor role assignement for 'AcrPull' rights
+1) Go to Access Control (IAM) in the Azure Container Registry
+2) Add a new role assignment
+3) Choose the role `AcrPush`
+4) Assign it to the service principal of the Entra app you just created
+5) Store changes
+6) Add a similor role assignement for `AcrPull` rights
 
 Once done, you can use the appID and password of the (Entra app's) to login from your docker client:
 
@@ -462,63 +468,95 @@ docker login <acr-name>.azurecr.io --username <appId> --password <password>
 
 >todo: this is not complete yet, these are some tips I found elsewhere, and needs to be checked.
 
-* Check hcce.yaml for the reference to the container image. By default it is called : `mozillareality/hubs:stable-latest`
-* Create your own docker image from your custom client
-* Set up an Azure registry (Azure Container Registry)
-* Upload your custom client image
-* Change the container reference to use your custom client image
+1) In the hubs client directory, (assuming you have docker desktop installed already) rename or copy `RetPageOriginDockerfile` to `Dockerfile`
 
-```text
-1) create a new ECR repository, private, get the URL
-2) in the hubs client directory, (assuming you have docker desktop installed already) rename or copy RetPageOriginDockerfile to just Dockerfile, and run 
-docker build -t <your_project_name> .
-3) run docker tag <your_project_name:tag> <your_ecr_repo_url:tag>
-4) run docker push <your_ecr_repo_url:tag>
-5) in my values.yaml at the top of the helm charts, change 
-  repository: mozillareality/hubs
-  to
-  repository: <your_ecr_url>
-  and change tag:  to your tag
-6) run helm upgrade moz . --namespace=hcce --debug
-7) and then I have had to manually delete the old hubs pod for some reason:
-kubectl delete pod <pod_name>
+2) Build the container by running the following command from the project root:
 
+```bash
+docker build -t <acr-name>.azurecr.io/<path>/<imagename> -f ./Dockerfile .
+```
 
-Heh, a tip for anyone else who finds themself in dependency hell trying to make their custom client work: in the Dockerfile, where it does this:
+If you are on a machine with an ARM chipset (eg. Apple Silicon Mx), use buildx for a multi-platform build:
 
-run npm run build 1> /dev/null
+```bash
+docker buildx build --platform linux/amd64 -t <acr-name>.azurecr.io/<path>/<imagename> -f ./Dockerfile .
+```
 
-you can remove that 1> /dev/null to actually see the logs
+If you want to make sure to have a 'clean' build, you can disable all caching and force the build to pull new base images by adding the params `--no-cache --rm --pull` to the command
 
+3) Connect to your Azure registry (see section 'Allow command line access to push/pull our custom code')
 
-Whew, I am happy to report that this round of dependency hell seems to be over, and I have an at least marginally working custom client! A couple of notes:
+```bash
+docker login <acr-name>.azurecr.io --username <appId> --password <password>
+```
 
-Probably not relevant to most people, but I was making use of the ChatToolbarButtonContainer and AudioPopoverContainer components, and both those seem to be gone in the current master build.
+4) Tag and push your custom client image
 
-Not sure what caused this second one to come up, but I got the following error:
+By default the image will be tagged with `:latest`, you can make an alias by creating a different tag
 
-ERROR in ./node_modules/fs-extra/lib/remove/rimraf.js 5:15-32
-  Module not found: Error: Can't resolve 'assert' in '/node_modules/fs-extra/lib/remove'
+```bash
+docker tag <acr-name>.azurecr.io/<path>/<imagename> <tagname>
+```
 
-The fix for it turned out to be adding the following line to the dockerfile, somewhere after "npm ci" and before "npm build":
+Now push it to your Azure remote registry
 
-npm install assert 
+```bash
+docker push <acr-name>.azurecr.io/<path name>/<image name>
+```
+
+5) Change the container reference to use your custom client path & image in `hcce.yam` and __rebuild you hcce.yaml__ file (see above)
+
+```yaml
+---
+########################################################################
+######################   hubs   ########################################
+########################################################################
+apiVersion: apps/v1
+kind: Deployment
+...
+    spec:
+      containers:
+        - name: hubs
+
+#---      CHANGE THIS
+          image: mozillareality/hubs:stable-latest
+#--
+
+#---      INTO THIS
+          image: <your acr name>.azurecr.io/<path>/<image name>:<image tag>
+#--
+          imagePullPolicy: IfNotPresent
+          env:
+...
 
 ```
 
-Another approach for deploying custom client:
+Note: Kubernetes will not always pull a new image if you pushed a new version, this depends on the tag you used. If you push under the same tag, it will not pull a new image, except if the tag is `latest`, then it will always pull. See <https://www.howtogeek.com/devops/understanding-kubernetes-image-pull-policies/>
 
-Hey CE builders, I wanted to quickly point out that I am working on a tutorial for how to deploy code like the Hubs team does using docker images and github actions. I'll list the steps here in case anyone wants to test while I write up more formal documentation:
+7) Update your Kubernetes cluster, and delete the hubs pod.
 
-Create a docker hub account and, optionally, a registry for your image: <https://hub.docker.com/>
-Fork hubs: <https://github.com/mozilla/hubs>
-Using the master branch as a starting point for adding your customizations.
-When you are ready to deploy, go to .github/workflows/ and add a file called ce-build.yml and populate with the following code created by @BrandonP: <https://github.com/mikemorran/hubs/blob/master/.github/workflows/ce-build.yml>
-Navigate to the "Actions" section of your repo. After adding and committing ce-build.yml, you should see "ce" listed as an action.
-Go to the "Settings" tab of your repo, select "Secrets and Variables" and "Actions". Create a new repository secret titled DOCKER_HUB_PWD. In the secret value, either A. put your docker password or B. create an access token in docker hub and use the password from that.
-After saving the secret, go back to the "Actions" tab, select "ce" and select "Run Workflow." In the pop-up, choose your branch, leave codepath section blank, enter your docker username, make sure the dockerfile is RetPageOriginDockerfile, and enter your registry.
-Wait for build to complete successfully. You can check the successful deployment in docker hub.
-Adjust your CE deployment of hubs. In lens, I do this by going to "Deployments", select "Hubs", and click the pencil button to edit. Around line 185, Instead of pointing to mozillareality/hubs:stable-latest, point to your docker image with the deployed code. You may need to add the tag number of the latest deployment.```
+```bash
+kubectl apply -f hcce.yaml       
+kubectl delete pods -all -n hcce
+```
+
+Some notes I gathered from the community, for solving issues with (re)building your custom client:
+
+### Not working docker file, failing to authenticate to git
+
+In my case the docker file would not work with our custom client, due to package.json.lock was in old format, and it couldn't authenticate to git
+
+Fixed by rebuilding package.json.lock locally first with node 16.16 and npm 8.11.0 (similar to image of Docker file), then change the Dockerfile to run `npm ci` with the `legacy-peer-deps` flag
+
+### Debugging dependencies while building custom client container
+
+A tip for anyone else who finds themself in dependency hell trying to make their custom client work: in the Dockerfile, where it does this:
+
+```bash
+run npm run build 1> /dev/null
+```
+
+you can remove that 1> /dev/null to actually see the logs
 
 ## Migrate data
 
@@ -565,6 +603,7 @@ This is probably an issue in your firewall or cluster configuration. For WebRTC,
 
 More info about networking: <https://learn.microsoft.com/en-us/azure/aks/concepts-network>
 
+Also, some cases are reported where the coturn pod was not listening on the right IP (it should be 0.0.0.0 according to <https://discord.com/channels/498741086295031808/1189804739932721252/1195094456064548945>). This can be fixed by creating a new coturn image, or use the one from the thread.
 
 ## Pods not starting due to a problem with attaching persistent storage disk
 
