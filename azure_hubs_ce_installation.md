@@ -440,8 +440,11 @@ Azure offers it's own container registry service that is compatible with docker 
 You can set it up via the Azure portal, as follows:
 <https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal?tabs=azure-cli>
 
-### Give our Kubernetes cluster rights to pull from the registry
+### Give our Kubernetes cluster rights to pull from the registry and create a secret 
 
+To let our cluster pull from the registry we need to give our cluster access to the registry, and create an image pull secret to use during deployment (see <https://learn.microsoft.com/en-us/azure/container-registry/container-registry-auth-kubernetes>)
+
+**Give cluster access to our registry**
 Here we can leverage the managed identity that is automatically created for the Kubernetes cluster (as it is for every Azure entity).
 
 1) Go to Access Control (IAM) in the Azure Container Registry
@@ -449,6 +452,44 @@ Here we can leverage the managed identity that is automatically created for the 
 3) Choose the role 'AcrPull'
 4) Assign it to a 'Managed identity', and under 'Select members', select your Kubernetes cluster.
 5) Store changes
+
+**Create and use an image pull secret**
+
+1) Use the following `kubectl` command to create your secret (you can choose your own name)
+
+```bash
+kubectl create secret docker-registry <secret-name> \
+    --namespace <namespace> \
+    --docker-server=<container-registry-name>.azurecr.io \
+    --docker-username=<service-principal-ID> \
+    --docker-password=<service-principal-password>
+```
+
+2) Then change your cluster configuration to uses the pull secret. In your `hcce.yaml` file:
+
+```yaml
+########################################################################
+######################   hubs   ########################################
+########################################################################
+apiVersion: apps/v1
+kind: Deployment
+....
+  template:
+    metadata:
+      labels:
+        app: hubs
+    spec:
+#--           ADD THIS SECTION:
+      imagePullSecrets:
+        - name: <secret-name>
+#--           
+      containers:
+        - name: hubs
+          image: <your custom container>:<your tag>
+          imagePullPolicy: IfNotPresent
+...
+
+```
 
 ### Allow command line access to push/pull our custom code
 
