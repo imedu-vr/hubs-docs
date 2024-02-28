@@ -857,6 +857,12 @@ Reapply your cluster config:
 kubectl apply -f hcce.yaml
 ```
 
+Optionally (if you see some crashed pods for example) delete all pods:
+
+```bash
+kubectl delete pods --all -n hcce
+```
+
 ## Solve 'Server lacks JWT secret'
 
 _Link to issue: <https://github.com/mozilla/hubs-cloud/issues/325>_
