@@ -156,8 +156,6 @@ See this manual for detailed steps => <https://learn.microsoft.com/en-us/azure/a
 
 ## Set up a static IP address for your cluster
 
-> TODO:
-
 When you create a load balancer resource in an Azure Kubernetes Service (AKS) cluster, the public IP address assigned to it is only valid for the lifespan of that resource. If you delete the Kubernetes service, the associated load balancer and IP address are also deleted.
 
 If you want to assign a specific IP address or retain an IP address for redeployed Kubernetes services, you can create and use a static public IP address.
