@@ -1,15 +1,11 @@
 
 Welcome to this installation guide for Hubs CE on Azure. As this was the first time I deployed on Azure, it also serves to explain (a bit) how Kubernetes on Azure works.
 
-Some parts of this document are still under investigation, but you can use it to set up a working Hubs CE edition with persistent storage on Azure.
-
 ---
 
 # Remaining issues / todo
 
 Note: some parts of this document are still under investigation, but you can use it to set up a working Hubs CE edition with persistent storage on Azure.
-
-* Test instructions for custom client
 
 * Add solution for data migration from Hubs Cloud
 
@@ -94,15 +90,19 @@ The difference with system assigned managed identities is that the 'user assigne
 
 Finally, there are `registered applications` in Azure Active Directory ('Microsoft Entra ID'). These provide authentication and authorization services for applications. When you register an app in Microsoft Entra ID it also creates a service principal in the backend, that you can use in the same way for role-based access. Besides that, you can also generate credentials to e.g. authenticate as that service principal from an external system.
 
+### Storage in AKS
+
+See <https://learn.microsoft.com/en-us/azure/aks/concepts-storage> for an introduction on how storage is handled in AKS
+
 # Installation process
 
 ## Install command line tools
 
 Open a terminal to install the required command-line tools to access Azure and control your Kubernetes cluster.
 
-* Follow these instruction to install Azure CLI tools <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-macos#install-with-homebrew>
+1) Follow these instruction to install Azure CLI tools <https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-macos#install-with-homebrew>
 
-* Install kubectl with the following commands
+2) Install kubectl with the following commands
 
 ```bash
 brew install kubectl
@@ -121,21 +121,26 @@ Although you might find it easier to create a cluster using the portal UI, we us
 az group create --name <resource group name> --location <location eg. 'westeurope'>
 ```
 
-2) Then we create the cluster. This command creates a simple cluster for testing/development purposes. For a production environment you might want to consider to set more options like a 'prodcution preset configuration' and a more secure network type or policy. See: <https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli>
+2) Then we create the cluster. This command creates a simple cluster for testing/development purposes. For a production environment you might want to consider to set more options like a 'production preset configuration' and a more secure network type or policy. See: <https://learn.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli>
 
 ```bash
-az aks create -g <resource group name> -n <cluster name> -l <location eg. 'westeurope'>  --enable-node-public-ip
+az aks create -g <resource group name> -s <CLUSTERTYPE> -n <cluster name> -l <location eg. 'westeurope'>  --enable-node-public-ip --node-count 2 --network-plugin azure
 ```
 
-__Important: the '--enable node public ip' option is essential as it will configure the VMSS to assign public IP addresses to your nodes. If left out, your coturn/dialog services will not work while they need a public IP to set up a WebRTC connection. More info here: <https://learn.microsoft.com/en-us/azure/aks/use-node-public-ips>__
+*CLUSTERTYPE Personal use -> standard_f2s*
+*CLUSTERTYPE Large scale use-> standard_f8s*
 
-> In Azure, nodes are managed through a Virtual Machine Scale Set (<https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview>), which is an autoscaling container for Virtual Machines (like nodes in your cluster). This concept is not part of Kubernetes, so you need to configure this seperately in Azure.
+If you need/want to change the VM size for your node pool you can think about F2s_v2 for personal use, F4s_v2 for medium usages, and F8s_v2 for large capacity. However, this is purely based on specs and might need some further monitoring and investigation.
+
+The available VM sizes (products) might differ for your azure subscription and/or region. If the requested size is not available, you usually get a list of available options, or check <https://azure.microsoft.com/en-us/explore/global-infrastructure/products-by-region/> 
+
+In Azure, nodes are managed through a Virtual Machine Scale Set (<https://learn.microsoft.com/en-us/azure/virtual-machine-scale-sets/overview>), which is an autoscaling container for Virtual Machines (like nodes in your cluster). This concept is not part of Kubernetes, so if you want to change the size of your virtual machines you need to configure this seperately in Azure.
+
+__Important: the '--enable node public ip' option is essential as it will configure the VMSS to assign public IP addresses to your nodes. If left out, your coturn/dialog services will not work while they need a public IP to set up a WebRTC connection. More info here: <https://learn.microsoft.com/en-us/azure/aks/use-node-public-ips>__
 
 Some thoughts about more advanced setup:
 
 * How you want to authorize and authenticate depends on how you want to manage accounts and access across your Azure enviroment. The default setting 'Local accounts with Kubernetes RBAC' should be ok for your (first) installation, but you can also use Active Directory to control your accounts and optionally control role based access.
-
-* If you need/want to change the VM size for your node pool, DS2_v2 sounds like a good start as it has a similar number of cores and more memory then AWS EC2 C4 large (which was always recommended by Hubs to choose). However, this is purely based on specs and might need some further monitoring and investigation.
 
 ### Create access for user when using Azure RBAC (not tested yet!)
 
@@ -148,6 +153,110 @@ See this manual for detailed steps => <https://learn.microsoft.com/en-us/azure/a
 2) Go to the IAM section
 
 3) Add a role assigment for K8 (Use 'Admin Cluster') and include your user as 'member' of the role assignment
+
+## Set up a static IP address for your cluster
+
+> TODO:
+
+When you create a load balancer resource in an Azure Kubernetes Service (AKS) cluster, the public IP address assigned to it is only valid for the lifespan of that resource. If you delete the Kubernetes service, the associated load balancer and IP address are also deleted.
+
+If you want to assign a specific IP address or retain an IP address for redeployed Kubernetes services, you can create and use a static public IP address.
+
+See this manual for more details => <https://learn.microsoft.com/en-us/azure/aks/static-ip>
+
+* Get the name of the node resource group using the az aks show command and query for the nodeResourceGroup property.
+
+```bash
+az aks show --name myAKSCluster --resource-group myNetworkResourceGroup --query nodeResourceGroup -o tsv
+```
+
+* Create a static public IP address in the node resource group 
+
+```bash
+az network public-ip create --resource-group <node resource group name> --name myAKSPublicIP --sku Standard --allocation-method static
+```
+
+* Add the following 'annotations' to the Loadbalancer configuration in hcce.yam
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    service.beta.kubernetes.io/azure-load-balancer-resource-group: myNetworkResourceGroup
+    service.beta.kubernetes.io/azure-pip-name: myAKSPublicIP
+    service.beta.kubernetes.io/azure-dns-label-name: <unique-service-label>
+spec:
+  type: LoadBalancer
+  ...
+```
+
+## Set up an external database
+
+Hubs clouds comes with an included postgresql server that is run on a separate pod (behind a pgbouncer pod). For flexibility or more control you can also set up a separate database.
+
+The most cost-efficient way is to start a VM with PostgresSQL on it (from the Azure marketplace), and link the pg-bouncer pod to that database server. This can be done with the following instructions. You can also use an Azure PostgreSQL service (which can even includes its one pgbouncer if you want), but this is significantly more expensive.
+
+1. In the portal, select 'Create a service', and find the `PostgreSQL + pgAdmin on Ubuntu xx` image.
+
+2. Install the VM in THE SAME resource group and virtual network as your cluster, but choose a different security group.
+
+3. Choose an appropriate VM size, and install the VM
+
+4. When your installation in finished, log in to the VM  and set up postgreSQL. 
+
+You may need to add a (temporary) inbound security rule to allow ssh (for 'Destination', choose 'any'). Then follow these instructions to set up the postgres server: <https://cloudinfrastructureservices.co.uk/how-to-setup-install-postgresql-server-on-azure-aws-gcp>
+
+In short, the steps are:
+
+a) Create a system user called 'postgres' (this is important as it is used in the cluster configuration)
+
+```bash
+sudo usermod -aG sudo postgres
+sudo passwd postgres
+sudo -u postgres psql -c "ALTER USER postgres PASSWORD 'a very strong password';"
+```
+
+b) Log in to postgres shell and create an empty database called `retdb`
+
+```bash
+sudo su -l postgres
+psql
+CREATE DATABASE retdb;
+```
+
+c) let postgres accept external access
+
+```bash
+sudo nano /etc/postgresql/12/main/postgresql.conf
+# ==> Enable 'listen_addresses' directive, and set to '*'
+
+sudo nano /etc/postgresql/12/main/pg_hba.conf
+# ==> Add the following line at the bottom: host all all 0.0.0.0/0 md5
+# ==> You can replace 0.0.0.0/0 with a subnet for more security
+```
+
+* To make sure you can access the database open up port 5432, 80 and 443 in your inbound security group rules in Azure. You can restrict to the subnet of the cluster and/or include any other systems that you want to have access from.
+
+* Test access to your database with pgAdmin or similar tool. You will need to (temporarily) configure inbound access from your system.
+
+Now your database is working, we need to connect the cluster to it:
+
+* Open your `render_hcce.sh` and change the following variable declarations:
+
+```bash
+export DB_PASS=<the password of your postgres admin user>
+export DB_HOST="<INTERNAL ip of your custom postgresql server>"
+export DB_HOST_T="<INTERNAL ip of your custom postgresql server>"
+export PGRST_DB_URI="postgres://$DB_USER:$DB_PASS@$DB_HOST/$DB_NAME"
+export PSQL="postgres://$DB_USER:$DB_PASS@$DB_HOST/$DB_NAME"
+```
+
+* Rebuild your .yaml files and apply it to the cluster
+
+When all is done, you can remove any unnecessary inbound firewalls rules.
+
+> Note: we bypass pgbouncer here as it was included to deal with AWS cloud databases. If we want to keep using it , we could try to keep the pod and connect it to the external database, or (maybe better) install pgbouncer on our VM. Azure Postrgresql should come with pgbouncer include, which might be a good solution for production.
 
 ## Buy a domain
 
@@ -254,7 +363,7 @@ kubectl create secret tls cert-<your-domain> -n hcce --cert=path_to_certs/certif
 
 Some things to check:
 
-* Don't forget to create them in the right namespace, in this case `hcce`. 
+* Don't forget to create them in the right namespace, in this case `hcce`.
 
 * If you want to create a backup of the existing certs before you delete them (not sure why but it might feel safe), this can be done by using the portal to view the contents of the secrets as explained further below
 
@@ -278,11 +387,13 @@ https://discord.com/channels/498741086295031808/1181690949156470925/118174270500
             - --default-ssl-certificate=$Namespace/<NAME OF YOUR MAIN DOMAIN CERTIFICATE SECRET>
 ```
 
-## Add persistent storage for files and database
+## Add persistent storage for files (and/or database pods)
 
-By default the Hubs CE configuration uses the local storage of the pods to store the pgsql database and reticulum files. However, these volumes on pods are ephemeral, which results in data-loss when deleting a pod. 
+By default the Hubs CE configuration uses the local storage of the pods to store the pgsql database and reticulum files. However, these volumes on pods are ephemeral, which results in data-loss when deleting a pod.
 
 To work around that we need to connect our volumes to a persistent storage solution. See this article for more details about (persistant) storage in Azure Kubernetes Services: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>. To set up our  dynamic persistant volumes, we used these instructions <https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision>
+
+> Obviously, if you are using a seperate PSQL database server you only have to add the persistent storage for the reticulum storage. But let's discuss both.
 
 __Important: Applying this step will remove existing accounts and content as it moves the storage location of files and database. Make sure to test this well before you start actively using your cluster. With this setup you should be able to safely delete all pods without losing data.__
 
@@ -301,34 +412,49 @@ The cluster contains a reticulum  server and a postgress DB, which both store th
 
 ### Create a persistent volume claim
 
-We need to add a `Persistent Volume Claim` to our cluster, to which we can connect our reticulum  storage. Note that this will automatically create a `Persistent volume`, based on the given (default) Storage Class. Once we created this, we can change the reticulum  and postgresdb config in `hcce.yaml` to use this new persistent storage. For details see: <https://learn.microsoft.com/en-us/azure/aks/azure-csi-disk-storage-provision>
+We need to add a `Persistent Volume Claim` to our cluster, to which we can connect our reticulum  storage. Note that this will automatically create a `Persistent volume`, based on the given (default) Storage Class. 
 
-1) Create and adjust the following azure-pvc.yaml file to create the your PVC's. We use seperate PVC's here for reticulum (files) and the Postgress database, although you could also use the same:
+We can choose between Azure Disk and Azure Files. While we want multiple pods to be able to access the shared volume, we need to use a Storage class that uses Azure Files. See: <https://learn.microsoft.com/en-us/azure/aks/azure-files-csi>
+
+
+
+Once we created this, we can change the reticulum  and postgresdb config in `hcce.yaml` to use this new persistent storage. For details see: <https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision>
+
+1) Create and adjust the following azure-pvc.yaml file to create the your PVC's. We use seperate PVC's here for reticulum (files) and the Postgress database, although you could also use the same.
+
+We can choose from two default storage classes that should be fine:
+
+```text
+- azurefile-csi: Uses Azure Standard Storage to create an Azure file share.
+- azurefile-csi-premium: Uses Azure Premium Storage to create an Azure file share.
+```
 
 ```yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-disk-reticulum 
+  name: pvc-files-reticulum
+  namespace: hcce
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: default
+    - ReadWriteMany
+  storageClassName: azurefile-csi
   resources:
     requests:
-      storage: 10Gi
+      storage: 100Gi
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pvc-disk-pgql
+  name: pvc-files-postgres
+  namespace: hcce
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: default
+  storageClassName: azurefile-csi
   resources:
     requests:
-      storage: 10Gi
+      storage: 100Gi
 ```
 
 2) Apply the configuration to your cluster with `kubectl apply -f azure-pvc.yaml -n hcce`
@@ -358,14 +484,14 @@ metadata:
 #--
 #       WITH THESE:
         persistentVolumeClaim:
-          claimName: pvc-disk-reticulum 
+          claimName: pvc-files-reticulum
 
       - name: config
         configMap:
           name: ret-config
 
 ... 
-#and further down for postrgresql
+#and further down for postrgresql (in case you are nor using an external database)
 ...
           volumeMounts:
             - name: postgresql-data
@@ -383,7 +509,7 @@ metadata:
 #--
 #--     WITH THESE:
           persistentVolumeClaim:
-            claimName: pvc-disk-pgql      
+            claimName: pvc-files-postgres   
 #--
 ```
 
@@ -392,14 +518,6 @@ metadata:
 5) Update your cluster by running the render and apply scripts `bash render_hcce.sh && kubectl apply -f hcce.yaml` (note: this will only apply the changes)
 
 6) You should now have persistent storage. You can find it in the Azure portal, under `Kubernetes service`  > `Storage`
-
-Some thoughts / things to consider:
-
-* For production it is better to consider to use an external database service. Then is easier to scale and you can leverage tools like backup and restore
-
-* It depends a bit on our setup, but when we share a disk for multiple pods, one pod might be on a different node then the other. Secondly, we've seen when deleting a pod the new pod can't claim the connection while the old one is not released in time. Not sure if this was due to another error, but needs to be monitored
-
-* A more stable solution could be to use persistent volume claims that are open to multiple connections, however not all storage classes support ReadWriteMany, so it can be a bit tricky to set up a working storage class. Also, you need to explicitely activate 'shared' connections on the storage class, before you can create a persistent volumen claim for the class that has policy 'ReadWriteMany'.
 
 ## Open ports for the Dialog server (audio/speech)
 
@@ -520,6 +638,26 @@ Once done, you can use the appID and password of the (Entra app's) to login from
 docker login <acr-name>.azurecr.io --username <appId> --password <password>
 ```
 
+## Configure CORS and other 'server settings'
+
+If you are coming from Hubs-cloud you are familiar with a menu panel called Server settings. Here you could set CORS headers and some other things.
+
+In Hubs CE, this panel is no longer there, but you can find the settings in the hcce.yam(l) file, under `ret-config`, under `[ret."Elixir.RetWeb.Plugs.AddCSP"]`
+
+If your cluster should be allowed to receive requests from other servers (eg. use the api), you need to add that domain to the `access-control-allow-origin` in the `ingress` deployment configuration.
+
+```yaml
+######################################################################################
+###################################### ingress #######################################
+######################################################################################
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  ...
+    haproxy.org/response-set-header: |
+      access-control-allow-origin "<either '*', or 'https://$HUB_DOMAIN' and a comma seperated list of other domains to allow>"
+```
+
 ## Deploy custom client
 
 >todo: this is not complete yet, these are some tips I found elsewhere, and needs to be checked.
@@ -618,6 +756,75 @@ you can remove that 1> /dev/null to actually see the logs
 
 > Todo: also some random notes, not finished yet.
 
+To migrate our data from our (old) Hubs Cloud environment to our Hubs CE edition, we need to do several things:
+
+* Migrate the database
+* Copy the files
+* Fix the file references in our DB
+
+### Preparation
+
+1) Install unzip and AWS cli on you Hubs cloud server (or other source system)
+
+```bash
+sudo apt install unzip
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+see <https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html?bck-files-amz-s3>
+
+2) Run aws configure to login to your AWS environment, make sure you login to the region of your bucket
+
+### Copy the database
+
+To copy the database we are going to export the tables from one of our Hubs Cloud application servers and upload it to an S3 bucket. From there we can download it and import it in our CE cluster
+
+#### Export from Hubs Cloud
+
+3) Log in to your application server of the cluster (use the verification code in the admin panel)
+
+4) Go to /home/ubuntu and create a directory called 'dump'
+
+5) Create the following file in /home/ubuntu/, call it `export_tables.sh`
+
+```bash
+#!/bin/bash
+  
+# Make sure to save this script to a .sh file and give it executable permissions using chmod +x script.sh. Then, you can run the script to export the data from multiple tables to CSV files.
+
+# Define your PostgreSQL database connection parameters
+db_host="<aws RDS endpoint>"
+db_user="postgres"
+db_name="polycosm_production"
+output_directory="/home/ubuntu/dump"
+
+# List of tables to export (modify as needed)
+tables=("account_favorites" "accounts" "api_credentials" "app_configs" "assets" "avatar_listings" "avatars" "cached_files" "hub_bindings" "hub_invites" "hub_role_memberships" "hubs" "identities" "login_tokens" "logins" "oauth_providers" "owned_files" "project_assets" "projects" "room_objects" "scene_listings" "scenes" "schema_migrations")
+
+# Loop through the tables and export each one to a CSV file
+for table in "${tables[@]}"; do
+    psql -U "$db_user" -h localhost "$db_name" -c "\COPY $table TO '$output_directory/$table.csv' WITH CSV HEADER;"
+done
+
+echo "Data export completed."
+```
+
+* Make the file executable with `chmod +x ./export_tables.sh`
+
+* Run it with bash: `bash ./export_tables.sh`
+
+* Go to the dump directory and upload the files to an S3 bucket using the AWS cli
+
+```bash
+aws s3 cp your-directory-path s3://your-bucket-name/ --recursive --exclude "*" --include "*.csv"
+```
+
+#### Import into CE
+
+TODO
+
 See: <https://github.com/hubs-community> and then: <https://github.com/hubs-community/import_assets>
 
 And:
@@ -625,6 +832,30 @@ And:
 <https://discord.com/channels/498741086295031808/1187869861632811038/1187879001633603646>
 
 # Tips & problem solving
+
+## Reticulum server won't start
+
+First check the logs with kubectl:
+
+```bash
+kubectl logs <your reticulum pod id> -n hcce
+```
+
+If you see an SQL/Database error, it could be an error/conflict when creating tables in the coturn schema. You can try the following:
+
+* (Probably?) you can safely delete the tables in the coturn schema on your database. 
+
+* Remove your reticulum deployment
+
+```bash
+kubectl delete deployment reticulum -n hcce
+```
+
+Reapply your cluster config:
+
+```bash
+kubectl apply -f hcce.yaml
+```
 
 ## Solve 'Server lacks JWT secret'
 
