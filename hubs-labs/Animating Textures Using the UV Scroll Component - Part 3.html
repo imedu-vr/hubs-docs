@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<!-- saved from url=(0086)https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/ -->
+<html lang="en" data-grid-columns="3" data-color-scheme="dark" data-view-type="grid"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Animating Textures Using the UV Scroll Component - Part 3</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preload" href="./Animating Textures Using the UV Scroll Component - Part 3_files/app.min.js" as="script">
+    <link rel="preload" href="./Animating Textures Using the UV Scroll Component - Part 3_files/app.min.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <script type="text/javascript" async="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/analytics.js"></script><script type="text/javascript" async="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/js"></script><script async="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/js(1)">
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-77033033-12');
+    </script>
+
+        <link rel="stylesheet" href="./Animating Textures Using the UV Scroll Component - Part 3_files/css2" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" crossorigin="">
+
+        <noscript>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+
+
+
+
+    <script async="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/app.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./Animating Textures Using the UV Scroll Component - Part 3_files/app.min.css">
+
+    <!--cssential--><style></style><!--/cssential-->
+
+    <script>
+  // Basic Config
+  let CONFIG = {
+    GHOST_URL: ``, 
+    GHOST_KEY: ``,
+    GHOST_SEARCH_IN_CONTENT: !!``,
+    GHOST_VERSION: 'v4', /* Ghost version: v4 or v3 */
+    GHOST_SEARCH_LIMIT: 8, /* Search result limit */
+    DEFAULT_VIEW_TYPE: `grid`,
+    DEFAULT_GRID_COLUMNS: 3, /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_COLOR_SCHEME: `System`,
+    ENABLE_COLOR_SCHEME_PICKER: true, /* Enable Color cheme picker */
+    ENABLE_IMAGE_LIGHTBOX: !!`true`,
+    ENABLE_SCROLL_TO_TOP: true, /* Enable Scroll Top Button */
+    ENABLE_FILTER: true, /* Enable filter feature on homepage */
+    ENABLE_HYPHENS: false, /* Enable hyphens */
+    ENABLE_PWA: false, /* Enable PWA - Progressive Web App */
+    ENABLE_STICKY_HEADER: !!``,
+    ENABLE_MENU_AUTO_CLOSE: true, /* Auto close menu when clicking outside of it */
+    DISQUS_SHORTNAME: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+    COVE_ID: '9a56f94608ec8169ab6bb801d004f591', /* To use Cove, replace the below id with your cove publication id*/
+    OPEN_LINKS_IN_NEW_TAB: !!`true`,
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    } /* 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } */
+  ];
+</script>
+
+<style>
+  body {
+    --global-max-width: 1280px;
+    --global-radius: 2px;
+    --global-radius-round: 50%;
+    --global-header-position: initial;
+    --global-hyphens: none; /* none / auto */
+    --global-menu-icons: none;
+    --global-menu-alignement: flex-start; /* flex-start / center / flex-end */
+    --global-breadcrumb: none; /* none / flex */
+    --global-menu-cta: flex; /* none / flex */
+  }
+</style>
+
+    <script>
+  // Dark/Light Theme Handling
+  let preferredTheme; 
+  if (CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase() === 'system') {
+    const preferredColorScheme = 
+    ( window.matchMedia 
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) 
+    ? 'dark' 
+    : 'light'
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase();
+  }
+  document.documentElement.setAttribute('data-color-scheme', preferredTheme);
+
+
+
+  // Grid/List View Handling
+  let preferredView = localStorage.getItem('USER_VIEW_TYPE') || CONFIG.DEFAULT_VIEW_TYPE;
+  document.documentElement.setAttribute('data-view-type', preferredView);
+
+  // Grid columns setting
+  document.documentElement.setAttribute('data-grid-columns', CONFIG.DEFAULT_GRID_COLUMNS);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (CONFIG.ENABLE_HYPHENS) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  if (CONFIG.ENABLE_STICKY_HEADER) {
+    //root.style.setProperty('--global-header-position', 'sticky');
+    document.documentElement.setAttribute('data-header', 'sticky');
+  }
+  
+  // Global values needed
+  const GLOBAL = {
+    CURRENT_PAGE: parseInt(''),
+    NEXT_PAGE: parseInt(''),
+    NEXT_PAGE_LINK: '',
+    MAX_PAGES: parseInt(''), 
+    LAST_PAGE: `` === `` ? true : false,
+    POSTS_PER_PAGE: parseInt('12'),
+    ADD_BOOKMARK_MSG: `Saved!`,
+    REMOVE_BOOKMARK_MSG: `Removed!`,
+    API: ''
+  }
+
+  // Set Themes
+  let style = document.createElement('style');
+  style.innerHTML = `
+    ${COLOR_SCHEMES.map(function(theme) { 
+      return `
+        html[data-color-scheme="${theme.id}"], button[data-color-scheme="${theme.id}"] {
+          --color-primary: ${theme.colors.primary};
+          --color-secondary: ${theme.colors.secondary};
+
+          --color-text: ${theme.colors.text};
+          --color-text-acc-1: ${theme.colors.text_acc_1};
+          --color-text-acc-2: ${theme.colors.text_acc_2};
+          --color-text-acc-3: ${theme.colors.text_acc_3};
+          --color-text-reverse: ${theme.colors.text_reverse};
+
+          --color-bg-body: ${theme.colors.bg_body};  
+          --color-bg: ${theme.colors.bg}; 
+          --color-bg-acc-1: ${theme.colors.bg_acc_1}; 
+          --color-bg-acc-2: ${theme.colors.bg_acc_2}; 
+          --color-bg-acc-3: ${theme.colors.bg_acc_3}; 
+          --color-bg-reverse: ${theme.colors.bg_reverse};
+
+          --color-neutral: ${theme.colors.neutral}; 
+          --color-border: ${theme.colors.border};
+        }
+        .btn-theme-toggle{display: none}
+      `.replace(/\s+/g,'');
+    }).join(' ')}
+  `
+  document.getElementsByTagName('head')[0].appendChild(style);
+</script><style>
+    html[data-color-scheme="light"],button[data-color-scheme="light"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,10%);--color-text-acc-1:hsl(0,0%,20%);--color-text-acc-2:hsl(0,0%,30%);--color-text-acc-3:hsl(0,0%,40%);--color-text-reverse:hsl(0,0%,90%);--color-bg-body:hsl(219,23%,97%);--color-bg:hsl(0,100%,100%);--color-bg-acc-1:hsl(0,0%,98%);--color-bg-acc-2:hsl(0,0%,96%);--color-bg-acc-3:hsl(0,0%,94%);--color-bg-reverse:hsl(0,0%,10%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,95%);}.btn-theme-toggle{display:none} html[data-color-scheme="dark"],button[data-color-scheme="dark"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,90%);--color-text-acc-1:hsl(0,0%,80%);--color-text-acc-2:hsl(0,0%,70%);--color-text-acc-3:hsl(0,0%,60%);--color-text-reverse:hsl(0,0%,10%);--color-bg-body:hsl(0,0%,3%);--color-bg:hsl(0,0%,8%);--color-bg-acc-1:hsl(0,0%,10%);--color-bg-acc-2:hsl(0,0%,12%);--color-bg-acc-3:hsl(0,0%,15%);--color-bg-reverse:hsl(0,0%,90%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,15%);}.btn-theme-toggle{display:none}
+  </style>
+    <meta name="description" content="This is the final part of this series on the UV Scroll Component. These examples are meant to inspire you to make your Hubs scenes even better.">
+    <link rel="icon" href="https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png" type="image/png">
+    <link rel="canonical" href="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/amp/">
+    
+    <meta property="og:site_name" content="Creator Labs">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Animating Textures Using the UV Scroll Component - Part 3">
+    <meta property="og:description" content="This is the final part of this series on the UV Scroll Component. These examples are meant to inspire you to make your Hubs scenes even better.">
+    <meta property="og:url" content="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/">
+    <meta property="og:image" content="https://hubs.mozilla.com/labs/content/images/2022/03/uvScroll_inworld.png">
+    <meta property="article:published_time" content="2022-05-13T01:11:06.000Z">
+    <meta property="article:modified_time" content="2022-05-13T05:11:04.000Z">
+    <meta property="article:tag" content="Tutorials">
+    <meta property="article:tag" content="Intermediate">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Animating Textures Using the UV Scroll Component - Part 3">
+    <meta name="twitter:description" content="This is the final part of this series on the UV Scroll Component. These examples are meant to inspire you to make your Hubs scenes even better.">
+    <meta name="twitter:url" content="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/">
+    <meta name="twitter:image" content="https://hubs.mozilla.com/labs/content/images/2022/03/uvScroll_inworld.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Jim Conrad">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Tutorials, Intermediate">
+    <meta name="twitter:site" content="@MozillaHubs">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="576">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Creator Labs",
+        "url": "https://hubs.mozilla.com/labs/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Jim Conrad",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/2022/03/NotARobotJim.jpg",
+            "width": 460,
+            "height": 460
+        },
+        "url": "https://hubs.mozilla.com/labs/author/jco/",
+        "sameAs": []
+    },
+    "headline": "Animating Textures Using the UV Scroll Component - Part 3",
+    "url": "https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/",
+    "datePublished": "2022-05-13T01:11:06.000Z",
+    "dateModified": "2022-05-13T05:11:04.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hubs.mozilla.com/labs/content/images/2022/03/uvScroll_inworld.png",
+        "width": 1024,
+        "height": 576
+    },
+    "keywords": "Tutorials, Intermediate",
+    "description": "This is the final part of this series on the UV Scroll Component. These examples are meant to inspire you to make your Hubs scenes even better.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hubs.mozilla.com/labs/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.30">
+    <link rel="alternate" type="application/rss+xml" title="Creator Labs" href="https://hubs.mozilla.com/labs/rss/">
+    
+    <script defer="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/sodo-search.min.js" data-key="e3e2620efdf47912b1552dbb5b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://hubs.mozilla.com/labs/" crossorigin="anonymous"></script>
+    <link href="https://hubs.mozilla.com/labs/webmention" rel="webmention">
+    <script defer="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/cards.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Animating Textures Using the UV Scroll Component - Part 3_files/cards.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Animating Textures Using the UV Scroll Component - Part 3_files/js(2)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77033033-12');
+</script>
+<style>:root {--ghost-accent-color: #007AB8;}</style>
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightbox-loader{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightbox-loader div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightbox-loader 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightbox-loader div:nth-child(1){animation-delay:-.45s}.fslightbox-loader div:nth-child(2){animation-delay:-.3s}.fslightbox-loader div:nth-child(3){animation-delay:-.15s}@keyframes fslightbox-loader{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media (prefers-reduced-motion: no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+  <body class="post-template tag-tutorials tag-intermediate">
+      <script>
+
+
+
+
+
+</script>
+
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+<a class="header__brand" href="https://hubs.mozilla.com/" target="_blank">        <img class="light" src="./Animating Textures Using the UV Scroll Component - Part 3_files/mozilla-hubs-logo.svg" alt="Creator Labs">
+         <img class="dark" src="./Animating Textures Using the UV Scroll Component - Part 3_files/mozilla-hubs-logo-dark.svg" alt="Creator Labs">    
+</a><a href="https://hubs.mozilla.com/labs">          <span class="header__title m-0">Creator Labs</span>
+</a>        
+        <div class="flex-1"></div>
+
+
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        
+
+        <div class="user-menu js-user-menu">
+    <a class="signup-link" href="https://hubs.mozilla.com/signup/" tabindex="0" title="Sign up" aria-label="Sign up">
+      <i class="icon icon-arrow-up-right icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up-right"></use>
+  </svg>
+</i>Sign up
+    </a>
+    <a class="signin-link" href="https://hubs.mozilla.com/signin/" tabindex="0" title="Sign in" aria-label="Sign in">
+      <i class="icon icon-log-in icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#log-in"></use>
+  </svg>
+</i>Sign in
+    </a>
+</div>      </div>
+       
+    </div>
+  </div>
+</header>
+      <nav class="menu js-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+          <i class="icon icon-spoke icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#spoke"></use>
+  </svg>
+</i>        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+          <i class="icon icon-mozilla-hubs icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#mozilla-hubs"></use>
+  </svg>
+</i>        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+
+  
+  <span class="flex-1"></span>
+
+
+
+
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle is-visible" tabindex="0" title="Theme color scheme" aria-label="Theme color scheme">
+    <span class="btn-toggle-icons">
+      <i class="icon icon-settings icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#settings"></use>
+  </svg>
+</i>    </span>
+    <span>Theme</span>
+  </button>
+
+  <div class="color-scheme-picker js-color-scheme-picker">
+<button class="color-scheme w-100 js-color-scheme" data-color-scheme="light">
+    <span class="color-scheme__name flex-1 text-left">Light</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button><button class="color-scheme w-100 js-color-scheme" data-color-scheme="dark">
+    <span class="color-scheme__name flex-1 text-left">Dark</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button></div>
+
+<template class="js-color-scheme-template"></template>
+
+</nav>
+    <main class="main">
+      <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  <div class="container wrapper">
+    <div class="hero">
+    <ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a></li>
+  <li class="breadcrumb-item breadcrumb-item-current">Animating Textures Using the UV Scroll Component - Part 3</li>
+</ul>  
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-tutorials tag-list__item has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" title="Tutorials" aria-label="Tutorials">
+              <span class="tag-list__item--accent" style="background-color: #F5325C"></span>
+            Tutorials
+          </a>
+          <a class="tag-intermediate tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/intermediate/" title="Intermediate" aria-label="Intermediate">
+              <span class="tag-list__item--accent" style="background-color: #007AB8"></span>
+            Intermediate
+          </a>
+      </div>
+
+    <h1 class="hero__title text-center">Animating Textures Using the UV Scroll Component - Part 3</h1>
+
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>May 12, 2022</span>
+        <span class="m-l-sm m-r-sm">—</span>
+        <span>4 min read</span>
+      </div>
+
+  </div>
+
+    <div class="hero__media">
+      <figure class="hero__figure">
+        <img class="hero__img lazyautosizes lazyloaded" data-srcset="/labs/content/images/size/w300/2022/03/uvScroll_inworld.png 300w,
+                  /labs/content/images/size/w600/2022/03/uvScroll_inworld.png 600w,
+                  /labs/content/images/size/w1000/2022/03/uvScroll_inworld.png 1000w,
+                  /labs/content/images/size/w2000/2022/03/uvScroll_inworld.png 2000w" srcset="/labs/content/images/size/w300/2022/03/uvScroll_inworld.png 300w,
+                  /labs/content/images/size/w600/2022/03/uvScroll_inworld.png 600w,
+                  /labs/content/images/size/w1000/2022/03/uvScroll_inworld.png 1000w,
+                  /labs/content/images/size/w2000/2022/03/uvScroll_inworld.png 2000w" data-sizes="auto" data-src="/labs/content/images/size/w300/2022/03/uvScroll_inworld.png" src="./Animating Textures Using the UV Scroll Component - Part 3_files/uvScroll_inworld.png" alt="A demonstration of UV scrolling spiral effect in Mozilla Hubs." sizes="640px">
+      </figure>
+    </div>
+</div>
+    <article class="post tag-tutorials tag-intermediate content-wrap post-access-public">
+     
+
+      <div class="content">
+          <p class="content-excerpt">
+            This is the final part of this series on the UV Scroll Component. These examples are meant to inspire you to make your Hubs scenes even better.
+          </p>
+        
+          <p>If you’ve arrived here from <a href="https://hubs.mozilla.com/labs/animating-textures-with-the-uv-scroll-component-pt1/">part 1</a> or <a href="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-2/">part 2</a> of this series, you probably have a pretty solid understanding of how UV scrolling works. In this last part, we’re going to take a look at a few different examples that use Hubs’s UV Scroll component in less typical ways.</p><p>Rather than explain each step in full detail, I will instead focus on the overall concepts since these techniques can be applied in general ways to countless examples.</p><!--kg-card-begin: markdown--><h3 id="hey-blinkin">Hey, Blinkin<a href="https://www.youtube.com/watch?v=wJcuYKyHEgs" target="_blank" rel="noreferrer noopener">'</a></h3>
+<!--kg-card-end: markdown--><p>Animating a texture on and off isn’t particularly special when it comes to rendered animation, but for real-time game engines, it’s not often supported as a built-in feature. Knowing what we do about UVs, we can get around this limitation with a little clever forethought.</p><p>This is one of my favorite techniques because the textures we create can be really small and simple. In fact, since I’ll be working with plain patches of color, I can make these images a few pixels at a time.</p><p>Let’s start with a small square texture that’s only 16 x 16 pixels. I’m painting this texture within Blender’s Image Editor, but you could use <a href="https://www.adobe.com/products/photoshop.html" target="_blank" rel="noreferrer noopener">Photoshop</a>, <a href="https://krita.org/en/" target="_blank" rel="noreferrer noopener">Krita</a>, <a href="https://procreate.art/" target="_blank" rel="noreferrer noopener">Procreate</a>… heck, even <a href="https://support.microsoft.com/en-us/windows/get-microsoft-paint-a6b9578c-ed1c-5b09-0699-4ed8115f9aa9" target="_blank" rel="noreferrer noopener">MS Paint</a>.</p><p>I’ll start by focusing on the bottom (horizontal) row of 16 pixels.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Animating Textures Using the UV Scroll Component - Part 3_files/SingleRowPixel_Illustrated.png" aria-label="Click for Lightbox"><img src="./Animating Textures Using the UV Scroll Component - Part 3_files/SingleRowPixel_Illustrated.png" class="kg-image" alt="Close-up view of a small, 16 by 16 pixel texture consisting of a row of red pixels with varying brightness." loading="lazy" width="256" height="256"></a><figcaption>Ignore the image size you see here– the actual texture I'm using is only 16 by 16 tiny little pixels.</figcaption></figure><p>It's worth noting that working with pixel art can be tricky at first. Imaging software generally wants to smooth everything out and get rid of jagged lines and edges. So if you're saving an image that should remain blocky, you'll want to make sure to look for a setting called something like 'Interpolation' or 'Anti-aliasing' so you can choose the right option. For Blender, the setting is on the 'Image Texture' node.<br></p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/LinearVsClosestInterpolation.mp4" poster="https://img.spacergif.org/v1/960x540/0a/spacer.png" width="960" height="540" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3330.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:09</span></div><input type="range" class="kg-video-seek-slider" max="9" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>In Blender, you must set the image ‘interpolation Type’ to ‘Closest’ if you want to see individual pixels.</figcaption></figure><p>If these pixels were to slide across a single face of a mesh, it would give the appearance of that mesh getting brighter and brighter red, then fading back down to black for a bit, then repeating as the texture wrapped back around to the start. If we use the UV Scroll Component’s ‘Increment’ parameter(s), we won’t see the hard edge of the pixels as they go by since they’ll ‘jump’ from one to the next.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/RedBlink.mp4" poster="https://img.spacergif.org/v1/960x540/0a/spacer.png" width="960" height="540" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3332.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:01</span></div><input type="range" class="kg-video-seek-slider" max="1" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>A single line of pixels is enough to create a blinking element.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">The 0.0625 value for the X-Increment for the UV Scroll component comes from a pretty simple formula:<br>1 (whole texture) divided by 16 (pixels across). In other words, the texture must increment 1/16th of its width each step. Remember, the Speed is independent so it can go as fast or slow as you like.</div></div><p>Jumping way ahead here, but a texture with lots of colorful gradients makes for some pretty cool results if all the UVs of the mesh are randomly placed throughout the UV space. If your nerd senses aren’t tingling here at the thought of making a cool ‘matrix code’ effect, I’m not sure what else I can do to excite you.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/DiscoTexture.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3334.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:01</span></div><input type="range" class="kg-video-seek-slider" max="1" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Each face has its UVs randomly placed in the texture space</figcaption></figure><p>Don’t forget, you can also use the Y-increment to offset the texture vertically. This can further randomize the texture offset so you don’t see it loop as often. Finally, you may <strong>not</strong> want randomness at all, instead opting to strategically lay out your faces and UVs to make specific sequences of color like some <a href="http://www.effectgames.com/demos/canvascycle/" target="_blank" rel="noreferrer noopener">classic game art</a>.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/DiscoFloor.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3336.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:03</span></div><input type="range" class="kg-video-seek-slider" max="3" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Finally– a dance floor to go with all my uv-scrolling dancing avatars.</figcaption></figure><p>Now that you’ve reached this stage of understanding, I’ll leave it to you to figure out how this digital number display works. The sideways-scrolling texture is 8 x 16 pixels and each column of green pixels represents a number from 0 to 9. The red pixels should be a clue…</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/digitalDisplay.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3338.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:03</span></div><input type="range" class="kg-video-seek-slider" max="3" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Don’t let the texture transparency fool you–those segments of the display are always there.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="what-about-rotation">What About Rotation?</h3>
+<!--kg-card-end: markdown--><p>While rotating textures is technically possible, it would require a code change to the UV Scroll component. However, you may find that it’s not really necessary if you know how to mess around with your mesh’s UVs. Just like we were able to distort the textures in the lava example from <a href="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-2/">Part 2</a>, we can create the illusion of rotation just by planning ahead with our UV layout. Even a simple gradient can create interesting results just by first rotating the UVs on an angle.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/UVScrollRotation.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3340.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:04</span></div><input type="range" class="kg-video-seek-slider" max="4" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Strategic placement of UVs can produce results that trick the eye into thinking textures are rotating when they’re actually just sliding.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="animate-those-meshes">Animate those meshes</h3>
+<!--kg-card-end: markdown--><p>With all this fancy UV scrolling, it’s easy to forget that you can animate the mesh itself. By combining existing animation techniques with the UV Scroll component, the possibilities are endless. Be sure to review the <a href="https://www.khronos.org/registry/glTF/specs/2.0/glTF-2.0.html#animations" target="_blank" rel="noreferrer noopener">glTF specifications</a> for what types of animation are supported, but we’re generally talking about things like skeletal animation and morphing of meshes.</p><p>Here, I’m combining a very simple vertical UV scroll while I animated the object morphing into a new shape:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/morphingSpiral.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3342.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:07</span></div><input type="range" class="kg-video-seek-slider" max="7" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>The glTF file format supports morph animations. In Blender, they’re called ‘Shape Keys’.</figcaption></figure><p>With a little bit of transparency and emission, my ghost could be reused throughout a Hubs scene:<br></p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/Ghosts.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3344.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:05</span></div><input type="range" class="kg-video-seek-slider" max="5" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>I ain’t afraid of no ghost–A few animated items can really bring your Hubs scene to life.</figcaption></figure><p>Remember those flipbook-style textures we were using in <a href="https://hubs.mozilla.com/labs/animating-textures-with-the-uv-scroll-component-pt1/">part 1</a>? You could animate one of the meshes in a simple circle– in this example, I curved the mesh a little bit to get rid of some of the flatness.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/03/RunningCatCircle.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/03/media-thumbnail-ember3348.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:04</span></div><input type="range" class="kg-video-seek-slider" max="4" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>This cartoon 2d cat is still more believable than the ones in the movie ‘Cats’... well, less disturbing anyway.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="final-thoughts">Final Thoughts</h3>
+<!--kg-card-end: markdown--><p>If you made it all the way through this series on UV Scrolling, congratulations! You hopefully have gained a better understanding of how all this works and maybe picked up a few tricks along the way. I’m always excited to see cool new ideas so I encourage you to visit the <a href="https://discord.com/invite/dFJncWwHun" target="_blank" rel="noreferrer noopener">Hubs Discord</a> and share your work-in-progress with our community.</p>
+      </div>
+        <div class="social-share">
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://twitter.com/share?text=Animating%20Textures%20Using%20the%20UV%20Scroll%20Component%20-%20Part%203&amp;url=https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/" title="Share on Twitter" aria-label="Share on Twitter">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/&amp;title=Animating%20Textures%20Using%20the%20UV%20Scroll%20Component%20-%20Part%203&amp;summary=Animating%20Textures%20Using%20the%20UV%20Scroll%20Component%20-%20Part%203" title="Share on Linkedin" aria-label="Share on Linkedin">
+    <i class="icon icon-linkedin icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#linkedin"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://getpocket.com/save" data-save-url="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/" data-pocket-label="pocket" data-pocket-count="none" title="Save on Pocket" aria-label="Save on Pocket">
+    <i class="icon icon-pocket icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#pocket"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item" tabindex="0" href="mailto:?subject=Animating%20Textures%20Using%20the%20UV%20Scroll%20Component%20-%20Part%203&amp;body=https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/%C2%A0Animating%20Textures%20Using%20the%20UV%20Scroll%20Component%20-%20Part%203" title="Share by email" aria-label="Share by email">
+    <i class="icon icon-mail icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#mail"></use>
+  </svg>
+</i>  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="https://hubs.mozilla.com/labs/animating-textures-using-the-uv-scroll-component-part-3/" title="Copy to clipboard" data-label="Copied!" aria-label="Copy to clipboard">
+    <i class="icon icon-copy icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#copy"></use>
+  </svg>
+</i>  </button>
+  
+</div>
+
+    </article>
+
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">Published by</div>
+          <span class="special-delimiter"></span>
+              <div class="card author-card author-jco" data-type="post">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/jco/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow" data-srcset="/labs/content/images/size/w300/2022/03/NotARobotJim.jpg 300w,
+            /labs/content/images/size/w600/2022/03/NotARobotJim.jpg 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/03/NotARobotJim.jpg" src="./Animating Textures Using the UV Scroll Component - Part 3_files/NotARobotJim.jpg" alt="Jim Conrad">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/jco/">Jim Conrad</a></div>
+    
+      <div class="author-card__descr text-acc-2 m-b">Jim is a senior artist for Mozilla Hubs. His background includes video game art and design. He has worked on VR-related projects since 2015.</div>
+    
+      <div class="author-card__details flex">
+
+        <div class="author-card__social flex">
+        </div>
+      </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+
+        <div class="related-posts m-t-lg">
+      <div class="section__title m-b">You might also like</div>
+      
+      <div class="row post-feed">
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/installing-mozilla-hubs-community-edition-on-your-own-microsoft-azure-kubernetes-service/" aria-label="Installing Community Edition on Microsoft Azure AKS">Installing Community Edition on Microsoft Azure AKS</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">14 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Community Edition Documentation Awardee Stan Tophoven's guide takes you through his process of deploying Community Edition on Azure's AKS. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/stan/" class="author-mini__item has-icon nr-1" title="Stan Tophoven" aria-label="Stan Tophoven">
+            <span class="author-mini__tooltip">Stan Tophoven</span>
+              <span class="author-mini__letter">Stan Tophoven</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-google-cloud-with-aws-services-ri-ben-yu-ban/" aria-label="Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版">Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">12 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Documentation Awardee Kojiro Yano translates Mozilla's quick start guide to Community Edition on GCP. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/kojiro/" class="author-mini__item has-icon nr-1" title="Kojiro Yano" aria-label="Kojiro Yano">
+            <span class="author-mini__tooltip">Kojiro Yano</span>
+              <span class="author-mini__letter">Kojiro Yano</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/deploying-mozilla-hubs-ce-on-gcp-with-ease-a-guide-to-the-personal-edition-helm-chart/" aria-label="Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart">Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">13 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        In this guide, Alex Griggs shows readers how to deploy his Community Edition Helm Chart: Personal Edition on GCP 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2023-12-27" class="post-card__date flex-1">
+        Dec 27, 2023
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/alex/" class="author-mini__item has-img  nr-1" title="Alex Griggs" aria-label="Alex Griggs">
+            <span class="author-mini__tooltip">Alex Griggs</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2023/12/alex-avatar.png" src="./Animating Textures Using the UV Scroll Component - Part 3_files/alex-avatar.png" alt="Alex Griggs">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+      </div>
+    </div>
+  </div>
+
+    </main><script id="pocket-btn-js" src="./Animating Textures Using the UV Scroll Component - Part 3_files/btn.js"></script>
+
+      <footer class="footer">
+  <div class="container wrapper">
+
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">Creator Labs</div>
+          <div class="m-b text-acc-3">Mozilla Hubs Creator Labs</div>
+          <div class="social flex">
+  <a class="social__item" href="https://twitter.com/MozillaHubs" target="_blank" title="Twitter" aria-label="Twitter" rel="noreferrer">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://github.com/mozilla/hubs" target="_blank" title="Github" aria-label="Github" rel="noreferrer">
+    <i class="icon icon-github icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#github"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://hubs.mozilla.com/rss" target="_blank" title="RSS" aria-label="RSS" rel="noreferrer">
+    <i class="icon icon-rss icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#rss"></use>
+  </svg>
+</i>  </a>
+</div>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Navigation</div>
+          <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Tags</div>
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+                <a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a>
+                <a href="https://hubs.mozilla.com/labs/tag/inspiration-2/">Inspiration</a>
+                <a href="https://hubs.mozilla.com/labs/tag/beginner/">Beginner</a>
+                <a href="https://hubs.mozilla.com/labs/tag/intermediate/">Intermediate</a>
+                <a href="https://hubs.mozilla.com/labs/tag/advanced/">Advanced</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom text-center">
+      <span>Visit <a href="https://www.mozilla.org/en-US/">Mozilla Corporation’s</a> not-for-profit parent, the <a href="https://foundation.mozilla.org/?utm_source=www.mozilla.org&amp;utm_medium=referral&amp;utm_campaign=footer">Mozilla Foundation</a>&gt;.
+Portions of this content are ©1998–2024 by individual mozilla.org contributors. Content available under a <a href="https://www.mozilla.org/en-US/foundation/licensing/website-content/">Creative Commons license</a></span>
+    </div>
+  </div>
+</footer>
+      <button class="btn-toggle-round scroll-top js-scroll-top" type="button" title="Scroll to top" aria-label="Scroll to top">
+  <svg class="progress-circle" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+  </svg>
+  <i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up"></use>
+  </svg>
+</i></button>
+
+    
+    
+
+    <div class="notifications">
+  <a tabindex="0" class="notify notify-signup js-notify-close" href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Great! Next, complete checkout for full access to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-signin js-notify-close" href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Welcome back! You've successfully signed in.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">You've successfully subscribed to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-checkout js-notify-close" href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your account is fully activated, you now have access to all content.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your billing info has been updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Your billing was not updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+</div>
+
+
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+      <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('622fdbf739449e004d7a3d04')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+
+  <script>
+    if (CONFIG.ENABLE_COLOR_SCHEME_PICKER && 'content' in document.createElement('template')) {
+      const themeButton = document.querySelector('.js-theme-toggle');
+      themeButton ? themeButton.classList.add('is-visible') : '';
+
+      let colorSchemePicker = document.querySelector('.js-color-scheme-picker');
+      let colorSchemeTemplate = document.querySelector('.js-color-scheme-template');
+
+      COLOR_SCHEMES.map(function(theme) { 
+        var colorSchemeBtn = colorSchemeTemplate.content.cloneNode(true).querySelector('button');
+        colorSchemeBtn.setAttribute('data-color-scheme', theme.id);
+        colorSchemeBtn.querySelector('.color-scheme__name').textContent = theme.name;
+        colorSchemePicker.appendChild(colorSchemeBtn);
+      }).join(' ')
+    } 
+
+    const colorSchemeBtns = document.querySelectorAll('.js-color-scheme');
+    colorSchemeBtns.forEach(function(colorSchemeBtn) {
+      colorSchemeBtn.onclick = function(event) {
+        setColorScheme(event.currentTarget.getAttribute('data-color-scheme'));
+      }
+    })
+  </script>
+
+  <script>
+    const scrollTop = document.querySelector('.js-scroll-top');
+
+    if (scrollTop && CONFIG.ENABLE_SCROLL_TO_TOP) {
+      const progressPath = document.querySelector('.scroll-top path');
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
+      const updateProgress = function() {
+        const scroll = window.scrollY || window.scrollTop || document.documentElement.scrollTop;
+    
+        const docHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+    
+        const windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    
+        const height = docHeight - windowHeight;
+        var progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      }
+    
+      updateProgress();
+      const offset = 60;
+
+      window.addEventListener('scroll', function(event) {
+        updateProgress();
+        
+        //Scroll back to top
+        const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+        scrollPos > offset ? scrollTop.classList.add('is-active') : scrollTop.classList.remove('is-active');
+      
+      }, false);
+    }
+  </script>
+
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        // window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+
+
+    
+  
+
+<div id="sodo-search-root"></div></body></html>

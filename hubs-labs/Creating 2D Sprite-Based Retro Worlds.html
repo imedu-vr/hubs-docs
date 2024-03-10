@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://hubs.mozilla.com/labs/creating-retro-worlds/ -->
+<html lang="en" data-grid-columns="3" data-color-scheme="dark" data-view-type="grid"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Creating 2D Sprite-Based Retro Worlds</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preload" href="./Creating 2D Sprite-Based Retro Worlds_files/app.min.js" as="script">
+    <link rel="preload" href="./Creating 2D Sprite-Based Retro Worlds_files/app.min.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <script type="text/javascript" async="" src="./Creating 2D Sprite-Based Retro Worlds_files/analytics.js"></script><script type="text/javascript" async="" src="./Creating 2D Sprite-Based Retro Worlds_files/js"></script><script async="" src="./Creating 2D Sprite-Based Retro Worlds_files/js(1)">
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-77033033-12');
+    </script>
+
+        <link rel="stylesheet" href="./Creating 2D Sprite-Based Retro Worlds_files/css2" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" crossorigin="">
+
+        <noscript>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+
+
+
+
+    <script async="" src="./Creating 2D Sprite-Based Retro Worlds_files/app.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./Creating 2D Sprite-Based Retro Worlds_files/app.min.css">
+
+    <!--cssential--><style></style><!--/cssential-->
+
+    <script>
+  // Basic Config
+  let CONFIG = {
+    GHOST_URL: ``, 
+    GHOST_KEY: ``,
+    GHOST_SEARCH_IN_CONTENT: !!``,
+    GHOST_VERSION: 'v4', /* Ghost version: v4 or v3 */
+    GHOST_SEARCH_LIMIT: 8, /* Search result limit */
+    DEFAULT_VIEW_TYPE: `grid`,
+    DEFAULT_GRID_COLUMNS: 3, /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_COLOR_SCHEME: `System`,
+    ENABLE_COLOR_SCHEME_PICKER: true, /* Enable Color cheme picker */
+    ENABLE_IMAGE_LIGHTBOX: !!`true`,
+    ENABLE_SCROLL_TO_TOP: true, /* Enable Scroll Top Button */
+    ENABLE_FILTER: true, /* Enable filter feature on homepage */
+    ENABLE_HYPHENS: false, /* Enable hyphens */
+    ENABLE_PWA: false, /* Enable PWA - Progressive Web App */
+    ENABLE_STICKY_HEADER: !!``,
+    ENABLE_MENU_AUTO_CLOSE: true, /* Auto close menu when clicking outside of it */
+    DISQUS_SHORTNAME: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+    COVE_ID: '9a56f94608ec8169ab6bb801d004f591', /* To use Cove, replace the below id with your cove publication id*/
+    OPEN_LINKS_IN_NEW_TAB: !!`true`,
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    } /* 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } */
+  ];
+</script>
+
+<style>
+  body {
+    --global-max-width: 1280px;
+    --global-radius: 2px;
+    --global-radius-round: 50%;
+    --global-header-position: initial;
+    --global-hyphens: none; /* none / auto */
+    --global-menu-icons: none;
+    --global-menu-alignement: flex-start; /* flex-start / center / flex-end */
+    --global-breadcrumb: none; /* none / flex */
+    --global-menu-cta: flex; /* none / flex */
+  }
+</style>
+
+    <script>
+  // Dark/Light Theme Handling
+  let preferredTheme; 
+  if (CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase() === 'system') {
+    const preferredColorScheme = 
+    ( window.matchMedia 
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) 
+    ? 'dark' 
+    : 'light'
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase();
+  }
+  document.documentElement.setAttribute('data-color-scheme', preferredTheme);
+
+
+
+  // Grid/List View Handling
+  let preferredView = localStorage.getItem('USER_VIEW_TYPE') || CONFIG.DEFAULT_VIEW_TYPE;
+  document.documentElement.setAttribute('data-view-type', preferredView);
+
+  // Grid columns setting
+  document.documentElement.setAttribute('data-grid-columns', CONFIG.DEFAULT_GRID_COLUMNS);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (CONFIG.ENABLE_HYPHENS) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  if (CONFIG.ENABLE_STICKY_HEADER) {
+    //root.style.setProperty('--global-header-position', 'sticky');
+    document.documentElement.setAttribute('data-header', 'sticky');
+  }
+  
+  // Global values needed
+  const GLOBAL = {
+    CURRENT_PAGE: parseInt(''),
+    NEXT_PAGE: parseInt(''),
+    NEXT_PAGE_LINK: '',
+    MAX_PAGES: parseInt(''), 
+    LAST_PAGE: `` === `` ? true : false,
+    POSTS_PER_PAGE: parseInt('12'),
+    ADD_BOOKMARK_MSG: `Saved!`,
+    REMOVE_BOOKMARK_MSG: `Removed!`,
+    API: ''
+  }
+
+  // Set Themes
+  let style = document.createElement('style');
+  style.innerHTML = `
+    ${COLOR_SCHEMES.map(function(theme) { 
+      return `
+        html[data-color-scheme="${theme.id}"], button[data-color-scheme="${theme.id}"] {
+          --color-primary: ${theme.colors.primary};
+          --color-secondary: ${theme.colors.secondary};
+
+          --color-text: ${theme.colors.text};
+          --color-text-acc-1: ${theme.colors.text_acc_1};
+          --color-text-acc-2: ${theme.colors.text_acc_2};
+          --color-text-acc-3: ${theme.colors.text_acc_3};
+          --color-text-reverse: ${theme.colors.text_reverse};
+
+          --color-bg-body: ${theme.colors.bg_body};  
+          --color-bg: ${theme.colors.bg}; 
+          --color-bg-acc-1: ${theme.colors.bg_acc_1}; 
+          --color-bg-acc-2: ${theme.colors.bg_acc_2}; 
+          --color-bg-acc-3: ${theme.colors.bg_acc_3}; 
+          --color-bg-reverse: ${theme.colors.bg_reverse};
+
+          --color-neutral: ${theme.colors.neutral}; 
+          --color-border: ${theme.colors.border};
+        }
+        .btn-theme-toggle{display: none}
+      `.replace(/\s+/g,'');
+    }).join(' ')}
+  `
+  document.getElementsByTagName('head')[0].appendChild(style);
+</script><style>
+    html[data-color-scheme="light"],button[data-color-scheme="light"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,10%);--color-text-acc-1:hsl(0,0%,20%);--color-text-acc-2:hsl(0,0%,30%);--color-text-acc-3:hsl(0,0%,40%);--color-text-reverse:hsl(0,0%,90%);--color-bg-body:hsl(219,23%,97%);--color-bg:hsl(0,100%,100%);--color-bg-acc-1:hsl(0,0%,98%);--color-bg-acc-2:hsl(0,0%,96%);--color-bg-acc-3:hsl(0,0%,94%);--color-bg-reverse:hsl(0,0%,10%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,95%);}.btn-theme-toggle{display:none} html[data-color-scheme="dark"],button[data-color-scheme="dark"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,90%);--color-text-acc-1:hsl(0,0%,80%);--color-text-acc-2:hsl(0,0%,70%);--color-text-acc-3:hsl(0,0%,60%);--color-text-reverse:hsl(0,0%,10%);--color-bg-body:hsl(0,0%,3%);--color-bg:hsl(0,0%,8%);--color-bg-acc-1:hsl(0,0%,10%);--color-bg-acc-2:hsl(0,0%,12%);--color-bg-acc-3:hsl(0,0%,15%);--color-bg-reverse:hsl(0,0%,90%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,15%);}.btn-theme-toggle{display:none}
+  </style>
+    <link rel="icon" href="https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png" type="image/png">
+    <link rel="canonical" href="https://hubs.mozilla.com/labs/creating-retro-worlds/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://hubs.mozilla.com/labs/creating-retro-worlds/amp/">
+    
+    <meta property="og:site_name" content="Creator Labs">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Creating 2D Sprite-Based Retro Worlds">
+    <meta property="og:description" content="Mozilla Hubs is capable of rendering highly realistic scenes, but it can also
+render stylized ones, and pixelated retro worlds are no exception. There is
+something charming about 3D worlds made from retro pixel art. From my
+experience, the nostalgic appearance of these worlds can trigger incredibly
+powerful emotions in">
+    <meta property="og:url" content="https://hubs.mozilla.com/labs/creating-retro-worlds/">
+    <meta property="og:image" content="https://hubs.mozilla.com/labs/content/images/2022/12/thumbnail.jpg">
+    <meta property="article:published_time" content="2022-12-21T22:06:01.000Z">
+    <meta property="article:modified_time" content="2022-12-21T22:06:01.000Z">
+    <meta property="article:tag" content="Tutorials">
+    <meta property="article:tag" content="Advanced">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Creating 2D Sprite-Based Retro Worlds">
+    <meta name="twitter:description" content="Mozilla Hubs is capable of rendering highly realistic scenes, but it can also
+render stylized ones, and pixelated retro worlds are no exception. There is
+something charming about 3D worlds made from retro pixel art. From my
+experience, the nostalgic appearance of these worlds can trigger incredibly
+powerful emotions in">
+    <meta name="twitter:url" content="https://hubs.mozilla.com/labs/creating-retro-worlds/">
+    <meta name="twitter:image" content="https://hubs.mozilla.com/labs/content/images/2022/12/thumbnail.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Pedro Valencia">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Tutorials, Advanced">
+    <meta name="twitter:site" content="@MozillaHubs">
+    <meta name="twitter:creator" content="@theanine3D">
+    <meta property="og:image:width" content="1920">
+    <meta property="og:image:height" content="1080">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Creator Labs",
+        "url": "https://hubs.mozilla.com/labs/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Pedro Valencia",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/2022/12/2020-12-at-work-at-SHRA---cropped.png",
+            "width": 300,
+            "height": 300
+        },
+        "url": "https://hubs.mozilla.com/labs/author/theanine3d/",
+        "sameAs": [
+            "https://www.theanine3D.com/",
+            "https://twitter.com/theanine3D"
+        ]
+    },
+    "headline": "Creating 2D Sprite-Based Retro Worlds",
+    "url": "https://hubs.mozilla.com/labs/creating-retro-worlds/",
+    "datePublished": "2022-12-21T22:06:01.000Z",
+    "dateModified": "2022-12-21T22:06:01.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hubs.mozilla.com/labs/content/images/2022/12/thumbnail.jpg",
+        "width": 1920,
+        "height": 1080
+    },
+    "keywords": "Tutorials, Advanced",
+    "description": "Mozilla Hubs is capable of rendering highly realistic scenes, but it can also\nrender stylized ones, and pixelated retro worlds are no exception. There is\nsomething charming about 3D worlds made from retro pixel art. From my\nexperience, the nostalgic appearance of these worlds can trigger incredibly\npowerful emotions in people! Nostalgia is a powerful attention grabber that\nshould not be underestimated.\n\nSprite-based worlds also have the benefit of being extremely\nperformance-friendly, so it&#x27;s a ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hubs.mozilla.com/labs/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.30">
+    <link rel="alternate" type="application/rss+xml" title="Creator Labs" href="https://hubs.mozilla.com/labs/rss/">
+    
+    <script defer="" src="./Creating 2D Sprite-Based Retro Worlds_files/sodo-search.min.js" data-key="e3e2620efdf47912b1552dbb5b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://hubs.mozilla.com/labs/" crossorigin="anonymous"></script>
+    <link href="https://hubs.mozilla.com/labs/webmention" rel="webmention">
+    <script defer="" src="./Creating 2D Sprite-Based Retro Worlds_files/cards.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Creating 2D Sprite-Based Retro Worlds_files/cards.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Creating 2D Sprite-Based Retro Worlds_files/js(2)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77033033-12');
+</script>
+<style>:root {--ghost-accent-color: #007AB8;}</style>
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightbox-loader{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightbox-loader div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightbox-loader 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightbox-loader div:nth-child(1){animation-delay:-.45s}.fslightbox-loader div:nth-child(2){animation-delay:-.3s}.fslightbox-loader div:nth-child(3){animation-delay:-.15s}@keyframes fslightbox-loader{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media (prefers-reduced-motion: no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style></head>
+  <body class="post-template tag-tutorials tag-advanced">
+      <script>
+
+
+
+
+
+</script>
+
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+<a class="header__brand" href="https://hubs.mozilla.com/" target="_blank">        <img class="light" src="./Creating 2D Sprite-Based Retro Worlds_files/mozilla-hubs-logo.svg" alt="Creator Labs">
+         <img class="dark" src="./Creating 2D Sprite-Based Retro Worlds_files/mozilla-hubs-logo-dark.svg" alt="Creator Labs">    
+</a><a href="https://hubs.mozilla.com/labs">          <span class="header__title m-0">Creator Labs</span>
+</a>        
+        <div class="flex-1"></div>
+
+
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        
+
+        <div class="user-menu js-user-menu">
+    <a class="signup-link" href="https://hubs.mozilla.com/signup/" tabindex="0" title="Sign up" aria-label="Sign up">
+      <i class="icon icon-arrow-up-right icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up-right"></use>
+  </svg>
+</i>Sign up
+    </a>
+    <a class="signin-link" href="https://hubs.mozilla.com/signin/" tabindex="0" title="Sign in" aria-label="Sign in">
+      <i class="icon icon-log-in icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#log-in"></use>
+  </svg>
+</i>Sign in
+    </a>
+</div>      </div>
+       
+    </div>
+  </div>
+</header>
+      <nav class="menu js-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+          <i class="icon icon-spoke icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#spoke"></use>
+  </svg>
+</i>        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+          <i class="icon icon-mozilla-hubs icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#mozilla-hubs"></use>
+  </svg>
+</i>        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+
+  
+  <span class="flex-1"></span>
+
+
+
+
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle is-visible" tabindex="0" title="Theme color scheme" aria-label="Theme color scheme">
+    <span class="btn-toggle-icons">
+      <i class="icon icon-settings icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#settings"></use>
+  </svg>
+</i>    </span>
+    <span>Theme</span>
+  </button>
+
+  <div class="color-scheme-picker js-color-scheme-picker">
+<button class="color-scheme w-100 js-color-scheme" data-color-scheme="light">
+    <span class="color-scheme__name flex-1 text-left">Light</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button><button class="color-scheme w-100 js-color-scheme" data-color-scheme="dark">
+    <span class="color-scheme__name flex-1 text-left">Dark</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button></div>
+
+<template class="js-color-scheme-template"></template>
+
+</nav>
+    <main class="main">
+      
+  <div class="container wrapper">
+    <div class="hero">
+    <ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a></li>
+  <li class="breadcrumb-item breadcrumb-item-current">Creating 2D Sprite-Based Retro Worlds</li>
+</ul>  
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-tutorials tag-list__item has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" title="Tutorials" aria-label="Tutorials">
+              <span class="tag-list__item--accent" style="background-color: #F5325C"></span>
+            Tutorials
+          </a>
+          <a class="tag-advanced tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" title="Advanced" aria-label="Advanced">
+              <span class="tag-list__item--accent" style="background-color: #007AB8"></span>
+            Advanced
+          </a>
+      </div>
+
+    <h1 class="hero__title text-center">Creating 2D Sprite-Based Retro Worlds</h1>
+
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>Dec 21, 2022</span>
+        <span class="m-l-sm m-r-sm">—</span>
+        <span>49 min read</span>
+      </div>
+
+  </div>
+
+    <div class="hero__media">
+      <figure class="hero__figure">
+        <img class="hero__img lazyautosizes lazyloaded" data-srcset="/labs/content/images/size/w300/2022/12/thumbnail.jpg 300w,
+                  /labs/content/images/size/w600/2022/12/thumbnail.jpg 600w,
+                  /labs/content/images/size/w1000/2022/12/thumbnail.jpg 1000w,
+                  /labs/content/images/size/w2000/2022/12/thumbnail.jpg 2000w" srcset="/labs/content/images/size/w300/2022/12/thumbnail.jpg 300w,
+                  /labs/content/images/size/w600/2022/12/thumbnail.jpg 600w,
+                  /labs/content/images/size/w1000/2022/12/thumbnail.jpg 1000w,
+                  /labs/content/images/size/w2000/2022/12/thumbnail.jpg 2000w" data-sizes="auto" data-src="/labs/content/images/size/w300/2022/12/thumbnail.jpg" src="./Creating 2D Sprite-Based Retro Worlds_files/thumbnail.jpg" alt="Creating 2D Sprite-Based Retro Worlds" sizes="640px">
+      </figure>
+    </div>
+</div>
+    <article class="post tag-tutorials tag-advanced content-wrap post-access-public js-toc-content">
+        <div class="social-share">
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://twitter.com/share?text=Creating%202D%20Sprite-Based%20Retro%20Worlds&amp;url=https://hubs.mozilla.com/labs/creating-retro-worlds/" title="Share on Twitter" aria-label="Share on Twitter">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://hubs.mozilla.com/labs/creating-retro-worlds/&amp;title=Creating%202D%20Sprite-Based%20Retro%20Worlds&amp;summary=Creating%202D%20Sprite-Based%20Retro%20Worlds" title="Share on Linkedin" aria-label="Share on Linkedin">
+    <i class="icon icon-linkedin icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#linkedin"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://getpocket.com/save" data-save-url="https://hubs.mozilla.com/labs/creating-retro-worlds/" data-pocket-label="pocket" data-pocket-count="none" title="Save on Pocket" aria-label="Save on Pocket">
+    <i class="icon icon-pocket icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#pocket"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item" tabindex="0" href="mailto:?subject=Creating%202D%20Sprite-Based%20Retro%20Worlds&amp;body=https://hubs.mozilla.com/labs/creating-retro-worlds/%C2%A0Creating%202D%20Sprite-Based%20Retro%20Worlds" title="Share by email" aria-label="Share by email">
+    <i class="icon icon-mail icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#mail"></use>
+  </svg>
+</i>  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="https://hubs.mozilla.com/labs/creating-retro-worlds/" title="Copy to clipboard" data-label="Copied!" aria-label="Copy to clipboard">
+    <i class="icon icon-copy icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#copy"></use>
+  </svg>
+</i>  </button>
+  
+</div>
+
+      <div class="content">
+
+          <p>Mozilla Hubs is capable of rendering highly realistic scenes, but it can also render stylized ones, and pixelated retro worlds are no exception. There is something charming about 3D worlds made from retro pixel art. From my experience, the nostalgic appearance of these worlds can trigger incredibly powerful emotions in people! Nostalgia is a powerful attention grabber that should not be underestimated.</p><p>Sprite-based worlds also have the benefit of being extremely performance-friendly, so it's a great way to create a world that you can show off to anyone on almost any device - even a low-end mobile phone.</p><p>In this tutorial, I’m going to show you how to to create a 3D world in <a href="https://www.blender.org/download/" target="_blank" rel="noreferrer noopener">Blender</a> using 2D pixel art exclusively as our textures, with tips and tricks shown throughout the tutorial to optimize the scene for our target platform, Mozilla Hubs. Then I'll show you how to get it up and running for the whole world to visit on the web!</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">🎮</div><div class="kg-callout-text">Click <a href="https://hubs.mozilla.com/RGT3ioo/sprite-world-tutorial-demo">here</a> to test out a live demo of the scene we'll be creating!</div></div><hr><h2 id="art-sources">Art Sources</h2><p>For the purpose of this tutorial, I will be using public-domain pixel art from <a href="https://opengameart.org/" target="_blank" rel="noreferrer noopener">OpenGameArt.org</a>. There are other places where you can source pixel art from – Google can help you there. As a side note, I will be referring to pixel art interchangeably as “sprites” or “spritework” throughout this tutorial.</p><p>Wherever you get your sprites, there are certain guidelines to keep in mind when picking the source:</p><!--kg-card-begin: markdown--><ul>
+<li>Sprites that were drawn for a <em>top-down camera view</em> are generally ideal. ie. RPGs where you see the character/scene from above, in an overhead angle.</li>
+<li>Sprites drawn with an <em>isometric</em> view are generally much harder to adapt into 3D as-is, and I strongly recommend against them for a beginner.</li>
+<li>Sprites drawn for 2D side-scrolling gameplay, meaning that you can only see the front of the object, can be usable but will require extra work/creativity on your part to adapt to 3D since you only have one view to start with - the front view.</li>
+<li>Sprites with a lower resolution (ie. 8-bit) are the easiest and strongly recommended for your first attempt.</li>
+</ul>
+<!--kg-card-end: markdown--><hr><h2 id="tools">Tools</h2><p>For this tutorial, I am going to be using the newest version (at the time of writing this) of the following tools, all open source.</p><!--kg-card-begin: markdown--><ul>
+<li><strong>GIMP 2.10.32</strong> (image editor) – <a href="https://www.gimp.org/" target="_blank" rel="noreferrer noopener">https://www.gimp.org/</a></li>
+<li><strong>Blender 3.4</strong> (3D modeling suite) – <a href="https://www.blender.org/" target="_blank" rel="noreferrer noopener">https://www.blender.org/</a></li>
+<li><strong>Mozilla Hubs</strong> / <strong>Spoke</strong> (VR platform) - <a href="https://hubs.mozilla.com/spoke/">https://hubs.mozilla.com/spoke/</a></li>
+</ul>
+<!--kg-card-end: markdown--><p>I will keep the image editing instructions general enough so that you can follow <em>most </em>of the same steps in any other image editor that you may prefer. GIMP just happens to be available on every major desktop OS and 100% free, so anyone can use it. Although GIMP has a complex interface, we’re only going to use a tiny subset of its features, so you can safely ignore most of its interface without feeling overwhelmed. There is<em> </em>a part of this tutorial, towards the end, that can <em>only </em>be done in GIMP, so I recommend you install GIMP even if you follow most of the tutorial using an alternative program.</p><p>I always use the latest version of Blender, which at the time of writing this, is 3.4. However, you can probably follow the same instructions on earlier versions, at least since 3.0. There may just be slight differences in the UI that you'll have to deal with.</p><p>For Blender, I’ll also be using the <a href="https://github.com/MozillaReality/hubs-blender-exporter" target="_blank" rel="noreferrer noopener">Hubs Exporter addon</a>, which makes publishing of Blender scenes in Hubs much easier (in my humble opinion!). You are expected to have this addon installed for this tutorial. You can download the addon separately using the link below.</p><p><a href="https://github.com/MozillaReality/hubs-blender-exporter" target="_blank" rel="noreferrer noopener">https://github.com/MozillaReality/hubs-blender-exporter</a></p><p>For this tutorial, you will also be expected to have at least a basic understanding of the latest Blender’s interface and tools. You should already know how to move, rotate, and scale objects, how to assign materials and textures, and how to work with collections. There are <a href="https://www.youtube.com/results?search_query=blender+basics" target="_blank" rel="noreferrer noopener">many tutorials</a> on YouTube that can get you up to speed on the very basics.</p><hr><h2 id="create-a-project-folder">Create a Project Folder</h2><p>This is how I recommend you structure your project folder. You’ll be storing all your textures in the <em>textures </em>folder, and exporting models for Hubs to the <em>export </em>folder. I also often create a "ref" folder for storing visual references for the scene I'm planning to create.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Untitled.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Untitled.png" class="kg-image" alt="" loading="lazy" width="693" height="182" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/Untitled.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/Untitled.png 693w"></a></figure><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_681f3122a5a8fd5f.png" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_681f3122a5a8fd5f.png" class="kg-image" alt="" loading="lazy"></a></figure><hr><h2 id="preparing-your-first-spritesheet">Preparing Your First Spritesheet</h2><p>Our first task is to create a sprite sheet that will contain most, if not all, of the 2D tiles for your scene. A sprite sheet is basically an image that has many sprites laid out in a large grid. What I typically do is use one spritesheet for each area; for example, one sprite sheet exclusively for outdoor tiles, another for indoor areas, and another for characters. You can also just combine them all into a single one, but you’ll need to increase the image size accordingly if so.</p><p>Typically, you can usually go with an image size of 256 x 256 or 512 x 512 for your sprite sheet, or perhaps even smaller, depending on the complexity of your scene.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Note: If you obtain your sprites from the web, the sprites will often already be in a convenient grid format already, and you won’t need to create a sprite sheet yourself from scratch. However, sprite sheets from the web do not always come in standard “power of 2” sizes - 128x128, 256x256, 512x512, or 1024x1024.<br><br>It’s good practice to stick to dimensions that are a power of 2, so you may need to resize the image even if it's already in a grid format.</div></div><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_7de33b0ac77a8ddf.png" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_7de33b0ac77a8ddf.png" class="kg-image" alt="" loading="lazy"></a></figure><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Untitled-1.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Untitled-1.png" class="kg-image" alt="" loading="lazy" width="864" height="624" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/Untitled-1.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/Untitled-1.png 864w" sizes="(min-width: 720px) 720px"></a><figcaption>The Field of the Floating Islands, by Buch</figcaption></figure><p>I’m going to be using <a href="https://opengameart.org/content/the-field-of-the-floating-islands" target="_blank" rel="noreferrer noopener">this tileset</a>, created and published by <a href="http://blog-buch.rhcloud.com/" target="_blank" rel="noreferrer noopener">Buch</a> under a CC0 public domain license. The image above depicts what the final scene will resemble after all our tiles are arranged in the right positions. Download the file named <em>tiles_packed.png </em>on that page and place it in your <em>textures </em>folder.</p><p>This sprite sheet is already in a convenient grid format, but without ideal image dimensions (368 x 128). Let’s resize it in GIMP real quick to 512 x 128 to keep the dimensions in powers of 2. Open the PNG in GIMP, and in the top menu bar, go into <strong>Image</strong>→ <strong>Canvas Size</strong>...</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Untitled2.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Untitled2.png" class="kg-image" alt="" loading="lazy" width="382" height="467"></a></figure><p>Set the width to 512 as shown above. Then press Resize. Now do <strong>File</strong>→ <strong>Overwrite tiles_packed.png </strong>in the top menu bar. You’ll notice that a bunch of empty space was created in the image. That’s okay – you can use the extra space to fit in extra sprites/tiles if you wish, but you can also just leave it blank. That extra space won’t really make any notable difference in performance or file size. The image is still really small anyway!</p><p>So we now have a sprite sheet that is ready to use. So let’s open up Blender!</p><hr><h2 id="setting-up-your-blender-scene">Setting Up Your Blender Scene</h2><p>You can either create an entirely new Blender file yourself, or you can use the template I've made available for download below:</p>
+        <div class="kg-card kg-file-card kg-file-card-medium">
+            <a class="kg-file-card-container" href="https://hubs.mozilla.com/labs/content/files/2022/12/Template.blend" title="Download" download="">
+                <div class="kg-file-card-contents">
+                    <div class="kg-file-card-title">Download Template for Blender 3.4</div>
+                    
+                    <div class="kg-file-card-metadata">
+                        <div class="kg-file-card-filename">Template.blend</div>
+                        <div class="kg-file-card-filesize">780 KB</div>
+                    </div>
+                </div>
+                <div class="kg-file-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.a{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>download-circle</title><polyline class="a" points="8.25 14.25 12 18 15.75 14.25"></polyline><line class="a" x1="12" y1="6.75" x2="12" y2="18"></line><circle class="a" cx="12" cy="12" r="11.25"></circle></svg>
+                </div>
+            </a>
+        </div>
+        <figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-37.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-37.png" class="kg-image" alt="" loading="lazy" width="1920" height="1017" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-37.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-37.png 1000w, https://hubs.mozilla.com/labs/content/images/size/w1600/2022/12/image-37.png 1600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-37.png 1920w" sizes="(min-width: 720px) 720px"></a><figcaption>This project template already has the UI set up with the correct layout that you'll need for this tutorial. If you have your own preferred Blender layout, you don't need to use mine, but you'll at minimum need to have a 3D viewport, shader editor, and image editor in your layout somewhere.</figcaption></figure><p>Delete the default cube and create a Plane (Shift+A → Mesh → Plane). By default, this plane will have dimensions of 2 x 2 Blender units. In the right-hand sidebar (N), in the Item tab, you’ll see the Dimensions listed, as seen below:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-79.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-79.png" class="kg-image" alt="" loading="lazy" width="890" height="699" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-79.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-79.png 890w" sizes="(min-width: 720px) 720px"></a></figure><p>To ensure that all of the sprites in the scene maintain correct relative proportions to each other, we’re going to be using the scale of 1 Blender unit = 1 sprite pixel. Later on, we’ll resize the entire scene so that it’s in the proper dimensions for Hubs, but for now, stick to these proportions. The sprite sheet we resized earlier has dimensions of 512 x 128, so we’re going to resize the dimensions of this 3D plane to X=512, Y=128. </p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-26.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-26.png" class="kg-image" alt="" loading="lazy" width="512" height="263"></a></figure><p>Create a material called “<strong>tiles</strong>”<strong> </strong>on this plane, and add an Image Texture node with the tiles_packed.png we resized earlier. Set it up so it looks like the setup below:</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Untitled4-1.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Untitled4-1.png" class="kg-image" alt="" loading="lazy" width="1043" height="665" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/Untitled4-1.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/Untitled4-1.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/Untitled4-1.png 1043w"></a></figure><p>Note the following settings:</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">You should set “Alpha Clip” on the material settings on the right. We’re going to set this back to Opaque later on, but for now, it’ll make the next task easier to do.</div></div><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Set the “<strong>Closest</strong>” setting in the Image Texture node– this is important to prevent blurriness and pixel bleeding/clipping. You'll almost <em>never </em>use this setting when creating other kinds of scenes for Hubs, but in sprite-based worlds, this is an absolute must.</div></div><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Turn on <strong>Backface Culling</strong> in the material properties on the right. This lets you see if any faces have incorrect normals. In simple terms, if you see any face that looks invisible when it shouldn’t be, Backface Culling will make that obvious – and you can then fix it in Edit Mode, by highlighting the face, and doing Alt + N → Flip.</div></div><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Although technically not required, I recommend setting <strong>Roughness </strong>to 1.0 in the Principled BSDF node. This minimizes any visible "shininess", which generally looks terrible on simple, low-poly geometry as well as sprite-based models.</div></div><hr><h2 id="cutting-up-your-sprites">Cutting Up Your Sprites</h2><p>The next task is going into Edit Mode (Tab) and using the <strong>Knife </strong>tool (K) to cut up the plane, so we can get the individual sprites out of it. As you make cuts, you can extract each individual sprite using the Y key and then move it out of the main plane, as shown below:</p><figure class="kg-card kg-image-card kg-width-full"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Untitled-2.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Untitled-2.png" class="kg-image" alt="" loading="lazy" width="665" height="359" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/Untitled-2.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/Untitled-2.png 665w"></a></figure><p>Do this until you’ve completed the whole set or at least the ones that you know you'll actually use. Yes, this might take a while! It’s one of the most time-consuming parts of this process. You’ll need to zoom in on the pixel to make sure you’re cutting exactly at the ends of each pixel. In some cases, this process can be made faster by also utilizing <strong>Loop Cuts</strong> (Ctrl+R while hovering your cursor near an edge, then mousewheel up), as shown below:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Loop-Cuts.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Loop-Cuts.gif" class="kg-image" alt="" loading="lazy" width="356" height="341"></a><figcaption>Instead of manually cutting this set of sprites with the Knife tool, use Loop Cuts to quickly create perfectly symmetrical cuts automatically in the right spots.</figcaption></figure><hr><h2 id="perfecting-your-cuts">Perfecting Your Cuts</h2><p>During this cutting process, you'll probably notice that the Knife tool can be quite unpredictable, and it often creates cuts in places you weren't even trying to. You can usually fix this after it happens, by hitting X and choosing <strong>Dissolve Faces</strong>, while the faces with unnecessary cuts are highlighted in Edit mode. </p><p>If you mess up and are slightly off in your <em>intentional</em> Knife cuts, don’t worry! You can correct your own cuts easily by enabling “Correct Face Attributes” in the lower right Options menu, as shown below:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_45c098daa3450e95.png" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_45c098daa3450e95.png" class="kg-image" alt="" loading="lazy"></a></figure><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-11.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-11.png" class="kg-image" alt="" loading="lazy" width="512" height="495"></a></figure><p><strong>Correct Face Attributes</strong> makes it so that you can move edges around without actually changing the appearance of the plane. See below for a demonstration:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_d1333bd9b2aa06d3.gif" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_d1333bd9b2aa06d3.gif" class="kg-image" alt="" loading="lazy"></a></figure><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Correct-Face-Attributes.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Correct-Face-Attributes.gif" class="kg-image" alt="" loading="lazy" width="294" height="235"></a><figcaption>An edge being moved, yet the texture appears unchanged. "Correct Face Attributes" makes this possible.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⚠️</div><div class="kg-callout-text">Make sure you <strong>disable Correct Face Attributes </strong>when you no longer need it! If you don't, it will ruin your sprites as you start to move them around later on, and the worst part is, you might not even notice it until it's too late to undo. I say that from experience. 😉</div></div><hr><h2 id="removing-transparency">Removing Transparency</h2><p>Later on, we’ll be baking all of the light in the scene. However, baking the light on objects with transparency can lead to <em>very</em> ugly lighting artifacts.</p><p>Because of this, I strongly recommend cutting up your sprites so that any <strong>transparent </strong>parts are completely removed. One way to achieve this quickly is by using Loop Cuts (again, Ctrl + R while hovering the cursor over the sprite, then mousewheel up) to create a pixel grid on the sprite. Then highlight the transparent pixels and delete them. See the GIF below for a demonstration:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Grid-Cuts-to-Remove-Transparency-1.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Grid-Cuts-to-Remove-Transparency-1.gif" class="kg-image" alt="" loading="lazy" width="600" height="332"></a></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Loop Cuts will not work as expected if there are extra, unnecessary vertices on the sprite. If you ever run into this problem, highlight the whole sprite in Edit Mode, then press X, and choose <strong>Limited Dissolve</strong>. This usually removes any unnecessary vertices, and Loop Cuts should then work.</div></div><p>After deleting the transparent parts, you can remove the pixel grid we just created by highlighting the entire sprite in Edit Mode, and then press X → Limited Dissolve on it again. That grid was drastically increasing the polygon count of the sprite, and we don’t need it anymore, so it’s good practice to get rid of it to maximize performance.</p><p>After completely removing all transparent parts from all of your sprites, you can also then remove any Alpha settings from your material, which will also help with the performance of your scene. Set the following back to Opaque, for both Blend Mode and Shadow Mode:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_f1b44cc73a4030fe.png" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_f1b44cc73a4030fe.png" class="kg-image" alt="" loading="lazy"></a></figure><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-25.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-25.png" class="kg-image" alt="" loading="lazy" width="500" height="718"></a></figure><hr><h2 id="structure-building">Structure Building</h2><p>Once you’re done cutting everything up, highlight all of the faces in Edit Mode, press P to open the Separate menu, and choose “<strong>By Loose Parts</strong>.” This will separate all of your sprites into separate objects, which you can then duplicate individually as many times as you need to create the structure of your scene.<br></p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-3.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-3.png" class="kg-image" alt="" loading="lazy" width="1804" height="726" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-3.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-3.png 1000w, https://hubs.mozilla.com/labs/content/images/size/w1600/2022/12/image-3.png 1600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-3.png 1804w" sizes="(min-width: 720px) 720px"></a></figure><p>We now have all our sprites as individual objects, ready for use, as shown above. Notice that I already went ahead and rotated some parts of these sprites to make them have actual 3D depth, such as the terrain on the left, and the stairs on the center-left.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-5.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-5.png" class="kg-image" alt="" loading="lazy" width="512" height="325"></a></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⚠️</div><div class="kg-callout-text"><strong>About those stairs though...</strong><br>Look closely at the staircase sprite above. Try to imagine how you’d turn this into 3D. Notice anything weird? In 2D, the stairs look fine, but the moment you start recreating this in 3D, you’ll immediately notice how problematic this sprite actually is. Assuming that the walls next to the stairs are 100% vertical, the stairs would be perfectly vertical too, and wouldn't make any sense in 3D as is. <br><br>You’ll encounter this often when working with videogame pixel art. Many staircase sprites are drawn this way. For that reason, you’ll often have to get creative and <em>extend </em>the length of the 3D stairs beyond the original length of the 2D stairs. Otherwise, visitors won’t even be able to walk up the stairs!</div></div><p><u><strong>Back to where we were</strong></u>: You can now start tiling all of the pieces together to create the base structure of your scene. There are two features in Blender that make this part <em>significantly </em>easier:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-8.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-8.png" class="kg-image" alt="" loading="lazy" width="500" height="477"></a></figure><p><strong>Snapping </strong>– This allows you to automatically snap pieces of geometry to each other, based on their edges, faces, or vertices. There are many <a href="https://www.youtube.com/results?search_query=blender+snapping" target="_blank" rel="noreferrer noopener">tutorials</a> on the snapping system out there if you’re not already familiar with it. With snapping, you can <em>very quickly </em>build a terrain using the modular pieces we've prepared, as long as the edges/vertices on the pieces are close enough.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/Snapping-example.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/Snapping-example.gif" class="kg-image" alt="" loading="lazy" width="480" height="461"></a></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⚠️</div><div class="kg-callout-text">Note that just because the pieces are touching each other after snapping, it doesn't mean they're actually connected as one piece. They're still technically two separate, floating pieces of geometry. We can fix that quickly:<br><br>1) Join the separate sprites into one object by highlighting both in Object Mode and hitting Ctrl+J.<br><br>2) In Edit mode, highlight both/all faces, press M to open the <strong>Merge</strong> menu, then choose <strong>By Distance</strong>. This merges any adjacent edges/vertices together so that there are no "doubles." (Trivia: This tool actually used to be called "Remove Doubles" in older Blender versions!)</div></div><p><strong>Array Modifier – </strong>Very often, you’ll encounter a sprite that is supposed to repeat over and over, in many rows or columns. You can use Blender’s <a href="https://www.youtube.com/watch?v=g3DFxH0N7U0" target="_blank" rel="noreferrer noopener">Array modifier</a> to achieve this quickly without having to manually tile the sprite yourself. You can even use the Array modifier to tile an entire 3D structure of sprites, as shown below.</p><figure class="kg-card kg-image-card kg-width-full"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-14.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-14.png" class="kg-image" alt="" loading="lazy" width="1024" height="516" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-14.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-14.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-14.png 1024w"></a></figure><p>This can save an <em>enormous </em>amount of time. If you use it, note the following:</p><!--kg-card-begin: markdown--><ul>
+<li>Make sure you tick the <strong>Merge</strong> checkbox in the Array modifier so that the new copies are all connected.</li>
+<li>The Array modifier might produce unexpected results if there are temporary transformations (ie. rotation, scale, translation) on the model. If this happens for you, hit Ctrl+A and choose <strong>All Transforms</strong> and it might fix that.</li>
+</ul>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_a4b1e1bfc4b04962.png" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_a4b1e1bfc4b04962.png" class="kg-image" alt="" loading="lazy"></a></figure><hr><h2 id="guidelines-for-animated-sprites">Guidelines for Animated Sprites</h2><p>Because animation is a huge complex topic all by itself, we won’t be going into a detailed step-by-step on how to animate sprites in this tutorial. However, here are a few quick notes that I will mention.</p><p>Do <strong>not</strong> store animated sprites in the same file that you’re using for the static sprites. Animated sprites must be laid out in a flipbook format, which your main tileset usually won’t and often can't have. In addition, animated sprites nearly always have transparency, and our main tileset will have alpha rendering disabled. As a general rule, keep all of the following categories in their own separate image files - do <strong>not </strong>mix and match these:</p><!--kg-card-begin: markdown--><ol>
+<li>animated sprites with alpha (ie. most animated sprites)</li>
+<li>animated sprites</li>
+<li>static sprites with alpha</li>
+<li>static sprites</li>
+</ol>
+<!--kg-card-end: markdown--><p>This allows us to selectively enable alpha rendering only on <em>specific </em>parts of the scene, not on the biggest parts. That's better for performance and also prevents ugly light artifacts on the static parts of your scene, later on when we bake light.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">There are two main types of alpha rendering in Blender and Hubs:<br><br>1) <strong>Alpha Clip</strong><br> renders pixels either 100% transparent, or 100% opaque<br><br>2) <strong>Alpha Blend</strong><br> renders pixels in a range between 0% to 100% transparent/opaque.<br><br>You should stick to Alpha Clip as much as possible.<br><br>You'll <em>rarely </em>ever need Alpha Blend in sprite-based worlds. There are only a few situations where you might. For example, creating fake light rays emanating from windows. Or when you want to add "fades" to passageways or doorways, so that they fade to black. For both of these scenarios, you can use a transparent gradient texture that fades to 0%, or <a href="https://hubs.mozilla.com/labs/fading-assets-gracefully/">vertex color alpha</a>.<br><br>Alpha Blend does come with a significantly higher performance hit than Clip, and also can create rendering glitches when there's overlapping between transparent objects. So use it only sparingly.</div></div><p>To maximize performance even further, if you have many different animated sprites, you can combine them all into one single sprite sheet, if they happen to have the same frame count. Here’s a visual example of what I mean:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-15.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-15.png" class="kg-image" alt="" loading="lazy" width="704" height="704" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-15.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-15.png 704w"></a><figcaption>Note: The black borders are for demonstration purposes here only, to make it obvious that these are 16 frames in one image. Do not actually add these black borders on your own sprite sheet!</figcaption></figure><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_8eb63ebd03b0272f.png" aria-label="Click for Lightbox" target="_blank" rel="noreferrer noopener"><img src="file:///C:/Users/petva/AppData/Local/Temp/lu17108z6tne7.tmp/lu17108z6tnlp_tmp_8eb63ebd03b0272f.png" class="kg-image" alt="" loading="lazy"></a></figure><p>Pictured are 4 different animated circles. They all have 4 animated frames (going across horizontally), so they all fit neatly into a single square-shaped texture. You can use a single sprite sheet like this to add, for example, dozens of different animated NPCs to your scene, using only a single image file! It’s great for performance, and also saves you from having to create separate materials for every single NPC.</p><hr><h2 id="organizing-the-scene">Organizing the Scene</h2><p><br>After you finish tiling your sprites, you should end up with something roughly like the following:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/1-2.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/1-2.png" class="kg-image" alt="" loading="lazy" width="1920" height="1080" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/1-2.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/1-2.png 1000w, https://hubs.mozilla.com/labs/content/images/size/w1600/2022/12/1-2.png 1600w, https://hubs.mozilla.com/labs/content/images/2022/12/1-2.png 1920w" sizes="(min-width: 720px) 720px"></a></figure><p>It's okay if yours doesn't look exactly like the original reference. Remember that you are creating your own adaptation - in 3D and for VR. That inherently means there will be differences from the source material.</p><p>Since we are creating a scene specifically for Hubs, which can host dozens of people at a time in a single room, you'll also want to keep that in mind when structuring the size of the scene. If the original source material was too small to hold this many people, it's okay to expand on it and add extra walkable areas.</p><p>Now that we have a base structure completed, we can start to add props, like trees and rocks. However, just before we do, let's do some cleanup first in the Blender project itself, to keep things organized and easier to export later on. We use the Outliner for that - usually located at the very top right of the Blender window, where all your objects and collections are listed.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-21.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-21.png" class="kg-image" alt="" loading="lazy" width="600" height="499" srcset="https://hubs.mozilla.com/labs/content/images/2022/12/image-21.png 600w"></a></figure><p>Organize your scene so that it's organized as above. We want to have everything that we want to export in one big "<em>export</em>" parent collection. Add a subcollection inside it that will contain our lights (for a daytime outdoor scene though, a single Sun light is often enough), and another subcollection for static structures/terrain. We'll also need a subcollection for any sprites that aren't base terrain/structures, such as rocks or trees, as pictured above.</p><p>Outside of the export collection, create another collection named "modular" and add to it all of the modular sprite pieces that we created and cut up very early on in the tutorial. We still need some of these to place our remaining props (ie. rocks, trees) into the scene, but we don't necessarily want the raw modular pieces of terrain exported with our scene to Hubs, so let's keep them separate. That makes it easy to exclude them at export time.</p><p>As for our completed models themselves, my recommendation is to have one object for <em>terrain</em>, one for manmade <em>structures</em> (like the stairs and bridges), and one for any bodies of water (if there are a lot of them). This lets you selectively hide/show different parts if you ever need to. Ultimately, when we export the scene later, everything will be exported together even if they're in separate objects.</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-29.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-29.png" class="kg-image" alt="" loading="lazy" width="1585" height="795" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-29.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-29.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-29.png 1585w" sizes="(min-width: 1200px) 1200px"></a><figcaption>When we export to Hubs later, only the stuff under the "export" collection will be exported because we'll disable the "modular" collection once we no longer need it.</figcaption></figure><hr><h2 id="placing-props">Placing Props</h2><p>Start plucking props from the "modular" collection, such as rocks and trees, and place them onto your base terrain. As you do this, there are a few things you want to do every single time for the sprites you move over:</p><!--kg-card-begin: markdown--><ul>
+<li>Move each sprite object (with the M hotkey) to the "sprites" subcollection we created earlier.</li>
+<li>After positioning, with the sprite still selected, hit Ctrl+A → <strong>Rotation &amp; Scale</strong></li>
+<li>Set the <strong>origin point</strong> of each sprite to the bottom of the sprite. This is important, and you'll see why in a bit. See below:</li>
+</ul>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/setting-origin.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/setting-origin.gif" class="kg-image" alt="" loading="lazy" width="716" height="409"></a></figure><p>Snapping (via Face mode) can be used to position props onto the terrain in a more natural fashion:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/face-snapping.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/face-snapping.gif" class="kg-image" alt="" loading="lazy" width="439" height="385"></a><figcaption>With Snapping to Faces enabled, the rock sticks to the surface of the terrain as you drag the rock above it.</figcaption></figure><p>Notice how this rock above is completely flat, though? There are times when, due to the way the sprite was drawn, you may need to just leave the sprite flat like this. That's okay - because we're going to be setting it as a <strong>billboard sprite</strong>. Billboard sprites always automatically rotate to face the camera, creating the illusion that they're a real object present in the scene, even though they're technically just a flat picture! We're intentionally not going for realism in these kinds of projects, so using an illusion like that is totally okay here.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-24.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-24.png" class="kg-image" alt="" loading="lazy" width="600" height="463" srcset="https://hubs.mozilla.com/labs/content/images/2022/12/image-24.png 600w"></a><figcaption>Blender's Object Properties tab, showing the Hubs "Billboard" component</figcaption></figure><p>To designate a sprite as a billboard sprite, highlight the sprite object and go into the Object Properties on the right side of the Blender window. In newest Blender versions, it's the tab with an orange square icon (see above). Assuming you successfully installed the Mozilla Hubs Blender addon at the beginning of the tutorial, you should see a Hubs subtab here, with a button titled "<strong>Add Component</strong>." Click it and select "<strong>Billboard</strong>." You won't see the billboard effect in Blender itself after you add this component - it only has an effect in Hubs. </p><p>Note that the tree's billboard sprite is uniquely large compared to every other sprite, and because of that, it should also have the "<em>Only Y</em>" checkbox enabled. When you have a particularly large object like a tree, the billboard effect just looks too fake without this setting enabled.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Remember how I asked you to set the <strong>origin point</strong> to the bottom of the sprite earlier? The billboard effect is based on the origin point of the object! And we need the sprite to rotate <strong>based on where it touches the ground</strong>. Therefore, we should set the origin point to the bottom of the sprite.</div></div><hr><h2 id="repositioning-and-resizing-the-scene">Repositioning and Resizing the Scene</h2><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-27.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-27.png" class="kg-image" alt="" loading="lazy" width="1833" height="1080" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-27.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-27.png 1000w, https://hubs.mozilla.com/labs/content/images/size/w1600/2022/12/image-27.png 1600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-27.png 1833w" sizes="(min-width: 1200px) 1200px"></a></figure><p>Once you're done positioning all of your prop sprites, you should end up with something resembling the above. Notice that I've disabled the "modular" collection. We no longer need it, so untick the checkbox and disable it to ensure that it won't be exported when we export the whole scene to Hubs later.</p><p>During this whole time, we've had the entire scene positioned in an offset location from coordinate (0,0,0). We want to reposition it so that it's actually properly centered in the scene. An easy way to do this is to use the Numpad 1 and 3 keys to change the view in Blender to see the front and sides of the whole scene. Highlight everything using the A hotkey and then hit G to move everything until coordinate (0,0,0) is around the middle of the scene, but above ground, like so:</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-30.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-30.png" class="kg-image" alt="" loading="lazy" width="1662" height="831" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-30.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-30.png 1000w, https://hubs.mozilla.com/labs/content/images/size/w1600/2022/12/image-30.png 1600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-30.png 1662w" sizes="(min-width: 1200px) 1200px"></a></figure><p>Now we need to also correct the size of the whole scene to one that works for Hubs' default avatar size. In the right sidebar of the 3D viewport (N key), in the <strong>View</strong> tab, you'll see settings for the 3D cursor's location. Change this to zero for all three, X, Y, and Z. This will move the 3D cursor to coordinate (0,0,0).</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-33.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-33.png" class="kg-image" alt="" loading="lazy" width="209" height="446"></a></figure><p>There's an extremely handy feature in Blender called <strong>Walk Navigation</strong>. By default, it's usually assigned to the hotkey <strong>Shift + tilde</strong>, which is usually under "Esc" on a keyboard. You can also find it in the 3D Viewport menu, View → Navigation → Walk Navigation. When you use it, it enables a first-person camera mode that lets you fly through the scene with the WASD keys (like in a first-person shooter) and preview it like a videogame. I use this constantly when I'm working in Blender. Note that you can increase/decrease the movement speed by moving the mouse scrollwheel up and down.</p><p>Walk Navigation can be used to gauge the scale of your scene for Hubs, thanks to its gravity feature. Press the G key while Walk Navigation mode is enabled, and you will be dropped down to any ground immediately beneath you, allowing you to walk on the ground. As soon as you land, look around and walk around to see if the scene is too big. The scene will likely look massive the first time you try this, as when I did it, the tiny mushroom sprites were several times taller than the height of my eye level. Hubs's default eye level isn't 100% identical to Blender's, but it's very close, so it still gives us a good idea of where our scene is in terms of Hubs' scale.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-34.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-34.png" class="kg-image" alt="" loading="lazy" width="900" height="675" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-34.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-34.png 900w" sizes="(min-width: 720px) 720px"></a><figcaption>View while in Walk Navigation mode, walking on the ground. The mushrooms look giant!</figcaption></figure><p>So let's resize! Exit Walk Navigation mode by simply clicking anywhere, or pressing Esc.</p><p>We first need to set our pivot point to the 3D cursor that we set to (0,0,0) earlier. Hit the period (.) key and select 3D Cursor, as shown below. This will ensure that when we resize the whole scene, it all stays still centered around the center point, (0,0,0).</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-35.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-35.png" class="kg-image" alt="" loading="lazy" width="575" height="326"></a></figure><p>Now highlight <em>everything</em> in your scene using the "A" hotkey. Press S to begin using the scale tool, then type .5 on your keyboard to shrink it by half. You'll usually need to do some trial and error and keep trying different numbers, while repeatedly entering Walk Navigation mode to test the scale each time. For this particular scene, I was able to resize to something reasonable by using a scale of .125, but this will vary for every scene.</p><hr><h2 id="applying-transforms">Applying Transforms</h2><p>There will be many times in Blender when you will accidentally move, scale, or rotate something, and you want to be able to quickly reset it to where it was supposed to be. We can make this possible by <strong>applying transforms </strong>on the objects in our scene so that their transforms (or at least most of them) become permanent. We already applied transforms previously in the tutorial with the Ctrl+A hotkey - now you know the reason for it! </p><p>For the static objects, which include terrain and other larger structures (like the bridges and the stairs), we want to highlight them, hit Ctrl+A, and select <strong>All Transforms</strong>.</p><p>For the billboard sprites though, special care is needed. De-select everything first by double-tapping the A key. Then select only your billboard sprites (easy to do if you've kept them all in one collection). Then make sure that the sprites are all facing forward, meaning that when you press Numpad 1 in the 3D viewport, they're all facing you head-on, with no weird rotations on them.</p><p>Now, hit Ctrl+A, but this time, we actually only want to apply the Rotation &amp; Scale. <strong>Do NOT apply Location</strong> on your billboard sprites! As noted earlier in the tutorial, the billboard effect is dependent on each sprite's origin point. Applying the Location transform on them will alter their origin point, which would ruin their billboard effect.</p><p>If you applied transforms correctly, you should now be able to resize or rotate any of your 3D objects, and then reset their scale/rotation back to normal by hitting Alt+S (scale) or Alt+R (rotation). For the terrain and other large static structures, you can also reset their position with Alt + G if you accidentally move them.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/reset-scale-and-rotation.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/reset-scale-and-rotation.gif" class="kg-image" alt="" loading="lazy" width="410" height="235"></a></figure><hr><h2 id="skybox-rendering">Skybox Rendering</h2><p>We've had a boring grey backdrop around our scene this entire time. It's time to finally pretty it up, by creating a skybox. How you come up with a skybox is largely a matter of preference and will vary per scene. For this specific tutorial, we're going to go with a simple, no-frills, gradient sky.</p><p>Gradient skies can be generated in Blender itself very easily. Create a new, separate Blender file and save it as "Skybox.blend" inside the same folder. You can use the Blender Template I provided in the beginning of the tutorial, or you can just create your own. Whatever you go with, set up the UI so that you have the 3D Viewport and the Shader Editor both visible. The Image Editor won't be needed until the end. You can go with a setup like this:</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-64.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-64.png" class="kg-image" alt="" loading="lazy" width="1582" height="884" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-64.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-64.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-64.png 1582w" sizes="(min-width: 1200px) 1200px"></a></figure><p>First, delete the default cube. There should be nothing in your scene except for a lone Camera object. Now select the <strong>Camera </strong>object. Hit Alt + G, followed by Alt + R to reset its location and rotation. It will now be in the dead center of the scene (0,0,0) and will be rotated to face straight downward. We want to rotate it on the X axis by 90 degrees, so hit the following keys: R, X, then type in the number 90.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/skybox-cam-1.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/skybox-cam-1.gif" class="kg-image" alt="" loading="lazy" width="599" height="274"></a><figcaption>The camera will be facing straight forward, the direction we need for skybox rendering.</figcaption></figure><p>Go into the Output Properties on the right of the Blender window.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-42.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-42.png" class="kg-image" alt="" loading="lazy" width="334" height="531"></a></figure><p>Adjust your settings so that they reflect the above. Normally, skyboxes are extremely large images, but for a gradient skybox, you can get away with something relatively small, like 1024 x 512 here. Just make sure the width is twice the height. This is what we call <strong>equirectangular</strong> format.</p><p>Now let's tell the Camera object to also render in a panoramic, equirectangular format. &nbsp;At the time of writing this, only the Cycles rendering engine in Blender supports this. Eevee does not (yet!) So make sure you set Blender to use Cycles, like so:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-43.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-43.png" class="kg-image" alt="" loading="lazy" width="333" height="159"></a></figure><p> Go into the Camera Properties tab now. Change the settings to the following:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-45.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-45.png" class="kg-image" alt="" loading="lazy" width="334" height="414"></a></figure><p>Just one more set of settings we have to change, this time on the Render Properties tab (it's the first one). Change yours so they look like this:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-49.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-49.png" class="kg-image" alt="" loading="lazy" width="335" height="858"></a><figcaption>Make sure denoising is off. It can add ugly rendering artifacts to the skybox, and since we have an empty scene, we won't need it anyway. You can probably get away with even lowering the Samples count as well. Note that the GPU Compute setting is optional.</figcaption></figure><p>Now let's set up the World material that actually tells Blender what gradient to use. As you're doing this, you can actually keep a live preview of the skybox in the 3D viewport by pressing the Numpad 0 key and going into Rendered mode with the Z key. Setup your material like in this example below, via the Shader Editor.</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-72.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-72.png" class="kg-image" alt="" loading="lazy" width="1584" height="862" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-72.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-72.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-72.png 1584w" sizes="(min-width: 1200px) 1200px"></a></figure><p>No textures are needed for this to work. You can find all of these nodes, by the way, using the Shift + A shortcut in the Shader Editor and then typing part of the node name.</p><p>You are welcome to use your own gradient colors. You can get ideas for some by googling "sky gradients." However, do note that there is one color that should be left the same as in my example, and that's the darkest color you see, on the farthest left of the ColorRamp. </p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-71.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-71.png" class="kg-image" alt="" loading="lazy" width="536" height="256"></a></figure><p>This happens to also be the <strong>exact </strong>color (Hex code #292634) that is visible at the bottom of our platforms:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-54.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-54.png" class="kg-image" alt="" loading="lazy" width="866" height="351" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-54.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-54.png 866w" sizes="(min-width: 720px) 720px"></a></figure><p>Toward the end of the tutorial, we're going to be making these platforms look like they're fading into the abyss below, and we can only do that if the bottom color is identical to the one in the bottom of the skybox. So that's why you see this color in the ColorRamp node.</p><p>Once you've set up the shader nodes correctly, you can go ahead and hit F12 to render the skybox. Blender will pop up a new window with the rendered image. It should be an almost instant render. Blender isn't going to save this new image automatically. Go into the menu of the window, in <strong>Image →</strong> <strong>Save a Copy</strong>, and save the image to the textures folder as "skybox.png".</p><p>To actually use it in our Sprite World, reopen your Blender file for the Sprite World scene, go into the Shader Editor (set to World mode, not Object mode), and modify the existing World material by adding an <strong>Environment Texture</strong> node.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-56.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-56.png" class="kg-image" alt="" loading="lazy" width="1231" height="479" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-56.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-56.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-56.png 1231w" sizes="(min-width: 720px) 720px"></a></figure><p>You should immediately see it in effect in the 3D viewport while in Rendered mode (Z hotkey).</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-66.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-66.png" class="kg-image" alt="" loading="lazy" width="1555" height="901" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-66.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-66.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-66.png 1555w" sizes="(min-width: 1200px) 1200px"></a></figure><p>Keep in mind though, that this affects the skybox appearance <em>only </em>in Blender. It does absolutely nothing for Hubs. If you exported the scene right now, Hubs still wouldn't have a clue that this is supposed to be the skybox. To also set up the skybox for Hubs, we need a few extra steps.</p><p>In the Scene Properties tab, look for the Hubs section, and click the Add Component button. Add an <strong>Environment Settings</strong> component like below:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-68.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-68.png" class="kg-image" alt="" loading="lazy" width="520" height="319"></a><figcaption>Set the skybox.png that we just created, as the "<strong>Background Image</strong>" and "<strong>EnvMap</strong>" in this new component. Set <strong>Tone Mapping</strong> to None. Leave Background Color as white.</figcaption></figure><hr><h2 id="adding-a-pixel-sun">Adding a Pixel Sun</h2><p>We're not quite done with the sky yet. Although we have Sunlight in the scene, it doesn't actually create a visual representation of the sun in the sky. All it does is cast light. </p><p>Remember that empty space we had in our tiles_packed.png? It's perfect for little extras like this. We can draw a simple sun in there. Open the PNG in GIMP and find an empty area. You can use the <strong>Ellipse Select</strong> tool (Tools <strong>→</strong> Selection Tools <strong>→</strong> Ellipse Select) to create a circle-shaped selection while holding the Ctrl and Shift keys, and then use the <strong>Bucket Fill</strong> tool (Tools <strong>→</strong> Paint Tools <strong>→</strong> Bucket Fill) to fill it in with a yellowish color. Here's how mine turned out, in the lower right:</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-73.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-73.png" class="kg-image" alt="" loading="lazy" width="1267" height="698" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-73.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-73.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-73.png 1267w" sizes="(min-width: 1200px) 1200px"></a></figure><p>Create a plane in the Blender scene with the dimensions of 512 x 128, just like when we first began. Assign it the "tiles" material we've already been using. However, we want the sun to be emissive, unlike the rest of the scene, so we actually shouldn't use the same material, even though it'll use the same texture. Duplicate the material by clicking the 📄 button right next to the ✖ button (see below). Name the new material "sun" and set its settings like this:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-77.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-77.png" class="kg-image" alt="" loading="lazy" width="516" height="315"></a><figcaption>Shadow Mode should be "None" for this material. The Sun sprite should <strong>not </strong>be casting any shadow whatsoever, for any reason.</figcaption></figure><p>Now modify the nodes of the new "sun" material, like below:</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-76.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-76.png" class="kg-image" alt="" loading="lazy" width="998" height="852" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-76.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-76.png 998w"></a><figcaption>Note the Base Color - it should be black, with nothing plugged into it. You'll also unplug the Alpha connector once you're done cutting up the sprite with the Knife tool.</figcaption></figure><p>Use the Knife tool (K) to cut out the sun sprite from the spritesheet, and delete the leftovers. Then follow the same process we used earlier for all the other tiles. For example, create a grid on the plane using Loop Cuts, remove the transparent parts, etc.</p><p>Once you're completely done using the Knife tool, clear ALL transparency settings in the sun material, ie. change Alpha Clip to Opaque, remove the Alpha connector from the Principled BSDF node, etc. Rename the sun object to "sprite_sun" and place it in the "sprites" subcollection.</p><p>Then use the Rotate (R) and Move (G) tools to position the sun far off in the distance. Here's where I recommend placing it:</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-78.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-78.png" class="kg-image" alt="" loading="lazy" width="1808" height="893" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-78.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-78.png 1000w, https://hubs.mozilla.com/labs/content/images/size/w1600/2022/12/image-78.png 1600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-78.png 1808w" sizes="(min-width: 1200px) 1200px"></a><figcaption>The sun sprite should be very far away, but also scaled up enough so that you can still see it. When you walk around in Walk Navigation mode (Shift + ~), the sun should <em>not </em>visibly move on your screen.&nbsp;</figcaption></figure><p>There's still plenty of room in the tiles_packed.png, so if you wanted to, you could go even further and draw sprites for clouds, a moon, stars, etc. (leaving the possibility of a night time version of the scene in the future 🌝). That's up to you.</p><hr><h2 id="concepts-of-lightmapping">Concepts of Lightmapping</h2><p>We've reached the most advanced part of the tutorial, so it's important to go over a few concepts first. </p><p>To sum it up, <strong>light baking </strong>(or "light mapping") is the process of pre-rendering the lighting/shadow data in the scene, allowing you to save all of the lighting to a file - what we call a lightmap. You can then add this <em>prerendered </em>lightmap to your 3D scene's materials, to add performance-friendly, high-quality realistic lighting to the scene. Rendering photorealistic 3D light <em>in real-time </em>is normally a very intensive process, requiring lots of processing power. However, by saving the light to a lightmap, you allow the 3D renderer to skip that intense rendering process, by instead loading the lighting from a pre-rendered image file.</p><p>Technically, you aren't required to bake light for your scene. You can actually leave the whole scene with zero lights or lighting, and then Hubs will render it fullbright / unlit when exported via the Blender Hubs exporter addon. For sprite-based worlds, this can actually look okay - in fact, it might even look more authentically retro! However, from my experience, baking Blender light into your scene can really make it feel much more immersive, adding much more of a sense of "place." In my opinion, the extra work is absolutely worth it. Due to the simplicity of this tutorial scene, that might not be immediately obvious - but as you create other scenes in the future, with more complex shapes and lighting setups, you'll see what I mean!</p><p>One critically important concept to understand for lightmapping is <strong>high-dynamic range</strong>, or HDR. Common image formats, like PNG, store data in 8-bit format, between values of 0.0 to 1.0, with zero being the absence of any light (pitch black), and one being the complete absence of shadow (pitch white). However, .HDR images can store values <em>above</em> 1.0, creating a bloom effect. When you have light in your Blender scene that is making textures brighter than they originally were, you are actually creating light values above 1.0!</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-82.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-82.png" class="kg-image" alt="" loading="lazy" width="728" height="570" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-82.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-82.png 728w" sizes="(min-width: 720px) 720px"></a><figcaption>In the upper image, the extremely bright Point Light is creating light values far above 1.0. In the lower image, only light values of 1.0 are being rendered, meaning that the original grass texture is never made brighter than it originally was.</figcaption></figure><p>When we bake light, we don't want to bake to a PNG, because that format can't store values above 1.0. Highlighted areas with <strong>bloom</strong>, like in the screenshot above, would be completely lost. Thankfully, the .HDR format can store values above 1.0 in 32-bit format, and the latest versions of Blender, GIMP, and Hubs all have full support for .HDR images. So that's what we're going to use!</p><hr><h2 id="lightmapping-setup">Lightmapping Setup</h2><p>First off, make sure you're in Cycles mode, not Eevee, because, at the time of writing this, only Cycles can bake light to an image file. If you downloaded my Blender template in the beginning, you'll already have a basic Sun light in the scene. If you don't, add a new Sun light with the settings below, and rotate it so that it matches the direction of the sun sprite we created earlier. The position of the Sun light doesn't matter and won't change how it casts light, but for the sake of making it easy to find, place it near the center of the scene.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-89.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-89.png" class="kg-image" alt="" loading="lazy" width="520" height="453"></a></figure><p>We want to temporarily disable all of our billboard sprites (and anything else animated or dynamic) before baking. Why? As billboard sprites rotate to face you, any shadow you had baked for them instantly becomes inaccurate, making it pointless to bake the shadows they cast. So disable the "sprites" subcollection in the Outliner.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-83.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-83.png" class="kg-image" alt="" loading="lazy" width="612" height="212" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-83.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-83.png 612w"></a><figcaption>The sprites subcollection is disabled and won't be rendered.</figcaption></figure><p>To make things easier, let's combine the "terrain" and "structures" into one object. Select the bridge objects first, then the terrain (in that order), and then hit Ctrl + J while hovering your mouse in the 3D viewport.</p><p>Select the newly combined "terrain" object, and create a second UV Map for it named "lightmap" in the Object Data Properties, like below:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-90.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-90.png" class="kg-image" alt="" loading="lazy" width="521" height="421"></a></figure><p>We also want to create a new image in which we'll temporarily store our lightmap. In Blender's Image Editor, hit the New button, and set it up like below before pressing OK:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-87.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-87.png" class="kg-image" alt="" loading="lazy" width="517" height="271"></a></figure><p>You'll then see a pitch-black image created. Go into the Image tab and set "Color Space" to <strong>Linear</strong>. Lightmap images should <em>always </em>be set to this. </p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-96.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-96.png" class="kg-image" alt="" loading="lazy" width="440" height="393"></a></figure><p>Now back to the 3D Viewport. With "terrain" still selected, apply all transforms one additional time (Ctrl + A → All Transforms). This helps prevent warped UVs.</p><p>Now hit Tab to go into Edit mode, and follow these steps:</p><!--kg-card-begin: markdown--><ul>
+<li>Tap the <strong>A</strong> key to highlight all faces of the 3D model.</li>
+<li>Hit <strong>Ctrl + T</strong> to triangulate every face</li>
+<li>In the 3D Viewport, press the <strong>U</strong> key and select "<strong>Smart UV Project</strong>"</li>
+<li>You should see a newly generated UV Map in the Image Editor.</li>
+</ul>
+<!--kg-card-end: markdown--><p>UV maps generated automatically by Blender's tools are rarely ever ideal. You usually have to tweak them further. You'll need to do some trial and error, repeatedly, to figure out the best settings to use for the "Smart UV Project" tool. Here's what I settled on:</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-95.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-95.png" class="kg-image" alt="" loading="lazy" width="976" height="577" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-95.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-95.png 976w"></a><figcaption>Using the settings on the lower left, the UV islands on the right all get a healthy amount of extra space around them, which is what we want.</figcaption></figure><p>One particular thing to watch out for is making sure that there's enough margin area around each UV island. Make sure all of your UV islands are far enough apart so that they have at least 5-10 pixels of space around them. Also, ensure that none of the UVs are overlapping (even within the same UV island)! Lightmap UVs should <em>never </em>be overlapping, not even by one pixel.</p><hr><h2 id="lightmap-baking">Lightmap Baking</h2><p>With our lightmap UVs all ready, there is just one final step before we actually bake. We need to tell Blender what file to bake to. Go back into the Shader Editor with the "tiles" material active. Modify it so it has the following setup:</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-97.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-97.png" class="kg-image" alt="" loading="lazy" width="1230" height="817" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-97.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-97.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-97.png 1230w" sizes="(min-width: 1200px) 1200px"></a><figcaption>The "light" Image Texture node should <strong>not </strong>be connected to anything.</figcaption></figure><p>After you're done, click on the Image Texture node titled "light" (the one on the far right.) This sets it as the "active" node, which tells Blender that it is the texture we want to use for baking. Yes, this is a very weird, not very intuitive way to set that, but that's just how Blender does it. 🤷‍♂️</p><p>Go into the Render Properties tab on the right side of Blender and adjust your settings like in the screenshot below. I highly recommend reorganizing the sub-tabs so that you see them in this order, as these are the ones most relevant for baking.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-98.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-98.png" class="kg-image" alt="" loading="lazy" width="520" height="871"></a><figcaption>Max Samples under Sampling is a matter of preference - you can get away with as low as 200 or so because we're going to de-noise the result in GIMP anyway. But if you have a powerful rig or lots of time to spare, 500 or higher can help ensure a more quality render.</figcaption></figure><p>Once you've finished copying these settings, press the "Bake" button at the top. Blender will begin calculating the lighting for the 3D object you currently have selected, and then will save the lighting to the image file we had set as active in our 3D model's material. This could take some time, depending on the power of your hardware. If it takes too long, try lowering the "Max Samples" amount.</p><p>Once the lightmap is fully generated, it should appear in the Image Editor within Blender. Save it via the Image Editor menu, Image → Save a Copy... </p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⚠️</div><div class="kg-callout-text">When you try to save the lightmap for the first time, <strong>DO NOT </strong>accidentally save as PNG first. Blender will often prompt you to save as PNG first. If you do so by accident, any light values above 1.0 will be lost, and you will probably need to rebake!</div></div><p>In the Save menu, on the righthand side, choose "<strong>Radiance HDR</strong>" as the format, as shown below. Make sure that "Save as Render" is disabled, and Color Space should be set to Linear. Save the .HDR file as "light.hdr" in the textures folder.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-99.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-99.png" class="kg-image" alt="" loading="lazy" width="283" height="157"></a></figure><hr><h2 id="cleaning-your-lightmap">Cleaning Your Lightmap</h2><p>There are many people out there who unfortunately assume that open source projects aren't as "good" as the commercial alternatives, just because the open source options are usually free. GIMP is a key example of how untrue this assumption is, because it is the <em>only </em>image editor I know of that can effectively and easily denoise a 32-bit (HDR) image. Even some of the most popular commercial image editors struggle with HDR images. For that reason, GIMP is mandatory for this part of the tutorial.</p><p>Open your new "light.hdr" in GIMP. There are two filters that can be used to reduce noise in HDR lightmaps:</p><!--kg-card-begin: markdown--><ul>
+<li>Filters → Blur → <strong>Selective Gaussian Blur</strong></li>
+<li>Filters → Enhance → <strong>Noise Reduction</strong></li>
+</ul>
+<!--kg-card-end: markdown--><p>These filters will become your best friends as you begin creating lightmaps. Both achieve noise reduction but in different ways. Some lightmaps will do better with one of these two than with the other. Experiment with both and see what gives you the best results on a case-by-case basis. For this particular tutorial scene, I found Noise Reduction did a decent job, though only by running it multiple times. Selective Gaussian Blur usually does the trick after only one run.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⚠️</div><div class="kg-callout-text">You might notice that the edges around the UV islands might become blurred, resulting in visible color bleeding in your 3D scene. You can avoid this in 2 ways - 1) increase the <strong>Margin Size</strong> in your Bake settings, or 2) save the newly baked lightmap in Blender as an "EXR" image file, and edit <em>the EXR </em>in GIMP, not the HDR file.<br><br>Unlike HDR, EXR supports transparency, meaning that the UV islands will retain the transparent margins around them. The "Selective Gaussian Blur" filter in GIMP will respect these transparent margins, which then helps prevent color bleeding.<br><br>However, note that .<strong>EXR is not currently supported by Hubs</strong>. So you will need to save it again as an .HDR after you're done denoising the .EXR image in GIMP.</div></div><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-100.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-100.png" class="kg-image" alt="" loading="lazy" width="1386" height="693" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-100.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-100.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-100.png 1386w" sizes="(min-width: 720px) 720px"></a><figcaption>Only the .EXR file on the right has transparency. The .HDR file does not. When you denoise, you might want to edit the EXR first, then export from GIMP to .HDR.</figcaption></figure><hr><h2 id="applying-your-lightmap">Applying Your Lightmap</h2><p>We've denoised our lightmap and made it ready for use. Select the terrain object in the 3D viewport in Blender. Then go into the Shader Editor and modify the "tiles" material like below:</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-101.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-101.png" class="kg-image" alt="" loading="lazy" width="1185" height="766" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-101.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-101.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-101.png 1185w"></a><figcaption>This is a 100% export-ready shader setup for Hubs. The "MOZ_lightmap" node tells Hubs what lightmap to use. The "Background" node is more performance-friendly than the Principled BSDF node and works great for sprite-based scenes as long as you avoid anything with transparency.</figcaption></figure><p>However, note that this shader setup does <em>not </em>make your new lightmap appear in Blender. It only enables the lightmap for use in Hubs. To temporarily preview how your lightmap looks, use this shader setup below instead:</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-103.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-103.png" class="kg-image" alt="" loading="lazy" width="1201" height="680" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-103.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-103.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-103.png 1201w" sizes="(min-width: 1200px) 1200px"></a><figcaption>This shader setup will blend the lightmap onto your diffuse texture, making the lightmap actually visible in Blender's 3D viewport.Make sure you change it back to the previous node setup before exporting, though!</figcaption></figure><p> After setting it up as above, you should now see the lighting and shadows in your scene, even when you are in Material Preview mode (Z → Material Preview). </p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-104.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-104.png" class="kg-image" alt="" loading="lazy" width="1226" height="757" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-104.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-104.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-104.png 1226w" sizes="(min-width: 720px) 720px"></a></figure><p>But what about our billboard sprites? We didn't bake light for those - but thankfully, we won't have to! We can actually reuse the lightmap we just made. Re-enable the "sprites" subcollection. As soon as you do, you'll notice that your billboard sprites will all be pitch black. They're still assigned to the same "tiles" material we're using for the baked terrain, but unlike the terrain, we never set up the billboard sprites with the correct lightmap UVs. Let's do that.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-105.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-105.png" class="kg-image" alt="" loading="lazy" width="1333" height="855" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-105.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-105.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-105.png 1333w" sizes="(min-width: 720px) 720px"></a></figure><p>For each billboard sprite, do the following:</p><!--kg-card-begin: markdown--><ul>
+<li>Select the billboard sprite in the 3D viewport.</li>
+<li>Go into Edit mode (with Tab), highlight all faces with A, then press Ctrl + T</li>
+<li>Go back to Object Mode (with Tab)</li>
+<li>Create a new UV Map in the Object Data properties tab on the right side of Blender. Name the new UV Map: "lightmap"</li>
+<li>Check the UVs of the terrain immediately next to the billboard sprite. Adjust the billboard sprite's lightmap UV map so that it's roughly in the same position. If that sounds confusing, look below for a visual:</li>
+</ul>
+<!--kg-card-end: markdown--><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-107.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-107.png" class="kg-image" alt="" loading="lazy" width="977" height="610" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-107.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-107.png 977w" sizes="(min-width: 720px) 720px"></a><figcaption>The billboard sprite, along with some of the ground terrain are both selected, showing both of their UVs on the right. The tree is essentially copying the light on the ground near it.</figcaption></figure><p>When you've finished doing this for every single billboard sprite, you should end up with something like this:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-111.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-111.png" class="kg-image" alt="" loading="lazy" width="1324" height="858" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-111.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-111.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-111.png 1324w" sizes="(min-width: 720px) 720px"></a></figure><p><strong>Don't forget</strong> to set the "tiles" material back to the <a href="./Creating 2D Sprite-Based Retro Worlds_files/image-101.png">Hubs-friendly one</a>. The temporary node setup that made the lightmap visible within Blender should <em>not</em> be the one exported to Hubs.</p><hr><h2 id="fading-into-the-void">Fading Into the Void</h2><p>Remember that special dark color we added to the bottom of our skybox? The intent was to make that color match the bottom of our 3D platforms so that they fade into the skybox. Baked light ruins this effect; see the screenshot above. The bottom colors no longer match the dark purple void in the skybox below. </p><p>We can fix that, by adding a special "fade out" wrapper around our terrain. Duplicate the entire terrain as a separate object, and then delete all of the vertices in the duplicate except for the very bottom ones that touch the void below. Then extrude those bottom vertices upward to the top of the platforms. Make the top vertices all align on the Z axis using the Scale tool (press S, then Z, then type zero). It helps to have Snapping (by Vertex) turned on while doing this. See the demonstration below:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/fade-extrude.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/fade-extrude.gif" class="kg-image" alt="" loading="lazy" width="525" height="235"></a></figure><p>This "wrapper" is going to wrap around our terrain and cover it with a fading gradient. The wrapper is currently overlapping with the original terrain, which can cause rendering glitches, so let's enlarge it by just a tiny bit. Highlight all faces in Edit mode press Alt+S, and then you can type in a very small number like 0.01 or so to enlarge it only just a <em>tiny </em>bit, then hit Enter.</p><p>Now delete the material on this wrapper. Create a new one named "fade" and set it up like below:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-137.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-137.png" class="kg-image" alt="" loading="lazy" width="1232" height="877" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-137.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-137.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-137.png 1232w" sizes="(min-width: 720px) 720px"></a><figcaption>For Principled BSDF, make sure "Base Color" is set to pitch black (#000000), Specular is zero, and Roughness is 1.0. For the Image Texture node (fade.png), set it to "Closest" instead of the default "Linear"</figcaption></figure><p>But wait, we haven't created a "fade.png" yet! You can create one pretty easily in GIMP using the Gradient tool, <a href="https://thegimptutorials.com/how-to-add-alpha-channel/" target="_blank" rel="noreferrer noopener">with an alpha channel</a>. To save you the hassle, I already prepared the fade.png for you. Right-click this image below and save it to your textures folder. Then assign it to the Image Texture node in your "fade" material.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/fade-1.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/fade-1.png" class="kg-image" alt="" loading="lazy" width="128" height="512"></a></figure><p>Go into Edit mode with the 3D fade wrapper selected, highlight all faces, and press Numpad 1 to adjust the viewport so that you're facing the front of the model directly head-on. Then press U and select <strong>Project from View (Bounds)</strong>. &nbsp;You might not notice any effect in the 3D viewport, but if you temporarily hide your terrain, you can see that the fade is, in fact, there. It'll be noticeable once you export everything to Hubs.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-115.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-115.png" class="kg-image" alt="" loading="lazy" width="967" height="460" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-115.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-115.png 967w" sizes="(min-width: 720px) 720px"></a></figure><hr><h2 id="hubs-specific-scene-entities">Hubs-Specific Scene Entities</h2><p>We're <em>almost </em>done! If you've managed to follow this tutorial all the way to this point, pat yourself on the back. I know it's been a lot! At this point in the tutorial, your scene should look like this in Blender's Outliner:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-123.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-123.png" class="kg-image" alt="" loading="lazy" width="598" height="391"></a></figure><p>We're now going to add some features to the scene that are specifically for Hubs.</p><!--kg-card-begin: markdown--><ol>
+<li><strong><a href="https://hubs.mozilla.com/labs/what-is-a-nav-mesh/">Navigation Mesh</a></strong> - this tells Hubs where the "walkable" surfaces are. Without it, there would be no collision and you would only be able to float around the scene like a ghost.</li>
+<li><strong>Directional Light</strong> and <strong>Ambient Light</strong> - Without these, avatars would have no light casting on them.</li>
+<li><strong>Spawn Points</strong> - These tell Hubs where to place your avatar when you enter the scene.</li>
+<li><strong>Background Music</strong> (optional) - Music is half of the experience, right?</li>
+</ol>
+<!--kg-card-end: markdown--><hr><h2 id="creating-a-navigation-mesh">Creating a Navigation Mesh</h2><p>To speed up the process of <a href="https://hubs.mozilla.com/labs/creating-a-custom-nav-mesh-for-your-hubs-scene/">creating a navigation mesh</a>, we can "cheat" by duplicating our existing terrain object. Name the duplicate object "navmesh" and delete any materials on it. Create a <em>new</em> material named "navmesh" and assign a bright or noticeable color in the material settings "Viewport Display" subtab - like cyan or neon pink. This color will not be seen by visitors in the scene - in fact, the navigation mesh will be completely invisible in Hubs. So the color ultimately won't matter. The purpose is just to make it easier for you to identify and edit the navmesh within Blender.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-117.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-117.png" class="kg-image" alt="" loading="lazy" width="569" height="268"></a></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">There's a very useful hotkey in Blender that allows you hide all other objects temporarily, so you can focus only on a single one - it's the ? (or /) key. I often toggle this on &amp; off repeatedly when I'm working on a navmesh.</div></div><p>A key concept to understand about navigation meshes is that they only tell Hubs <strong>where you can walk. </strong>They are not a "collision mesh" like in typical game development, where every surface that you can "bump" into is included. You only want to include horizontal surfaces in the navmesh - nothing steep or vertical. We can quickly isolate the ones we already have, using a feature in Blender: Select Similar.</p><p>With the navmesh object selected in the 3D viewport, go into Edit Mode (with Tab) and select a single triangle on the ground, literally anywhere on the ground. Then in the menu, go into Select → Select Similar → Normal.</p><figure class="kg-card kg-image-card kg-width-wide kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/select-similar.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/select-similar.gif" class="kg-image" alt="" loading="lazy" width="853" height="514"></a><figcaption>The ground face you select doesn't matter as long as it's facing up.</figcaption></figure><p>Blender should now be highlighting all other faces that are also facing up. Now hit Ctrl + I to invert the selection, and then Delete. The only faces remaining should be the actually walkable areas. We now have our "ground"! And just like that, you now have an almost-complete navigation mesh.</p><p>However, there are still parts of the ground that are not connected, such as the stairs and the bridges. If they're not connected in the navmesh, Hubs will not treat them as contiguous ground, and you won't be able to walk from one to the other. For the stairs in particular, what we have now is a series of floating, disconnected planes. We can replace these unusable stairs with a slope that can actually be climbed by visitors. We can do this by highlighting the edges at both ends and then pressing F to fill in the gap. See below:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/stair-slope.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/stair-slope.gif" class="kg-image" alt="" loading="lazy" width="546" height="321"></a><figcaption>Use Circle Select (C key) and Ctrl + L to quickly highlight all of the stairs</figcaption></figure><p>You may want to add some Loop Cuts to the slope to make it more closely resemble the shape of the original stairs. Otherwise, avatars might clip through some of the stairs.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/stair-cuts-1.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/stair-cuts-1.gif" class="kg-image" alt="" loading="lazy" width="546" height="321"></a><figcaption>You'll also want to move the bottom of the slope a bit forward, so that it's not so steep. I didn't do that in this GIF. Oops!</figcaption></figure><p>The other issue with our navmesh is the bridges. These are trickier to fix than the stairs, but it's doable! Use the Knife tool (K) to cut up the terrain navmesh around the bridge ends, creating a rectangular opening. Then connect the bridge with the terrain using your new cuts. Before doing all of this, you may want to hide (using the H key) the sides of the bridge to make it easier to make the necessary cuts. See two examples below of this whole process:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/connecting-bridge-navmesh-1.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/connecting-bridge-navmesh-1.gif" class="kg-image" alt="" loading="lazy" width="618" height="249"></a></figure><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/connecting-bridge-navmesh-2-2.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/connecting-bridge-navmesh-2-2.gif" class="kg-image" alt="" loading="lazy" width="611" height="282"></a><figcaption>You'll need to repeat this process for all three bridges, on both ends of each bridge.</figcaption></figure><p>There are three remaining operations to finalize the navmesh:</p><p>1) Face smoothing and 2) Triangulate: Simply highlight the entire navmesh in Edit mode, and hit Ctrl + T. Then right-click in Face selection mode (the 3 key) and choose Shade Smooth. If, after triangulating, there's any weird shading on the navmesh, you can run Limited Dissolve on it (X key) to potentially fix it. Then re-triangulate after running Limited Dissolve.</p><p>3) Fixing normals - Make sure that <strong>Backface Culling</strong> is turned on like in the screenshot below, and inspect the entire navmesh to make sure there are no faces anywhere that look "invisible" from above. If you see any invisible face or any spots where the shading looks weird, you probably need to flip the normals there. Select the face in Edit mode, press Alt + N, and choose Flip.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-121.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-121.png" class="kg-image" alt="" loading="lazy" width="437" height="453"></a></figure><p>One last and final step for the navmesh: We need to actually tell Hubs that it's supposed to be interpreted as a navmesh. We do that by adding a Hubs component in the Object properties. Hit the "Add Component" button and choose <strong>Navigation Mesh</strong>. See below:</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-124.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-124.png" class="kg-image" alt="" loading="lazy" width="610" height="288" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-124.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-124.png 610w"></a></figure><hr><h2 id="light-entities-for-hubs">Light Entities for Hubs</h2><p>Up until now, we've been relying on a single Blender "Sun" light. Hubs does not actually use this for lighting - only Blender does. We still need to create lights specifically for Hubs, which will be casting onto our avatars (with no effect on the terrain itself - since it's lightmapped.)</p><p>We're actually going to create two entirely new objects, which are called Empties. Hit Shift + A → Empty → Arrows. The other Empty types work as well; it's just a matter of preference. Name the two Empties, "light directional" and "light ambient".</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-122.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-122.png" class="kg-image" alt="" loading="lazy" width="574" height="461"></a></figure><p>Empties don't do anything on their own. What makes them useful is that we can add Hubs components to them in Blender, which when exported to Hubs, create special entities with certain functionality. In this case, we're going to add light components to the two Empties we just created, turning them into Hubs lights. For each Empty, select it and go into the Object properties tab, then push the "Add Component" button, and select "Directional Light" (and then repeat this but for "Ambient Light" on the other one):</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-145.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-145.png" class="kg-image" alt="" loading="lazy" width="610" height="403" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-145.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-145.png 610w"></a></figure><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-144.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-144.png" class="kg-image" alt="" loading="lazy" width="608" height="282" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-144.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-144.png 608w"></a><figcaption>Feel free to tinker with the light settings, based on your preference. For Ambient Light, I usually copy the dark color from the bottom of the skybox and then lighten it.</figcaption></figure><p>You won't see any effect in Blender after adding these light components. These are used by Hubs only.</p><p>Remember that the "light directional" object still needs to be rotated, just like the Sun light, to match the direction of our sun sprite in the sky. We want the light that gets cast onto avatars to be similar to the light that we had baked on our terrain.</p><p>For now, you can copy the rotation from our existing "Sun" object. Go to its Object properties, and in the Transform section, &nbsp;jot down the X, Y, and Z rotations. Paste them in the Object properties for our "light directional" Empty. Later on, when you actually get your scene running in Hubs, it'll be easier to tweak the rotation further to make it more accurate.</p><p>Let's keep our Hubs lights organized to make sure they're included in our final export. Organize your scene like below, noting the new "hubs" subcollection at the bottom:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-127.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-127.png" class="kg-image" alt="" loading="lazy" width="601" height="448" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-127.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-127.png 601w"></a><figcaption>Take out the "lights" subcollection (containing our original Sun light) out of the "export" collection. From here on out, we only want things actually used by Hubs in our "export" collection. Create a "hubs" subcollection inside "export", as we will be putting all of our Empties in here.</figcaption></figure><p>Doesn't it feel good to stay organized? It'll pay off at export time!</p><hr><h2 id="placing-your-spawn-points">Placing Your Spawn Points</h2><p>Just like with the lights, create another new Empty object with Shift + A. Name the new object "spawn point" and move it to the "hubs" subcollection. Now go into the Object properties and add a new Hubs component, like so:	</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-128.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-128.png" class="kg-image" alt="" loading="lazy" width="609" height="380" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-128.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-128.png 609w"></a><figcaption>Add a "<strong>Waypoint</strong>" component, with "<em>Use as Spawn Point</em>" and "<em>Snap to Navmesh</em>" checkboxes both enabled.</figcaption></figure><p>Position this Empty in the main area where you want your players to spawn. It can be just <em>slightly </em>above the ground, but not too high up. Duplicate the Empty around 4-8 times, then position the duplicates around the scene. It's good practice to have multiple spawn points to prevent avatars from spawning inside of each other.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-129.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-129.png" class="kg-image" alt="" loading="lazy" width="978" height="447" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-129.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-129.png 978w" sizes="(min-width: 720px) 720px"></a><figcaption>When you add the "Waypoint" Hubs component to an Empty, the Hubs Blender addon will actually change the appearance of the Empty to show a cute little Hubs robot! 🤖💙</figcaption></figure><hr><h2 id="adding-looping-background-music">Adding Looping Background Music</h2><p>This step is optional, but for retro scenes, it can be the finishing touch that really stirs up the strongest feelings of nostalgia in visitors! Visitors will often hear the music as soon as the room loads, but before they actually enter the room as a named user, so it's a great way to immediately get people's attention and entice them to come into the room.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">You can find chiptune music with a public domain license at <a href="https://modarchive.org/index.php?request=view_by_license&amp;query=publicdomain" target="_blank" rel="noreferrer noopener">ModArchive</a>. These come in special chiptune formats (for example, .mod and .xm) that won't work in Hubs. However, you can convert them to MP3 with tools found around the web.<br><br>To save you time, I've grabbed one already for you (in the public domain) - <a href="https://modarchive.org/index.php?request=view_by_moduleid&amp;query=178565" target="_blank" rel="noreferrer noopener">Dream Candy</a> by Drozerix - and converted it to MP3. Download below:</div></div>
+        <div class="kg-card kg-file-card kg-file-card-medium">
+            <a class="kg-file-card-container" href="https://hubs.mozilla.com/labs/content/files/2022/12/bgm_dreamcandy_drozerix-1.mp3" title="Download" download="">
+                <div class="kg-file-card-contents">
+                    <div class="kg-file-card-title">Dream Candy by Drozerix - MP3</div>
+                    
+                    <div class="kg-file-card-metadata">
+                        <div class="kg-file-card-filename">bgm_dreamcandy_drozerix.mp3</div>
+                        <div class="kg-file-card-filesize">3 MB</div>
+                    </div>
+                </div>
+                <div class="kg-file-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.a{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>download-circle</title><polyline class="a" points="8.25 14.25 12 18 15.75 14.25"></polyline><line class="a" x1="12" y1="6.75" x2="12" y2="18"></line><circle class="a" cx="12" cy="12" r="11.25"></circle></svg>
+                </div>
+            </a>
+        </div>
+        <div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Remember that Mozilla Hubs is a web-based platform, which means everything in our scene has to be downloaded by the visitor's browser. We want our scene to be friendly to anyone on slower internet connections, and one way to do that is by converting the MP3 from stereo to mono, in an app like <a href="https://www.audacityteam.org/" target="_blank" rel="noreferrer noopener">Audacity</a>. This is totally optional. However, if you have a large music file, converting to mono can often cut the file size in half. The MP3 I've provided above is already provided in mono for you.</div></div><p><br>Create yet <em>another</em> Empty object, name it "bgm", and move it to the "hubs" subcollection. Then go into the Object properties on the right side of Blender, with the Empty still selected. </p><p>There is more than one Hubs component that can get you background music, but for this tutorial, we're going to be using the Audio component. This creates a player inside the 3D scene with a pause button, so if people want to stop the music (ie. so they can voice chat instead), they still can.</p><p>Position the Empty "bgm" somewhere accessible, preferably at eye level (use Walk Navigation mode, Shift + ~ to test that). Add a "Audio" Hubs component, as shown below, replacing the "Audio URL" with your own preferred MP3 URL:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-149.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-149.png" class="kg-image" alt="" loading="lazy" width="607" height="429" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-149.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-149.png 607w"></a><figcaption>Enable "Override Audio Settings" and set the Gain to something low, between 0.2 to 0.4. When you have music on autoplay, you don't want to accidentally blast visitor's speakers with something loud! You can always increase/decrease the Gain later on as needed, after you test it in Hubs.</figcaption></figure><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-150.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-150.png" class="kg-image" alt="" loading="lazy" width="1215" height="553" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-150.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/image-150.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/image-150.png 1215w" sizes="(min-width: 720px) 720px"></a><figcaption>Preview of how your audio player will look in Hubs. It won't be playable in Blender itself..</figcaption></figure><hr><h2 id="exporting-to-hubs">Exporting to Hubs</h2><p>The moment we've been waiting for. We're finally ready to export everything into Hubs!</p><p>Go into Blender's Outliner on the top right, right-click our "export" collection, and choose "Select Objects". This will highlight only the objects we want to export to Hubs. Now in the top left menu of Blender, go to File → <strong>Export as GLTF 2.0.</strong></p><p>A file browser window will open up. Go into the "export" folder we created in the very beginning. Then modify the export settings on the right sidebar like below, and press the "Export glTF 2.0" button on the lower right of the window.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-134.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-134.png" class="kg-image" alt="" loading="lazy" width="413" height="894"></a><figcaption>You can (optionally) replace "YOUR NAME HERE" with your name, social media handle, email address, etc. as a way to credit yourself in the scene metadata.</figcaption></figure><p>Go to Mozilla Hubs' <a href="https://hubs.mozilla.com/spoke">Spoke</a> page and create an account if you have not yet already. After logging in, press "Get Started," and then press the "New Project" button.</p><p>Then in the top right, press the button, "<strong>Import from Blender</strong>." &nbsp;Enter your scene's details on the next page. You'll need to include a thumbnail. You can quickly render one in Blender by temporarily disabling the navmesh and "hubs" subcollection.</p><figure class="kg-card kg-image-card kg-width-wide"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/publish.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/publish.gif" class="kg-image" alt="" loading="lazy" width="782" height="510"></a></figure><p>Hit "Publish" and once it's done uploading your scene, you'll be taken back to your project list, with your new scene now added to the list. You can click on it and then click on "Open in Hubs" to test out your scene! </p><p>Congratulations, you now have your own sprite-based VR world up and running for the whole world to check out. 🎉</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/3-1.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/3-1.png" class="kg-image" alt="" loading="lazy" width="1415" height="702" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/3-1.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/3-1.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/3-1.png 1415w" sizes="(min-width: 720px) 720px"></a></figure><p>You can check out a live demo of the completed scene <a href="https://hubs.mozilla.com/RGT3ioo/sprite-world-tutorial-demo">here</a>. You can also download the completed Blender project itself, using the link below.</p>
+        <div class="kg-card kg-file-card kg-file-card-medium">
+            <a class="kg-file-card-container" href="https://hubs.mozilla.com/labs/content/files/2022/12/Sprite-World--complete-.blend" title="Download" download="">
+                <div class="kg-file-card-contents">
+                    <div class="kg-file-card-title">Download completed .blend file (for Blender)</div>
+                    
+                    <div class="kg-file-card-metadata">
+                        <div class="kg-file-card-filename">Sprite World (complete).blend</div>
+                        <div class="kg-file-card-filesize">4 MB</div>
+                    </div>
+                </div>
+                <div class="kg-file-card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><defs><style>.a{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5px;}</style></defs><title>download-circle</title><polyline class="a" points="8.25 14.25 12 18 15.75 14.25"></polyline><line class="a" x1="12" y1="6.75" x2="12" y2="18"></line><circle class="a" cx="12" cy="12" r="11.25"></circle></svg>
+                </div>
+            </a>
+        </div>
+        <hr><h2 id="common-issues">Common Issues</h2><p>The first time you test your scene, you may run into some common issues. Some of these issues are sometimes caused by using Blender versions newer than the one(s) that the Hubs addon was designed for. Let's go over a few:</p><blockquote><strong>My skybox looks upside down in Hubs.</strong></blockquote><p>I ran into this issue myself while writing this tutorial! I was able to work around it by vertically flipping the skybox image in GIMP. </p><blockquote><strong>I can walk through my billboard sprites. How can I prevent that?</strong></blockquote><p>This is determined by your navmesh. If you create a hole in the navmesh where the billboard sprite is, visitors will not be able to walk through it.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-139.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-139.png" class="kg-image" alt="" loading="lazy" width="722" height="571" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-139.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-139.png 722w" sizes="(min-width: 720px) 720px"></a><figcaption>I used the Knife tool to cut a hole where the red NPC sprite is. This effectively tells Hubs that you can't walk there.</figcaption></figure><blockquote><strong>The bottom of my platforms isn't fading correctly.</strong></blockquote><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/image-138.png" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/image-138.png" class="kg-image" alt="" loading="lazy" width="1000" height="511" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/image-138.png 600w, https://hubs.mozilla.com/labs/content/images/2022/12/image-138.png 1000w" sizes="(min-width: 720px) 720px"></a></figure><p>This is a consequence of using the Principled BSDF shader (for transparency) instead of the "Background" shader for our "fade" material. Unlike the Background shader, the Principled BSDF shader is still technically lit and affected by lights in the environment. You may notice a "shine" (see above) being added to the fade as you move around the scene. A possible workaround for this can be found <a href="https://hubs.mozilla.com/labs/fading-assets-gracefully/">here</a>.</p><blockquote><strong>The lighting being cast on avatars doesn't look accurate. How can I fix it?</strong></blockquote><p>This will require some trial and error on your part, tweaking the two light Empties in Blender and re-exporting repeatedly. However, there is a hotkey in Hubs that helps you see what the lighting looks like on your avatar. Press the "i" key while in Hubs, and then press the little 💡 icon at the bottom.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Creating 2D Sprite-Based Retro Worlds_files/lighting-preview.gif" aria-label="Click for Lightbox"><img src="./Creating 2D Sprite-Based Retro Worlds_files/lighting-preview.gif" class="kg-image" alt="" loading="lazy" width="821" height="449"></a></figure><hr><p>Should you encounter any other issues, you can always ask for help in the official <a href="https://discord.com/invite/sBMqSjCndj" target="_blank" rel="noreferrer noopener">Mozilla Hubs</a> Discord. ✌</p>
+      </div>
+    </article>
+
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">Published by</div>
+          <span class="special-delimiter"></span>
+              <div class="card author-card author-theanine3d" data-type="post">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/theanine3d/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow" data-srcset="/labs/content/images/size/w300/2022/12/2020-12-at-work-at-SHRA---cropped.png 300w,
+            /labs/content/images/size/w600/2022/12/2020-12-at-work-at-SHRA---cropped.png 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/12/2020-12-at-work-at-SHRA---cropped.png" src="./Creating 2D Sprite-Based Retro Worlds_files/2020-12-at-work-at-SHRA---cropped.png" alt="Pedro Valencia">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/theanine3d/">Pedro Valencia</a></div>
+    
+      <div class="author-card__descr text-acc-2 m-b">3D technical artist &amp; retrogaming geek. I've created art for videogames, VR, &amp; education. Check out my VR 360° videos on YouTube, which you can find at youtube.com/@Theanine3D</div>
+    
+      <div class="author-card__details flex">
+
+        <div class="author-card__social flex">
+            <a href="https://twitter.com/theanine3D" target="_blank" title="Twitter" aria-label="Twitter">
+              <i class="icon icon-twitter icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>            </a>
+            <a href="https://www.theanine3d.com/" target="_blank" title="Website" aria-label="Website">
+              <i class="icon icon-link icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#link"></use>
+  </svg>
+</i>            </a>
+        </div>
+      </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+
+        <div class="related-posts m-t-lg">
+      <div class="section__title m-b">You might also like</div>
+      
+      <div class="row post-feed">
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/installing-mozilla-hubs-community-edition-on-your-own-microsoft-azure-kubernetes-service/" aria-label="Installing Community Edition on Microsoft Azure AKS">Installing Community Edition on Microsoft Azure AKS</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">14 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Community Edition Documentation Awardee Stan Tophoven's guide takes you through his process of deploying Community Edition on Azure's AKS. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/stan/" class="author-mini__item has-icon nr-1" title="Stan Tophoven" aria-label="Stan Tophoven">
+            <span class="author-mini__tooltip">Stan Tophoven</span>
+              <span class="author-mini__letter">Stan Tophoven</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-google-cloud-with-aws-services-ri-ben-yu-ban/" aria-label="Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版">Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">12 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Documentation Awardee Kojiro Yano translates Mozilla's quick start guide to Community Edition on GCP. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/kojiro/" class="author-mini__item has-icon nr-1" title="Kojiro Yano" aria-label="Kojiro Yano">
+            <span class="author-mini__tooltip">Kojiro Yano</span>
+              <span class="author-mini__letter">Kojiro Yano</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/deploying-mozilla-hubs-ce-on-gcp-with-ease-a-guide-to-the-personal-edition-helm-chart/" aria-label="Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart">Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">13 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        In this guide, Alex Griggs shows readers how to deploy his Community Edition Helm Chart: Personal Edition on GCP 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2023-12-27" class="post-card__date flex-1">
+        Dec 27, 2023
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/alex/" class="author-mini__item has-img  nr-1" title="Alex Griggs" aria-label="Alex Griggs">
+            <span class="author-mini__tooltip">Alex Griggs</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2023/12/alex-avatar.png" src="./Creating 2D Sprite-Based Retro Worlds_files/alex-avatar.png" alt="Alex Griggs">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+      </div>
+    </div>
+
+  </div>
+
+    </main>
+
+      <footer class="footer">
+  <div class="container wrapper">
+
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">Creator Labs</div>
+          <div class="m-b text-acc-3">Mozilla Hubs Creator Labs</div>
+          <div class="social flex">
+  <a class="social__item" href="https://twitter.com/MozillaHubs" target="_blank" title="Twitter" aria-label="Twitter" rel="noreferrer">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://github.com/mozilla/hubs" target="_blank" title="Github" aria-label="Github" rel="noreferrer">
+    <i class="icon icon-github icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#github"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://hubs.mozilla.com/rss" target="_blank" title="RSS" aria-label="RSS" rel="noreferrer">
+    <i class="icon icon-rss icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#rss"></use>
+  </svg>
+</i>  </a>
+</div>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Navigation</div>
+          <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Tags</div>
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+                <a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a>
+                <a href="https://hubs.mozilla.com/labs/tag/inspiration-2/">Inspiration</a>
+                <a href="https://hubs.mozilla.com/labs/tag/beginner/">Beginner</a>
+                <a href="https://hubs.mozilla.com/labs/tag/intermediate/">Intermediate</a>
+                <a href="https://hubs.mozilla.com/labs/tag/advanced/">Advanced</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom text-center">
+      <span>Visit <a href="https://www.mozilla.org/en-US/">Mozilla Corporation’s</a> not-for-profit parent, the <a href="https://foundation.mozilla.org/?utm_source=www.mozilla.org&amp;utm_medium=referral&amp;utm_campaign=footer">Mozilla Foundation</a>&gt;.
+Portions of this content are ©1998–2024 by individual mozilla.org contributors. Content available under a <a href="https://www.mozilla.org/en-US/foundation/licensing/website-content/">Creative Commons license</a></span>
+    </div>
+  </div>
+</footer>
+      <button class="btn-toggle-round scroll-top js-scroll-top" type="button" title="Scroll to top" aria-label="Scroll to top">
+  <svg class="progress-circle" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+  </svg>
+  <i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up"></use>
+  </svg>
+</i></button>
+
+    
+            <button class="toc-toggle btn-toggle-round js-toc-toggle is-active">
+          <i class="icon icon-file-text icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#file-text"></use>
+  </svg>
+</i>        </button>
+        <div class="post-toc shadow js-post-toc"> 
+          <div class="section__title">Table of Contents</div>
+          <span class="special-delimiter m-t-sm m-b-sm"></span>
+          <div class="post-toc__content js-toc"><ol class="toc-list "><li class="toc-list-item is-active-li"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#art-sources" class="toc-link node-name--H2  is-active-link">Art Sources</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#tools" class="toc-link node-name--H2 ">Tools</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#create-a-project-folder" class="toc-link node-name--H2 ">Create a Project Folder</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#preparing-your-first-spritesheet" class="toc-link node-name--H2 ">Preparing Your First Spritesheet</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#setting-up-your-blender-scene" class="toc-link node-name--H2 ">Setting Up Your Blender Scene</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#cutting-up-your-sprites" class="toc-link node-name--H2 ">Cutting Up Your Sprites</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#perfecting-your-cuts" class="toc-link node-name--H2 ">Perfecting Your Cuts</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#removing-transparency" class="toc-link node-name--H2 ">Removing Transparency</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#structure-building" class="toc-link node-name--H2 ">Structure Building</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#guidelines-for-animated-sprites" class="toc-link node-name--H2 ">Guidelines for Animated Sprites</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#organizing-the-scene" class="toc-link node-name--H2 ">Organizing the Scene</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#placing-props" class="toc-link node-name--H2 ">Placing Props</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#repositioning-and-resizing-the-scene" class="toc-link node-name--H2 ">Repositioning and Resizing the Scene</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#applying-transforms" class="toc-link node-name--H2 ">Applying Transforms</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#skybox-rendering" class="toc-link node-name--H2 ">Skybox Rendering</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#adding-a-pixel-sun" class="toc-link node-name--H2 ">Adding a Pixel Sun</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#concepts-of-lightmapping" class="toc-link node-name--H2 ">Concepts of Lightmapping</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#lightmapping-setup" class="toc-link node-name--H2 ">Lightmapping Setup</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#lightmap-baking" class="toc-link node-name--H2 ">Lightmap Baking</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#cleaning-your-lightmap" class="toc-link node-name--H2 ">Cleaning Your Lightmap</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#applying-your-lightmap" class="toc-link node-name--H2 ">Applying Your Lightmap</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#fading-into-the-void" class="toc-link node-name--H2 ">Fading Into the Void</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#hubs-specific-scene-entities" class="toc-link node-name--H2 ">Hubs-Specific Scene Entities</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#creating-a-navigation-mesh" class="toc-link node-name--H2 ">Creating a Navigation Mesh</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#light-entities-for-hubs" class="toc-link node-name--H2 ">Light Entities for Hubs</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#placing-your-spawn-points" class="toc-link node-name--H2 ">Placing Your Spawn Points</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#adding-looping-background-music" class="toc-link node-name--H2 ">Adding Looping Background Music</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#exporting-to-hubs" class="toc-link node-name--H2 ">Exporting to Hubs</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/creating-retro-worlds/#common-issues" class="toc-link node-name--H2 ">Common Issues</a></li></ol></div>
+        </div>
+
+
+    <div class="notifications">
+  <a tabindex="0" class="notify notify-signup js-notify-close" href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Great! Next, complete checkout for full access to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-signin js-notify-close" href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Welcome back! You've successfully signed in.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">You've successfully subscribed to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-checkout js-notify-close" href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your account is fully activated, you now have access to all content.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your billing info has been updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Your billing was not updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+</div>
+
+
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+      <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('638d2ca5ad762e00017bb60a')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+
+        <script>
+          document.addEventListener('readystatechange', function(event) {
+            if (document.readyState === "complete") {
+              // table of contents toggle
+              const tocToggleBtn = document.querySelector('.js-toc-toggle');
+              const postToc = document.querySelector('.js-post-toc');
+
+
+              // media query for TOC function
+              const mqSmall = window.matchMedia('(max-width: 767px)');
+              const mqLarge = window.matchMedia('(min-width: 768px)');
+
+              if (tocToggleBtn && postToc) {
+                // if device is large, show the TOC by default
+                if (mqLarge.matches) tocToggleBtn.classList.add('is-active');
+
+                // open/close the TOC
+                tocToggleBtn.onclick = function(event) {
+                  this.classList.toggle('is-active');
+                }
+              }
+
+              const offset = 60;
+              window.addEventListener('scroll', function(event) {
+                //Scroll back to top
+                const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+                scrollPos > offset ? tocToggleBtn.classList.add('is-visible') : tocToggleBtn.classList.remove('is-visible');
+              
+              }, false);
+
+              if (postToc) {
+                tocbot.init({
+                  // Where to render the table of contents.
+                  tocSelector: '.js-toc',
+                  // Where to grab the headings to build the table of contents.
+                  contentSelector: '.js-toc-content',
+                  // Which headings to grab inside of the contentSelector element.
+                  headingSelector: 'h1, h2, h3',
+                  // For headings inside relative or absolute positioned containers within content.
+                  hasInnerContainers: false,
+                  // smooth scroll
+                  scrollSmooth: false,
+                  // offset
+                  headingsOffset: 10,
+                  // onclick event
+                  onClick: function(e){ 
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    var el = document.querySelector(`#${CSS.escape(href.substring(1))}`);
+                    let offset;
+                    CONFIG.ENABLE_STICKY_HEADER === true ? offset = 80 : offset = 20 
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = el.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    });
+
+                    document.querySelector('.js-toc-toggle').classList.remove('is-active');
+                  }
+                });
+              }
+            }
+          });
+        </script>
+
+  <script>
+    if (CONFIG.ENABLE_COLOR_SCHEME_PICKER && 'content' in document.createElement('template')) {
+      const themeButton = document.querySelector('.js-theme-toggle');
+      themeButton ? themeButton.classList.add('is-visible') : '';
+
+      let colorSchemePicker = document.querySelector('.js-color-scheme-picker');
+      let colorSchemeTemplate = document.querySelector('.js-color-scheme-template');
+
+      COLOR_SCHEMES.map(function(theme) { 
+        var colorSchemeBtn = colorSchemeTemplate.content.cloneNode(true).querySelector('button');
+        colorSchemeBtn.setAttribute('data-color-scheme', theme.id);
+        colorSchemeBtn.querySelector('.color-scheme__name').textContent = theme.name;
+        colorSchemePicker.appendChild(colorSchemeBtn);
+      }).join(' ')
+    } 
+
+    const colorSchemeBtns = document.querySelectorAll('.js-color-scheme');
+    colorSchemeBtns.forEach(function(colorSchemeBtn) {
+      colorSchemeBtn.onclick = function(event) {
+        setColorScheme(event.currentTarget.getAttribute('data-color-scheme'));
+      }
+    })
+  </script>
+
+  <script>
+    const scrollTop = document.querySelector('.js-scroll-top');
+
+    if (scrollTop && CONFIG.ENABLE_SCROLL_TO_TOP) {
+      const progressPath = document.querySelector('.scroll-top path');
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
+      const updateProgress = function() {
+        const scroll = window.scrollY || window.scrollTop || document.documentElement.scrollTop;
+    
+        const docHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+    
+        const windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    
+        const height = docHeight - windowHeight;
+        var progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      }
+    
+      updateProgress();
+      const offset = 60;
+
+      window.addEventListener('scroll', function(event) {
+        updateProgress();
+        
+        //Scroll back to top
+        const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+        scrollPos > offset ? scrollTop.classList.add('is-active') : scrollTop.classList.remove('is-active');
+      
+      }, false);
+    }
+  </script>
+
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        // window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+
+
+    
+  
+
+<div id="sodo-search-root"></div></body></html>

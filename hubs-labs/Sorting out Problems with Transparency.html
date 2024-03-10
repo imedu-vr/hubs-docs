@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<!-- saved from url=(0069)https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/ -->
+<html lang="en" data-grid-columns="3" data-color-scheme="dark" data-view-type="grid"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Sorting out Problems with Transparency</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preload" href="./Sorting out Problems with Transparency_files/app.min.js" as="script">
+    <link rel="preload" href="./Sorting out Problems with Transparency_files/app.min.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <script type="text/javascript" async="" src="./Sorting out Problems with Transparency_files/analytics.js"></script><script type="text/javascript" async="" src="./Sorting out Problems with Transparency_files/js"></script><script type="text/javascript" async="" src="./Sorting out Problems with Transparency_files/js(1)"></script><script async="" src="./Sorting out Problems with Transparency_files/js(2)">
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-77033033-12');
+    </script>
+
+        <link rel="stylesheet" href="./Sorting out Problems with Transparency_files/css2" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" crossorigin="">
+
+        <noscript>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+
+
+
+
+    <script async="" src="./Sorting out Problems with Transparency_files/app.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./Sorting out Problems with Transparency_files/app.min.css">
+
+    <!--cssential--><style></style><!--/cssential-->
+
+    <script>
+  // Basic Config
+  let CONFIG = {
+    GHOST_URL: ``, 
+    GHOST_KEY: ``,
+    GHOST_SEARCH_IN_CONTENT: !!``,
+    GHOST_VERSION: 'v4', /* Ghost version: v4 or v3 */
+    GHOST_SEARCH_LIMIT: 8, /* Search result limit */
+    DEFAULT_VIEW_TYPE: `grid`,
+    DEFAULT_GRID_COLUMNS: 3, /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_COLOR_SCHEME: `System`,
+    ENABLE_COLOR_SCHEME_PICKER: true, /* Enable Color cheme picker */
+    ENABLE_IMAGE_LIGHTBOX: !!`true`,
+    ENABLE_SCROLL_TO_TOP: true, /* Enable Scroll Top Button */
+    ENABLE_FILTER: true, /* Enable filter feature on homepage */
+    ENABLE_HYPHENS: false, /* Enable hyphens */
+    ENABLE_PWA: false, /* Enable PWA - Progressive Web App */
+    ENABLE_STICKY_HEADER: !!``,
+    ENABLE_MENU_AUTO_CLOSE: true, /* Auto close menu when clicking outside of it */
+    DISQUS_SHORTNAME: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+    COVE_ID: '9a56f94608ec8169ab6bb801d004f591', /* To use Cove, replace the below id with your cove publication id*/
+    OPEN_LINKS_IN_NEW_TAB: !!`true`,
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    } /* 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } */
+  ];
+</script>
+
+<style>
+  body {
+    --global-max-width: 1280px;
+    --global-radius: 2px;
+    --global-radius-round: 50%;
+    --global-header-position: initial;
+    --global-hyphens: none; /* none / auto */
+    --global-menu-icons: none;
+    --global-menu-alignement: flex-start; /* flex-start / center / flex-end */
+    --global-breadcrumb: none; /* none / flex */
+    --global-menu-cta: flex; /* none / flex */
+  }
+</style>
+
+    <script>
+  // Dark/Light Theme Handling
+  let preferredTheme; 
+  if (CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase() === 'system') {
+    const preferredColorScheme = 
+    ( window.matchMedia 
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) 
+    ? 'dark' 
+    : 'light'
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase();
+  }
+  document.documentElement.setAttribute('data-color-scheme', preferredTheme);
+
+
+
+  // Grid/List View Handling
+  let preferredView = localStorage.getItem('USER_VIEW_TYPE') || CONFIG.DEFAULT_VIEW_TYPE;
+  document.documentElement.setAttribute('data-view-type', preferredView);
+
+  // Grid columns setting
+  document.documentElement.setAttribute('data-grid-columns', CONFIG.DEFAULT_GRID_COLUMNS);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (CONFIG.ENABLE_HYPHENS) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  if (CONFIG.ENABLE_STICKY_HEADER) {
+    //root.style.setProperty('--global-header-position', 'sticky');
+    document.documentElement.setAttribute('data-header', 'sticky');
+  }
+  
+  // Global values needed
+  const GLOBAL = {
+    CURRENT_PAGE: parseInt(''),
+    NEXT_PAGE: parseInt(''),
+    NEXT_PAGE_LINK: '',
+    MAX_PAGES: parseInt(''), 
+    LAST_PAGE: `` === `` ? true : false,
+    POSTS_PER_PAGE: parseInt('12'),
+    ADD_BOOKMARK_MSG: `Saved!`,
+    REMOVE_BOOKMARK_MSG: `Removed!`,
+    API: ''
+  }
+
+  // Set Themes
+  let style = document.createElement('style');
+  style.innerHTML = `
+    ${COLOR_SCHEMES.map(function(theme) { 
+      return `
+        html[data-color-scheme="${theme.id}"], button[data-color-scheme="${theme.id}"] {
+          --color-primary: ${theme.colors.primary};
+          --color-secondary: ${theme.colors.secondary};
+
+          --color-text: ${theme.colors.text};
+          --color-text-acc-1: ${theme.colors.text_acc_1};
+          --color-text-acc-2: ${theme.colors.text_acc_2};
+          --color-text-acc-3: ${theme.colors.text_acc_3};
+          --color-text-reverse: ${theme.colors.text_reverse};
+
+          --color-bg-body: ${theme.colors.bg_body};  
+          --color-bg: ${theme.colors.bg}; 
+          --color-bg-acc-1: ${theme.colors.bg_acc_1}; 
+          --color-bg-acc-2: ${theme.colors.bg_acc_2}; 
+          --color-bg-acc-3: ${theme.colors.bg_acc_3}; 
+          --color-bg-reverse: ${theme.colors.bg_reverse};
+
+          --color-neutral: ${theme.colors.neutral}; 
+          --color-border: ${theme.colors.border};
+        }
+        .btn-theme-toggle{display: none}
+      `.replace(/\s+/g,'');
+    }).join(' ')}
+  `
+  document.getElementsByTagName('head')[0].appendChild(style);
+</script><style>
+    html[data-color-scheme="light"],button[data-color-scheme="light"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,10%);--color-text-acc-1:hsl(0,0%,20%);--color-text-acc-2:hsl(0,0%,30%);--color-text-acc-3:hsl(0,0%,40%);--color-text-reverse:hsl(0,0%,90%);--color-bg-body:hsl(219,23%,97%);--color-bg:hsl(0,100%,100%);--color-bg-acc-1:hsl(0,0%,98%);--color-bg-acc-2:hsl(0,0%,96%);--color-bg-acc-3:hsl(0,0%,94%);--color-bg-reverse:hsl(0,0%,10%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,95%);}.btn-theme-toggle{display:none} html[data-color-scheme="dark"],button[data-color-scheme="dark"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,90%);--color-text-acc-1:hsl(0,0%,80%);--color-text-acc-2:hsl(0,0%,70%);--color-text-acc-3:hsl(0,0%,60%);--color-text-reverse:hsl(0,0%,10%);--color-bg-body:hsl(0,0%,3%);--color-bg:hsl(0,0%,8%);--color-bg-acc-1:hsl(0,0%,10%);--color-bg-acc-2:hsl(0,0%,12%);--color-bg-acc-3:hsl(0,0%,15%);--color-bg-reverse:hsl(0,0%,90%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,15%);}.btn-theme-toggle{display:none}
+  </style>
+    <meta name="description" content="Transparency can greatly enhance the look of a Hubs scene, but getting it to look right isn&#39;t always so clear.">
+    <link rel="icon" href="https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png" type="image/png">
+    <link rel="canonical" href="https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/amp/">
+    
+    <meta property="og:site_name" content="Creator Labs">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Sorting out Problems with Transparency">
+    <meta property="og:description" content="Transparency can greatly enhance the look of a Hubs scene, but getting it to look right isn&#39;t always so clear.">
+    <meta property="og:url" content="https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/">
+    <meta property="og:image" content="https://hubs.mozilla.com/labs/content/images/2022/05/FoxWindow.gif">
+    <meta property="article:published_time" content="2022-05-31T22:05:10.000Z">
+    <meta property="article:modified_time" content="2022-05-31T22:05:10.000Z">
+    <meta property="article:tag" content="Tutorials">
+    <meta property="article:tag" content="Beginner">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sorting out Problems with Transparency">
+    <meta name="twitter:description" content="Transparency can greatly enhance the look of a Hubs scene, but getting it to look right isn&#39;t always so clear.">
+    <meta name="twitter:url" content="https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/">
+    <meta name="twitter:image" content="https://hubs.mozilla.com/labs/content/images/2022/05/FoxWindow.gif">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Jim Conrad">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Tutorials, Beginner">
+    <meta name="twitter:site" content="@MozillaHubs">
+    <meta property="og:image:width" content="250">
+    <meta property="og:image:height" content="188">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Creator Labs",
+        "url": "https://hubs.mozilla.com/labs/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Jim Conrad",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/2022/03/NotARobotJim.jpg",
+            "width": 460,
+            "height": 460
+        },
+        "url": "https://hubs.mozilla.com/labs/author/jco/",
+        "sameAs": []
+    },
+    "headline": "Sorting out Problems with Transparency",
+    "url": "https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/",
+    "datePublished": "2022-05-31T22:05:10.000Z",
+    "dateModified": "2022-05-31T22:05:10.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hubs.mozilla.com/labs/content/images/2022/05/FoxWindow.gif",
+        "width": 250,
+        "height": 188
+    },
+    "keywords": "Tutorials, Beginner",
+    "description": "Transparency can greatly enhance the look of a Hubs scene, but getting it to look right isn&#x27;t always so clear.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hubs.mozilla.com/labs/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.30">
+    <link rel="alternate" type="application/rss+xml" title="Creator Labs" href="https://hubs.mozilla.com/labs/rss/">
+    
+    <script defer="" src="./Sorting out Problems with Transparency_files/sodo-search.min.js" data-key="e3e2620efdf47912b1552dbb5b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://hubs.mozilla.com/labs/" crossorigin="anonymous"></script>
+    <link href="https://hubs.mozilla.com/labs/webmention" rel="webmention">
+    <script defer="" src="./Sorting out Problems with Transparency_files/cards.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Sorting out Problems with Transparency_files/cards.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Sorting out Problems with Transparency_files/js(3)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77033033-12');
+</script>
+<style>:root {--ghost-accent-color: #007AB8;}</style>
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightbox-loader{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightbox-loader div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightbox-loader 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightbox-loader div:nth-child(1){animation-delay:-.45s}.fslightbox-loader div:nth-child(2){animation-delay:-.3s}.fslightbox-loader div:nth-child(3){animation-delay:-.15s}@keyframes fslightbox-loader{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media (prefers-reduced-motion: no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+  <body class="post-template tag-tutorials tag-beginner">
+      <script>
+
+
+
+
+
+</script>
+
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+<a class="header__brand" href="https://hubs.mozilla.com/" target="_blank">        <img class="light" src="./Sorting out Problems with Transparency_files/mozilla-hubs-logo.svg" alt="Creator Labs">
+         <img class="dark" src="./Sorting out Problems with Transparency_files/mozilla-hubs-logo-dark.svg" alt="Creator Labs">    
+</a><a href="https://hubs.mozilla.com/labs">          <span class="header__title m-0">Creator Labs</span>
+</a>        
+        <div class="flex-1"></div>
+
+
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        
+
+        <div class="user-menu js-user-menu">
+    <a class="signup-link" href="https://hubs.mozilla.com/signup/" tabindex="0" title="Sign up" aria-label="Sign up">
+      <i class="icon icon-arrow-up-right icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up-right"></use>
+  </svg>
+</i>Sign up
+    </a>
+    <a class="signin-link" href="https://hubs.mozilla.com/signin/" tabindex="0" title="Sign in" aria-label="Sign in">
+      <i class="icon icon-log-in icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#log-in"></use>
+  </svg>
+</i>Sign in
+    </a>
+</div>      </div>
+       
+    </div>
+  </div>
+</header>
+      <nav class="menu js-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+          <i class="icon icon-spoke icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#spoke"></use>
+  </svg>
+</i>        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+          <i class="icon icon-mozilla-hubs icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#mozilla-hubs"></use>
+  </svg>
+</i>        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+
+  
+  <span class="flex-1"></span>
+
+
+
+
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle is-visible" tabindex="0" title="Theme color scheme" aria-label="Theme color scheme">
+    <span class="btn-toggle-icons">
+      <i class="icon icon-settings icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#settings"></use>
+  </svg>
+</i>    </span>
+    <span>Theme</span>
+  </button>
+
+  <div class="color-scheme-picker js-color-scheme-picker">
+<button class="color-scheme w-100 js-color-scheme" data-color-scheme="light">
+    <span class="color-scheme__name flex-1 text-left">Light</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button><button class="color-scheme w-100 js-color-scheme" data-color-scheme="dark">
+    <span class="color-scheme__name flex-1 text-left">Dark</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button></div>
+
+<template class="js-color-scheme-template"></template>
+
+</nav>
+    <main class="main">
+      <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  <div class="container wrapper">
+    <div class="hero">
+    <ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a></li>
+  <li class="breadcrumb-item breadcrumb-item-current">Sorting out Problems with Transparency</li>
+</ul>  
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-tutorials tag-list__item has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" title="Tutorials" aria-label="Tutorials">
+              <span class="tag-list__item--accent" style="background-color: #F5325C"></span>
+            Tutorials
+          </a>
+          <a class="tag-beginner tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/beginner/" title="Beginner" aria-label="Beginner">
+              <span class="tag-list__item--accent" style="background-color: #007AB8"></span>
+            Beginner
+          </a>
+      </div>
+
+    <h1 class="hero__title text-center">Sorting out Problems with Transparency</h1>
+
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>May 31, 2022</span>
+        <span class="m-l-sm m-r-sm">—</span>
+        <span>17 min read</span>
+      </div>
+
+  </div>
+
+    <div class="hero__media has-caption">
+      <figure class="hero__figure">
+        <img class="hero__img lazyautosizes lazyloaded" data-srcset="/labs/content/images/size/w300/2022/05/FoxWindow.gif 300w,
+                  /labs/content/images/size/w600/2022/05/FoxWindow.gif 600w,
+                  /labs/content/images/size/w1000/2022/05/FoxWindow.gif 1000w,
+                  /labs/content/images/size/w2000/2022/05/FoxWindow.gif 2000w" srcset="/labs/content/images/size/w300/2022/05/FoxWindow.gif 300w,
+                  /labs/content/images/size/w600/2022/05/FoxWindow.gif 600w,
+                  /labs/content/images/size/w1000/2022/05/FoxWindow.gif 1000w,
+                  /labs/content/images/size/w2000/2022/05/FoxWindow.gif 2000w" data-sizes="auto" data-src="/labs/content/images/size/w300/2022/05/FoxWindow.gif" src="./Sorting out Problems with Transparency_files/FoxWindow.gif" alt="A clip of fox licking a window as seen from the other side." sizes="640px">
+          <figcaption>A favorite gif around Mozilla: "Firefox is having problems with Windows"</figcaption>
+      </figure>
+    </div>
+</div>
+    <article class="post tag-tutorials tag-beginner content-wrap post-access-public">
+     
+
+      <div class="content">
+          <p class="content-excerpt">
+            Transparency can greatly enhance the look of a Hubs scene, but getting it to look right isn't always so clear.
+          </p>
+        
+          <p>Just when you thought you understood how to make cool scenes for Hubs, inevitably you run into a challenge when trying to make something look like glass or otherwise be partially see-through.</p><p>In order to know how to fix common problems with transparency, it helps to first understand the different types of transparency in computer graphics. So buckle up and hopefully this will make things more...transparent.</p><!--kg-card-begin: markdown--><h3 id="alpha-what">Alpha <em>what</em>?</h3>
+<!--kg-card-end: markdown--><p>The terms ‘Alpha Channel’, ‘Image Alpha’, or just ‘Alpha’ are commonly used when talking about transparency. The good news is that they all refer to the same exact thing. Here’s a quick overview of some fundamentals in case you never learned anything about it. <em>(shhh… I won’t tell anyone you don’t know.)</em></p><p>Color images (on a computer–not print, that’s a different topic, although not too different.) typically contain three layers of information, often referred to as ‘channels’. Those three channels are Red, Green, and Blue. Those three basic hues, with all their possible values (aka, brightness) and saturation (aka ‘how much color’) values, can create around 16 million colors when combined in different amounts. I’m not going to get deep into the topic of additive vs. subtractive color; the point is that those three color channels can do quite a bit, but they contain absolutely no information about transparency. This is where a fourth channel comes into play: <em><strong>The alpha channel</strong></em></p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">If you ever wondered why it’s called ‘alpha’, it’s been explained by <a href="https://en.wikipedia.org/wiki/Alvy_Ray_Smith" target="_blank" rel="noreferrer noopener">Alvy Ray Smith</a>, cofounder of <a href="https://www.lucasfilm.com/" target="_blank" rel="noreferrer noopener">Lucasfilm</a>’s Computer Division and <a href="https://www.pixar.com/" target="_blank" rel="noreferrer noopener">Pixar</a> who was one of its inventors:<br>“<em>We called it that because of the</em><a href="https://en.wikipedia.org/wiki/Convex_combination" target="_blank" rel="noreferrer noopener"><em> classic linear interpolation formula</em></a><em> α <strong>A + ( 1 − α ) B</strong> that uses the Greek letter <strong>α</strong> (alpha) to control the amount of interpolation between, in this case, two images A and B.</em>"</div></div><p>The alpha channel, when viewed by itself, looks just like the R, G, &amp; B channels, except that the brightness of each pixel determines just how transparent or opaque that part of the image should be. So a completely white pixel would be opaque whereas a completely black pixel would be invisible. Any values in-between are some amount of semi-transparency.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/grayValues.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/grayValues.png" class="kg-image" alt="A horizontal gradient of black to white, labeled with &#39;invisible&#39;, &#39;opaque&#39; or &#39;semi-transparent&#39;." loading="lazy" width="1024" height="512" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/grayValues.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/grayValues.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/grayValues.png 1024w" sizes="(min-width: 720px) 720px"></a><figcaption>Black is fully invisible, White is fully opaque. Anything in between is semi-transparent.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="ok-alpha-transparency-got-it-let%E2%80%99s-go"><em>"Ok! Alpha = transparency. Got it. Let’s go!"</em></h3>
+<!--kg-card-end: markdown--><p>Not so fast there, friend. Not every file type can support an alpha channel. This is the first important thing to remember. So if you see a <strong>.JPG</strong> (jpeg), for example, you can automatically assume it does <strong>not</strong> have any transparency information.</p><p>For our purposes of making content for Hubs, we’re generally going to be using the <strong>.PNG</strong> file format for most things. There are <a href="https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types" target="_blank" rel="noreferrer noopener">tradeoffs for using one type of format over another</a> and .PNG is no exception, but because it supports having transparency, it will serve us well for most materials and textures we will make.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">🤓</div><div class="kg-callout-text"><strong>Nerd trivia alert:</strong> <a href="https://en.wikipedia.org/wiki/Portable_Network_Graphics" target="_blank" rel="noreferrer noopener">.PNG</a> got its original (dumb recursive) name more for what it <em>isn’t</em> than for what it is. It originally (unofficially) stood for “<strong>P</strong>NG’s <strong>N</strong>ot <strong>G</strong>if”, trying to distance itself from the inferior .GIF format. It’s now known to stand for “Portable Network Graphics”.</div></div><p>There’s a lot more technical information about .PNGs if you care to read about it, but let’s move on to something more immediately useful.</p><!--kg-card-begin: markdown--><h3 id="working-with-transparency">Working with Transparency</h3>
+<!--kg-card-end: markdown--><p>Not every .PNG contains alpha (transparency) information. The author of the image needs to have explicitly added it. Fortunately, it’s not that difficult to do with any modern image editing software. Let’s look at <a href="https://www.adobe.com/products/photoshop.html" target="_blank" rel="noreferrer noopener">Photoshop</a> first:<br><br>It all starts with your initial ‘New Document’. You need to select ‘Transparent Background’. If you see a checkerboard pattern afterward, you’re on the right track.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/PhotoshopTransparency.mp4" poster="https://img.spacergif.org/v1/426x660/0a/spacer.png" width="426" height="660" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember265.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:08</span></div><input type="range" class="kg-video-seek-slider" max="8" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Photoshop's 'New Document' dialog. 'Background Contents' should be set to 'Transparent'.</figcaption></figure><p>Similarly, the free and open source app, <a href="https://krita.org/" target="_blank" rel="noreferrer noopener">Krita</a>, has a setting for transparency under its ‘Content’ tab:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/KritaTransparency.mp4" poster="https://img.spacergif.org/v1/642x568/0a/spacer.png" width="642" height="568" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember285.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:07</span></div><input type="range" class="kg-video-seek-slider" max="7" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>The free and open source Krita app's 'Create new document' dialog. The transparent background gets set in the 'Content' sub-tab.</figcaption></figure><p>Lastly, <a href="https://www.gimp.org/downloads/" target="_blank" rel="noreferrer noopener">GIMP</a>, another free and open source app has an almost identical way of starting with transparency:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/GIMPTransparency.mp4" poster="https://img.spacergif.org/v1/408x622/0a/spacer.png" width="408" height="622" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember302.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:10</span></div><input type="range" class="kg-video-seek-slider" max="10" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>GIMP may be a problematic name, but its 'New Image' dialog has a 'Fill With' parameter where you can select a transparent background.</figcaption></figure><p>So we’ve established that a checkerboard pattern seems to be a universal depiction of a transparent background. From there, the key is making sure that background remains clear if you want those pixels invisible in your final image.</p><p>Finally, within any of these apps, you’ll need to make sure that the alpha transparency gets saved when you export your image. All three of the apps listed above have a similar workflow where you must ‘Export’ the image and make sure that the ‘background’ or ‘transparency’ checkboxes are turned ON. Otherwise, that alpha information will be ignored and you’ll end up with a plain color background with no transparency.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">🕑</div><div class="kg-callout-text">To save some time, I’m not showing the export process for these apps. For more detailed information, you can always consult the manual for your image editing app of choice.</div></div><!--kg-card-begin: markdown--><h3 id="testing-1-2-3%E2%80%A6">Testing 1, 2, 3…</h3>
+<!--kg-card-end: markdown--><p>If you’re not sure if the transparency information is there for your image, you can always do a very simple drag and drop right into a <a href="https://hubs.mozilla.com/">Hubs</a> room. Hubs automatically assumes images have alpha information so if it’s there, you should see the effect right away because part of your image will be completely transparent.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/DragDropImageHubs.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember338.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:09</span></div><input type="range" class="kg-video-seek-slider" max="9" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Did you know you can simply drag and drop things right into a Hubs session?</figcaption></figure><p></p><!--kg-card-begin: markdown--><h3 id="living-in-a-material-world">Living in a Material World</h3>
+<!--kg-card-end: markdown--><p>Now that the basics of image transparency are out of the way, we can talk about how we can use transparent images to enhance the materials and textures of our 3d elements.</p><p>One of the most useful techniques for transparency is to use a texture as a substitute for a bunch of geometry that would normally be extremely time-consuming and difficult to model. For example, imagine a scene where you need something with lots of holes in it, like a chain.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/ChainPhoto.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/ChainPhoto.png" class="kg-image" alt="A series of partially rusted chains hanging vertically with a blurry background." loading="lazy" width="640" height="480" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/ChainPhoto.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/ChainPhoto.png 640w"></a><figcaption>Chains are a great example of a simple repeating pattern. Those holes could be better represented by a texture than a model, especially if you have lots of them.</figcaption></figure><p>If you take a purist’s approach, you might try modeling it. Since it’s a repeating pattern, it’s not that difficult once you understand you can make one chain link and duplicate it. However, the sheer number of triangles you’d need to represent a whole chain of links could quickly blow your entire <a href="https://hubs.mozilla.com/docs/spoke-optimization.html#reduce-number-of-triangles">geometry budget</a>.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/ChainTriangleCount.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/ChainTriangleCount.png" class="kg-image" alt="A 3d model of a chain. The triangle count is shown to be 24,960, accompanied by a &#39;shocked reaction&#39; meme." loading="lazy" width="774" height="514" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/ChainTriangleCount.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/ChainTriangleCount.png 774w" sizes="(min-width: 720px) 720px"></a><figcaption>Twenty of these simple links adds up to almost 25,000 triangles! I’ve seen whole Hubs scenes with much fewer.</figcaption></figure><p>Of course, you could definitely improve it by simplifying each link to have fewer triangles, but no matter how low you manage to get them, it’s still going to be a ton of triangles when duplicated that many times.</p><!--kg-card-begin: markdown--><h3 id="don%E2%80%99t-make-it%E2%80%93fake-it">Don’t make it–fake it.</h3>
+<!--kg-card-end: markdown--><p>Don’t throw away that model just yet though. We can use a model like this to generate a texture that could be used to ‘fake’ the look of a chain. I’m going to use Blender to render out an image of the chain (or at least <em>part</em> of the chain, since it repeats). That new texture could be applied to much simpler geometry and most people will never even notice.</p><p>Without going through every step, since you might be using some other software, I’ll explain the basic idea.</p><p>I set up a new camera and point it toward the model where I want to capture an image. In my case, I point it directly downward and move it into a position where it’s capturing the smallest amount of the chain that I need for the image to repeat. Opening a second 3d view and looking through the camera is important for proper alignment.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ChainLinkCamera1.mp4" poster="https://img.spacergif.org/v1/1164x720/0a/spacer.png" width="1164" height="720" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember586.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 59.25925925925925%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:27</span></div><input type="range" class="kg-video-seek-slider" max="27" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Setting up a camera to render a portion of the chain. The rendered image will be used as a texture for a much simpler model.</figcaption></figure><p>Another important step is making sure the camera is set to ‘Orthographic’. This will ensure that the captured image doesn’t contain any perspective. We need this image to appear flat so that it repeats seamlessly. With the camera selected, in the Object Data Properties tab, you can find a dropdown to change the camera from the default ‘Perspective’ to ‘Orthographic’. You’ll also need to go to the Output Properties tab and set the Resolution X &amp; Y to values that will make the image square. You’ll want powers of 2 here, like 128, 256, 512, 1024, etc. I’m making this texture pretty small and light, so 256 by 256 will work just fine.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ChainLinkCamera2.mp4" poster="https://img.spacergif.org/v1/328x828/0a/spacer.png" width="328" height="828" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember605.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:13</span></div><input type="range" class="kg-video-seek-slider" max="13" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Setting up the camera to be Orthographic. Cameras have lots of parameters so consult your 3d app's manual if you're not sure where things are located.</figcaption></figure><p>A couple more things to check. You may find you need to adjust the camera’s ‘Orthographic Scale’ so that we're not rendering too large an area. The most important thing, however, (and the whole point of this exercise) is to make sure that the rendered image comes out with a transparent background. This will vary from app to app, but in Blender, the parameter you’re looking for is in the Render Properties tab under ‘Film’. It’s called ‘Transparent’.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/RenderTransparent.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/RenderTransparent.png" class="kg-image" alt="Blender&#39;s Render Properties dialog has a &#39;Transparent&#39; checkbox under the &#39;Film&#39; section." loading="lazy" width="333" height="467"></a><figcaption>Blender's way of rendering a transparent background. I think I've seen this question asked on Blender forums more than any other.</figcaption></figure><p>Now when we render what the camera sees, (Render→Render Image), we get an image of part of the chain with a transparent background.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ChainRender.mp4" poster="https://img.spacergif.org/v1/698x676/0a/spacer.png" width="698" height="676" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember638.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:17</span></div><input type="range" class="kg-video-seek-slider" max="17" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Rendering what the camera sees, complete with a transparent background. This image will be the basis for our 'faked' chain.</figcaption></figure><p>Notice when we show the alpha channel by itself, we can clearly see that the chain parts are white (opaque) and the background remains black (transparent). This is exactly what we need.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">If you’re thinking, <em>“Couldn’t I just draw something like this in Photoshop or Krita or whatever?”</em>, the answer is yes, absolutely. The advantage of this method is that we can easily try different views or zoom levels just by moving the camera around. Plus, the render will respect partially transparent things and render the alpha as various levels of gray.</div></div><p>So now we can save that rendered image and use it as a texture. Let’s make sure that we save it as a .PNG so we don’t discard the alpha transparency. You can save right from the rendered image window using ‘Image→Save As…’. Note the options that appear for saving RGB<strong>A</strong>. That <strong>A</strong> is for the alpha channel and we definitely need it.</p><!--kg-card-begin: markdown--><h3 id="faking-it-with-texture">Faking it with texture</h3>
+<!--kg-card-end: markdown--><p>Now that we’re ready to apply this newly rendered texture, we can go ahead and hide all that high-polygon chain and camera stuff. I wouldn’t recommend deleting it entirely–we may still need to revisit it for future work. In Blender, I make a habit of putting my ‘setup’ stuff in its own Collection so I can keep things organized. Use whatever organization method(s) you like; a little extra time cleaning things up is always a good idea and you’ll thank yourself later.</p><p>All we need to try out this new texture is a simple plane. We’ll apply a new material to it and bring in our rendered-out chain image, complete with alpha channel. From here, I connect the ‘Alpha’ output of the Image Texture node and connect it to the ‘Alpha’ input of the Principled BSDF node. My material setup looks like this:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/ChainAlphaMaterial.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/ChainAlphaMaterial.png" class="kg-image" alt="A split view of Blender&#39;s Shader Editor window and the 3d view of the plane with the material applied." loading="lazy" width="976" height="938" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/ChainAlphaMaterial.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/ChainAlphaMaterial.png 976w" sizes="(min-width: 720px) 720px"></a><figcaption>The ‘Alpha’ output of the chain texture node gets plugged into the ‘Alpha’ input of the Principled BSDF node. Note that the plane doesn’t show any transparency yet.</figcaption></figure><p>You probably noticed that the plane object itself isn’t displaying any actual transparency yet. That’s because we need to explicitly tell the material that we want transparency. This can be done in a few spots, but I like to go to the Material tab and scroll down to the section called ‘Settings’. In there, you will set the &nbsp;‘Blend Mode’ parameter to ‘Alpha Clip’.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/AlphaClipSettings.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/AlphaClipSettings.png" class="kg-image" alt="Blender&#39;s Material tab shows a parameter called &#39;Blend Mode&#39; set to &#39;Alpha Clip&#39;. It&#39;s under the &#39;Settings&#39; section." loading="lazy" width="335" height="436"></a><figcaption>The Blend Mode in Blender can be tricky to find. I personally would never think to look in a section called 'Settings' but I guess it had to go somewhere...</figcaption></figure><p>As soon as you set it to ‘Alpha Clip’, you’ll see the plane object change to display the texture with all its transparency working.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/alphaClipTransparency.mp4" poster="https://img.spacergif.org/v1/920x354/0a/spacer.png" width="920" height="354" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember705.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:04</span></div><input type="range" class="kg-video-seek-slider" max="4" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Setting the 'Blend Mode' to 'Alpha Clip' immediately shows the result in the 3d view. If we hadn't put the texture on it first, you wouldn't see any change.</figcaption></figure><p>So now we’re getting somewhere, but I’m still only seeing part of the chain. There are many ways to adjust this, but for demonstration purposes, I’ll use a quick trick. If I simply scale the plane while in Edit Mode, the texture is just going to stretch with the mesh. However, Blender has a nice function called ‘Correct Face Attributes’ that will automatically adjust the UVs of the mesh as I scale it. Check it out:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/CorrectFaceAttributes.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember723.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:17</span></div><input type="range" class="kg-video-seek-slider" max="17" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Blender's 'Correct Face Attributes' checkbox only appears while in Edit Mode. It may be hard to find, but it can save you a ton of trouble with correcting UVs.</figcaption></figure><p>From here, we can play around with the Base Color, Metallic, and Roughness parameters until we get something a little more like metal. You’ll soon discover, however, that this chain looks flat and no amount of tweaking can fake the look of it being a true 3d object.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/MaterialAdjustment.mp4" poster="https://img.spacergif.org/v1/960x540/0a/spacer.png" width="960" height="540" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember741.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:16</span></div><input type="range" class="kg-video-seek-slider" max="16" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Tweaking the material to look more like metal. We can make it shiny and metallic, but it still looks flat.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="make-it-normal">Make it Normal</h3>
+<!--kg-card-end: markdown--><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⏩</div><div class="kg-callout-text">Feel free to skip this section or return to it later if you’d rather strictly stay on the topic of transparency.</div></div><p>This tutorial is supposed to be all about transparency, but sometimes we need to stray a bit to get the look we want. This flat-looking chain is in desperate need of something to make it look 3-dimensional. Here’s where a <a href="https://en.wikipedia.org/wiki/Normal_mapping" target="_blank" rel="noreferrer noopener">normal map</a> comes into play.</p><p>Good thing we didn’t get rid of that original 3d chain we made. We can use a similar rendering technique to generate a normal map– a special texture that’s used to simulate the illusion of having bumpy parts, often with way more detail than the geometry itself.</p><p>The only thing is, in Blender, trying to render out the surface normal information can be tricky because of how surface directions are calculated. But by switching the renderer from Eevee or Cycles to a third, often overlooked option called ‘Workbench’, we can do this really easily.</p><p>We’ll also switch the Lighting Method to ‘Matcap’ and choose the matcap material that looks like some pastel rainbow colors. The clip below will make things easier to understand:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/WorkbenchRenderer.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember402.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:12</span></div><input type="range" class="kg-video-seek-slider" max="12" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Using the 'Workbench' renderer in Blender. Workbench can capture normals from a camera view really quickly and easily with minimal effort on your part.</figcaption></figure><p>Now when we go to Render→Render Image, we get a different look:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/RenderedNormals1.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/RenderedNormals1.png" class="kg-image" alt="Rendered image of the chain links&#39; surface normal information which looks like pale pastel colors. The background is transparent." loading="lazy" width="405" height="417"></a><figcaption>The rendered image that can be used as a normal map. Any time you see this type of color palette, you'll know it's a normal map texture.</figcaption></figure><p></p><p>That’s almost perfect, but normal maps work best when they don’t have transparency. This step might seem weird, but trust me on this one. Just add a temporary plane that fills the camera view and is behind the chain. Doing so and re-rendering will produce an image like this:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/RenderedNormals2.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/RenderedNormals2.png" class="kg-image" alt="Rendered image of the chain links&#39; surface normal information which looks like pale pastel colors. The background is a solid lavender color with no transparency.t." loading="lazy" width="403" height="413"></a><figcaption>That's more like it. We don't need any alpha transparency in a normal map texture. That plain lavender color means that surface is perpendicular to the camera.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">📷</div><div class="kg-callout-text">If your new rendered images are being photobombed by your chain plane or other geometry, you can turn off the little camera ‘render’ icons in the Outliner window for any objects you don’t want to show up in the rendered image. You could also just move things out of the way if that’s easier.</div></div><p>We need to save this new image. I’m calling it ‘ChainNormal’. It can be saved as a .PNG without the alpha channel since we don’t care about this texture’s transparency or lack thereof.</p><p>We also must set the renderer back to ‘Eevee’ (instead of ‘Workbench’) so we can see our materials again. In case you forgot, or are too lazy to scroll up a paragraph or two, it can be found in the Render Properties tab.</p><p>Now, for the ‘feels like magic’ part. We can add our new ‘ChainNormal’ image into our chain material and hook it up to a Normal Map node, then to the ‘Normal’ input of the Principled BSDF node. We also must change the Image Texture node to have a Color Space set to ‘Non-Color’. Normal maps always need this setting to look right. Here’s my material setup:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/NormalMaterial.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/NormalMaterial.png" class="kg-image" alt="Blender&#39;s Shader Editor showing the setup for the fake chain material. The ChainNormal texture&#39;s Color output is hooked up to a Normal Map node, then to the Normal input of the Principled BSDF node." loading="lazy" width="1001" height="648" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/NormalMaterial.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/NormalMaterial.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/NormalMaterial.png 1001w" sizes="(min-width: 720px) 720px"></a><figcaption>Adding the ChainNormal texture to our material setup. That 'Non-Color' setting is extremely important for it to look right.</figcaption></figure><p>As soon as we hook up the normal map texture, the plane object changes to show an apparent ‘bumpiness’ to the surface. This is the magic of normal maps at work. With a simple texture, we have created the illusion of a 3-dimensional surface, even though our geometry is completely flat.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ChainWNormals.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember521.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:06</span></div><input type="range" class="kg-video-seek-slider" max="6" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>A normal map applied to this flat plane gives the illusion of depth.</figcaption></figure><p>Of course, normal maps have their limitations. For example, you can only rotate your view so far before the illusion is broken and you notice just how flat the surface truly is. But we’ve effectively reduced our original chain of around 25,000 triangles down to just 2 triangles!</p><p>If you want to finish out this chain, you’ll probably want to duplicate the mesh and rotate it so it’s visible from a side angle too. There are two problems to tackle though. First, the side view of the chain links won’t look right. Second, the normal map’s bumpiness will appear backwards when viewed from the back side of the mesh.</p><p>This ‘side of the chain’ problem can be solved by first removing every other chain link and re-rendering our alpha and normal textures. After applying the new textures, (or reloading them if you saved over the old ones), that will get you something like this:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/BetterTextures.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/BetterTextures.png" class="kg-image" alt="A split view of the single-chain link textures: The one with alpha transparency, the normal texture, and a view of the final material." loading="lazy" width="764" height="677" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/BetterTextures.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/BetterTextures.png 764w" sizes="(min-width: 720px) 720px"></a><figcaption>It turns out we only need to render one chain link. This could have been centered instead of split across the edge of the texture, but since it tiles seamlessly (and to simplify this tutorial) it's okay like this.</figcaption></figure><p>Now we can duplicate the mesh, rotate it 90 degrees, and offset it a bit to get this:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Sorting out Problems with Transparency_files/2ChainPlanes.png" aria-label="Click for Lightbox"><img src="./Sorting out Problems with Transparency_files/2ChainPlanes.png" class="kg-image" alt="3d view of two intersecting planes with the &#39;fake&#39; chain texture on them to look like the links are connected." loading="lazy" width="731" height="429" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/2ChainPlanes.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/2ChainPlanes.png 731w" sizes="(min-width: 720px) 720px"></a><figcaption>Two intersecting planes with our new chain material. Since the material is double-sided, the normal map texture will look inverted (and wrong) on the back sides.</figcaption></figure><p>To fix the second problem, where the normal map looks backwards from the reverse side, we can duplicate the existing faces, flip (invert) their normals, and turn ‘Backface Culling’ ON.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/DupeFlipCull.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember572.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:27</span></div><input type="range" class="kg-video-seek-slider" max="27" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Duplicating both planes, flipping their normals, and culling all backfaces of the material.</figcaption></figure><p>The end result is that we only see the front faces, but each plane has the texture facing forward so the normals are facing the correct direction. Sure, the chain will still look flat if you catch the perfect side view, but depending on the size of the chain, it won’t be that noticeable at a glance.</p><p>We can now duplicate this chain over and over with very little rendering cost, leaving more space for other geometry and more complex avatars. If the chain mesh had more subdivisions, you could even deform it (manually or along a curve) so it doesn’t need to be in a straight line.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/chainLighting.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember587.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:06</span></div><input type="range" class="kg-video-seek-slider" max="6" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>I added some subdivisions along the plane so I could bend the chain. Check out how lighting reveals the normal map's 3d effect.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="alpha-clip-vs-alpha-blend">Alpha Clip vs. Alpha Blend</h3>
+<!--kg-card-end: markdown--><p>Another important part of understanding transparency is knowing the difference between Alpha Clip and Alpha Blend modes. We’ve seen Alpha Clip in action with our chain. Alpha Clip is used when you need pure opacity and pure transparency. In other words, a pixel can either be ON or OFF. There is no in-between. As a result, Alpha Clip is super cheap in terms of rendering cost. The renderer simply discards any pixels below a certain threshold. You may have noticed that Blender has a slider to adjust this threshold. It’s in the same place as where you set the Blend Mode itself.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AlphaClip.mp4" poster="https://img.spacergif.org/v1/1280x376/0a/spacer.png" width="1280" height="376" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember610.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:11</span></div><input type="range" class="kg-video-seek-slider" max="11" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Despite this image having an edge with soft transparency (shades of gray), Alpha Clip mode restricts the transparency to be either visible or invisible, with no in-between values.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">In some software, Alpha Clip is sometimes referred to as Alpha Test or Stencil Alpha. Regardless of the name, the tech behind it is usually the same.</div></div><p>The other type we can use in Hubs is called Alpha Blend. I say this with some trepidation because not only is Alpha Blend trickier to work with, it’s also more expensive to render.</p><p>Alpha Blend looks at the entire range of values in your Alpha texture and applies the corresponding amount of transparency. So, for example, black and white pixels are still ON or OFF, but in-between values (shades of gray) are semi-transparent. This is how you can achieve the look of things like glass or clear plastics.</p><p>The same material set to Alpha Blend achieves the look of semi-transparency since that mode can display the full range of alpha channel values.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AlphaBlend.mp4" poster="https://img.spacergif.org/v1/1280x384/0a/spacer.png" width="1280" height="384" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember637.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:11</span></div><input type="range" class="kg-video-seek-slider" max="11" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Alpha Blend recognizes those in-between grayscale values and makes the corresponding pixels of our texture semi-transparent.</figcaption></figure><p>But that nice soft transparency has its downsides too. Take a look at what happens when you have two surfaces with Alpha Blend on them. As soon as they overlap, depending on their distance, renderers can get confused about which one is in front.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AlphaBlendSorting.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember652.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:15</span></div><input type="range" class="kg-video-seek-slider" max="15" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>A common problem with Alpha Blend transparency. Surfaces near each other can confuse renderers about which one should be displayed in front. This can be seen in games and applications like Hubs--even Blender itself.</figcaption></figure><p>This doesn’t necessarily mean you should never use Alpha Blend. But it’s good to be aware of the potential problems you might run into, especially if you know you intend to have multiple semi-transparent surfaces that will overlap when viewed at certain angles. This is often referred to as an ‘alpha sorting problem’. The renderer doesn’t know what order to sort each surface so it can’t render them consistently.</p><p>This can also be seen when using no alpha texture at all but setting the Alpha slider to an in-between value. Alpha Blend will make the surfaces semi-transparent, but renderers can have a heck of a time trying to figure out what faces are in front.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AlphaBlendSortingProblem2.mp4" poster="https://img.spacergif.org/v1/1212x510/0a/spacer.png" width="1212" height="510" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember667.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 61.904761904761905%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:21</span></div><input type="range" class="kg-video-seek-slider" max="21" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>A single object can suffer from transparency sorting problems caused by Alpha Blend. It's a confusing thing to diagnose sometimes. Backface Culling can sometimes improve the end result.</figcaption></figure><p>But if you proceed with caution, and think about your scene as a whole, you can still use Alpha Blend without too much trouble. For example, in this scene, the window is the only item that has semi-transparency (alpha blend) so there are no issues with sorting to worry about.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AlphaBlendGood.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember685.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:11</span></div><input type="range" class="kg-video-seek-slider" max="11" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>This window has its material set to Alpha Blend, but it looks just fine since we're not trying to view any other alpha blend materials through it.</figcaption></figure><p>So if you come away from this tutorial with only one thing, it should be that Alpha Clip is cheap and worry-free, whereas Alpha Blend can be slightly more expensive and may have sorting issues. Fortunately, you now know a few different ways to work around the problem.</p><p>Now, the next time you see someone struggling with transparency, you can use your newfound knowledge to help them out. As always, feel free to stop by our <a href="https://discord.gg/dFJncWwHun" target="_blank" rel="noreferrer noopener">Hubs Discord</a> to show your work-in-progress and join in the discussion to share any tips and tricks you may have learned along the way. </p><figure class="kg-card kg-video-card"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/WindshieldWiper.mp4" poster="https://img.spacergif.org/v1/568x320/0a/spacer.png" width="568" height="320" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember745.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:02</span></div><input type="range" class="kg-video-seek-slider" max="2" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div></figure>
+      </div>
+        <div class="social-share">
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://twitter.com/share?text=Sorting%20out%20Problems%20with%20Transparency&amp;url=https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/" title="Share on Twitter" aria-label="Share on Twitter">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/&amp;title=Sorting%20out%20Problems%20with%20Transparency&amp;summary=Sorting%20out%20Problems%20with%20Transparency" title="Share on Linkedin" aria-label="Share on Linkedin">
+    <i class="icon icon-linkedin icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#linkedin"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://getpocket.com/save" data-save-url="https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/" data-pocket-label="pocket" data-pocket-count="none" title="Save on Pocket" aria-label="Save on Pocket">
+    <i class="icon icon-pocket icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#pocket"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item" tabindex="0" href="mailto:?subject=Sorting%20out%20Problems%20with%20Transparency&amp;body=https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/%C2%A0Sorting%20out%20Problems%20with%20Transparency" title="Share by email" aria-label="Share by email">
+    <i class="icon icon-mail icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#mail"></use>
+  </svg>
+</i>  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="https://hubs.mozilla.com/labs/sorting-out-problems-with-transparency/" title="Copy to clipboard" data-label="Copied!" aria-label="Copy to clipboard">
+    <i class="icon icon-copy icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#copy"></use>
+  </svg>
+</i>  </button>
+  
+</div>
+
+    </article>
+
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">Published by</div>
+          <span class="special-delimiter"></span>
+              <div class="card author-card author-jco" data-type="post">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/jco/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow" data-srcset="/labs/content/images/size/w300/2022/03/NotARobotJim.jpg 300w,
+            /labs/content/images/size/w600/2022/03/NotARobotJim.jpg 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/03/NotARobotJim.jpg" src="./Sorting out Problems with Transparency_files/NotARobotJim.jpg" alt="Jim Conrad">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/jco/">Jim Conrad</a></div>
+    
+      <div class="author-card__descr text-acc-2 m-b">Jim is a senior artist for Mozilla Hubs. His background includes video game art and design. He has worked on VR-related projects since 2015.</div>
+    
+      <div class="author-card__details flex">
+
+        <div class="author-card__social flex">
+        </div>
+      </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+
+        <div class="related-posts m-t-lg">
+      <div class="section__title m-b">You might also like</div>
+      
+      <div class="row post-feed">
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/installing-mozilla-hubs-community-edition-on-your-own-microsoft-azure-kubernetes-service/" aria-label="Installing Community Edition on Microsoft Azure AKS">Installing Community Edition on Microsoft Azure AKS</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">14 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Community Edition Documentation Awardee Stan Tophoven's guide takes you through his process of deploying Community Edition on Azure's AKS. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/stan/" class="author-mini__item has-icon nr-1" title="Stan Tophoven" aria-label="Stan Tophoven">
+            <span class="author-mini__tooltip">Stan Tophoven</span>
+              <span class="author-mini__letter">Stan Tophoven</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-google-cloud-with-aws-services-ri-ben-yu-ban/" aria-label="Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版">Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">12 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Documentation Awardee Kojiro Yano translates Mozilla's quick start guide to Community Edition on GCP. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/kojiro/" class="author-mini__item has-icon nr-1" title="Kojiro Yano" aria-label="Kojiro Yano">
+            <span class="author-mini__tooltip">Kojiro Yano</span>
+              <span class="author-mini__letter">Kojiro Yano</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/deploying-mozilla-hubs-ce-on-gcp-with-ease-a-guide-to-the-personal-edition-helm-chart/" aria-label="Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart">Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">13 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        In this guide, Alex Griggs shows readers how to deploy his Community Edition Helm Chart: Personal Edition on GCP 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2023-12-27" class="post-card__date flex-1">
+        Dec 27, 2023
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/alex/" class="author-mini__item has-img  nr-1" title="Alex Griggs" aria-label="Alex Griggs">
+            <span class="author-mini__tooltip">Alex Griggs</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2023/12/alex-avatar.png" src="./Sorting out Problems with Transparency_files/alex-avatar.png" alt="Alex Griggs">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+      </div>
+    </div>
+  </div>
+
+    </main><script id="pocket-btn-js" src="./Sorting out Problems with Transparency_files/btn.js"></script>
+
+      <footer class="footer">
+  <div class="container wrapper">
+
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">Creator Labs</div>
+          <div class="m-b text-acc-3">Mozilla Hubs Creator Labs</div>
+          <div class="social flex">
+  <a class="social__item" href="https://twitter.com/MozillaHubs" target="_blank" title="Twitter" aria-label="Twitter" rel="noreferrer">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://github.com/mozilla/hubs" target="_blank" title="Github" aria-label="Github" rel="noreferrer">
+    <i class="icon icon-github icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#github"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://hubs.mozilla.com/rss" target="_blank" title="RSS" aria-label="RSS" rel="noreferrer">
+    <i class="icon icon-rss icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#rss"></use>
+  </svg>
+</i>  </a>
+</div>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Navigation</div>
+          <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Tags</div>
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+                <a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a>
+                <a href="https://hubs.mozilla.com/labs/tag/inspiration-2/">Inspiration</a>
+                <a href="https://hubs.mozilla.com/labs/tag/beginner/">Beginner</a>
+                <a href="https://hubs.mozilla.com/labs/tag/intermediate/">Intermediate</a>
+                <a href="https://hubs.mozilla.com/labs/tag/advanced/">Advanced</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom text-center">
+      <span>Visit <a href="https://www.mozilla.org/en-US/">Mozilla Corporation’s</a> not-for-profit parent, the <a href="https://foundation.mozilla.org/?utm_source=www.mozilla.org&amp;utm_medium=referral&amp;utm_campaign=footer">Mozilla Foundation</a>&gt;.
+Portions of this content are ©1998–2024 by individual mozilla.org contributors. Content available under a <a href="https://www.mozilla.org/en-US/foundation/licensing/website-content/">Creative Commons license</a></span>
+    </div>
+  </div>
+</footer>
+      <button class="btn-toggle-round scroll-top js-scroll-top" type="button" title="Scroll to top" aria-label="Scroll to top">
+  <svg class="progress-circle" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+  </svg>
+  <i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up"></use>
+  </svg>
+</i></button>
+
+    
+    
+
+    <div class="notifications">
+  <a tabindex="0" class="notify notify-signup js-notify-close" href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Great! Next, complete checkout for full access to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-signin js-notify-close" href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Welcome back! You've successfully signed in.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">You've successfully subscribed to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-checkout js-notify-close" href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your account is fully activated, you now have access to all content.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your billing info has been updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Your billing was not updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+</div>
+
+
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+      <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('627473d6bcfa470001050ba9')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+
+  <script>
+    if (CONFIG.ENABLE_COLOR_SCHEME_PICKER && 'content' in document.createElement('template')) {
+      const themeButton = document.querySelector('.js-theme-toggle');
+      themeButton ? themeButton.classList.add('is-visible') : '';
+
+      let colorSchemePicker = document.querySelector('.js-color-scheme-picker');
+      let colorSchemeTemplate = document.querySelector('.js-color-scheme-template');
+
+      COLOR_SCHEMES.map(function(theme) { 
+        var colorSchemeBtn = colorSchemeTemplate.content.cloneNode(true).querySelector('button');
+        colorSchemeBtn.setAttribute('data-color-scheme', theme.id);
+        colorSchemeBtn.querySelector('.color-scheme__name').textContent = theme.name;
+        colorSchemePicker.appendChild(colorSchemeBtn);
+      }).join(' ')
+    } 
+
+    const colorSchemeBtns = document.querySelectorAll('.js-color-scheme');
+    colorSchemeBtns.forEach(function(colorSchemeBtn) {
+      colorSchemeBtn.onclick = function(event) {
+        setColorScheme(event.currentTarget.getAttribute('data-color-scheme'));
+      }
+    })
+  </script>
+
+  <script>
+    const scrollTop = document.querySelector('.js-scroll-top');
+
+    if (scrollTop && CONFIG.ENABLE_SCROLL_TO_TOP) {
+      const progressPath = document.querySelector('.scroll-top path');
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
+      const updateProgress = function() {
+        const scroll = window.scrollY || window.scrollTop || document.documentElement.scrollTop;
+    
+        const docHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+    
+        const windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    
+        const height = docHeight - windowHeight;
+        var progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      }
+    
+      updateProgress();
+      const offset = 60;
+
+      window.addEventListener('scroll', function(event) {
+        updateProgress();
+        
+        //Scroll back to top
+        const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+        scrollPos > offset ? scrollTop.classList.add('is-active') : scrollTop.classList.remove('is-active');
+      
+      }, false);
+    }
+  </script>
+
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        // window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+
+
+    
+  
+
+<div id="sodo-search-root"></div></body></html>

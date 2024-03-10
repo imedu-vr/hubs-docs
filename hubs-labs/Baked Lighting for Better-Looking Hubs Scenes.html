@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/ -->
+<html lang="en" data-grid-columns="3" data-color-scheme="dark" data-view-type="grid"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Baked Lighting for Better-Looking Hubs Scenes</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preload" href="./Baked Lighting for Better-Looking Hubs Scenes_files/app.min.js" as="script">
+    <link rel="preload" href="./Baked Lighting for Better-Looking Hubs Scenes_files/app.min.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <script type="text/javascript" async="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/analytics.js"></script><script type="text/javascript" async="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/js"></script><script type="text/javascript" async="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/js(1)"></script><script async="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/js(2)">
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-77033033-12');
+    </script>
+
+        <link rel="stylesheet" href="./Baked Lighting for Better-Looking Hubs Scenes_files/css2" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" crossorigin="">
+
+        <noscript>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+
+
+
+
+    <script async="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/app.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./Baked Lighting for Better-Looking Hubs Scenes_files/app.min.css">
+
+    <!--cssential--><style></style><!--/cssential-->
+
+    <script>
+  // Basic Config
+  let CONFIG = {
+    GHOST_URL: ``, 
+    GHOST_KEY: ``,
+    GHOST_SEARCH_IN_CONTENT: !!``,
+    GHOST_VERSION: 'v4', /* Ghost version: v4 or v3 */
+    GHOST_SEARCH_LIMIT: 8, /* Search result limit */
+    DEFAULT_VIEW_TYPE: `grid`,
+    DEFAULT_GRID_COLUMNS: 3, /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_COLOR_SCHEME: `System`,
+    ENABLE_COLOR_SCHEME_PICKER: true, /* Enable Color cheme picker */
+    ENABLE_IMAGE_LIGHTBOX: !!`true`,
+    ENABLE_SCROLL_TO_TOP: true, /* Enable Scroll Top Button */
+    ENABLE_FILTER: true, /* Enable filter feature on homepage */
+    ENABLE_HYPHENS: false, /* Enable hyphens */
+    ENABLE_PWA: false, /* Enable PWA - Progressive Web App */
+    ENABLE_STICKY_HEADER: !!``,
+    ENABLE_MENU_AUTO_CLOSE: true, /* Auto close menu when clicking outside of it */
+    DISQUS_SHORTNAME: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+    COVE_ID: '9a56f94608ec8169ab6bb801d004f591', /* To use Cove, replace the below id with your cove publication id*/
+    OPEN_LINKS_IN_NEW_TAB: !!`true`,
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    } /* 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } */
+  ];
+</script>
+
+<style>
+  body {
+    --global-max-width: 1280px;
+    --global-radius: 2px;
+    --global-radius-round: 50%;
+    --global-header-position: initial;
+    --global-hyphens: none; /* none / auto */
+    --global-menu-icons: none;
+    --global-menu-alignement: flex-start; /* flex-start / center / flex-end */
+    --global-breadcrumb: none; /* none / flex */
+    --global-menu-cta: flex; /* none / flex */
+  }
+</style>
+
+    <script>
+  // Dark/Light Theme Handling
+  let preferredTheme; 
+  if (CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase() === 'system') {
+    const preferredColorScheme = 
+    ( window.matchMedia 
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) 
+    ? 'dark' 
+    : 'light'
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase();
+  }
+  document.documentElement.setAttribute('data-color-scheme', preferredTheme);
+
+
+
+  // Grid/List View Handling
+  let preferredView = localStorage.getItem('USER_VIEW_TYPE') || CONFIG.DEFAULT_VIEW_TYPE;
+  document.documentElement.setAttribute('data-view-type', preferredView);
+
+  // Grid columns setting
+  document.documentElement.setAttribute('data-grid-columns', CONFIG.DEFAULT_GRID_COLUMNS);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (CONFIG.ENABLE_HYPHENS) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  if (CONFIG.ENABLE_STICKY_HEADER) {
+    //root.style.setProperty('--global-header-position', 'sticky');
+    document.documentElement.setAttribute('data-header', 'sticky');
+  }
+  
+  // Global values needed
+  const GLOBAL = {
+    CURRENT_PAGE: parseInt(''),
+    NEXT_PAGE: parseInt(''),
+    NEXT_PAGE_LINK: '',
+    MAX_PAGES: parseInt(''), 
+    LAST_PAGE: `` === `` ? true : false,
+    POSTS_PER_PAGE: parseInt('12'),
+    ADD_BOOKMARK_MSG: `Saved!`,
+    REMOVE_BOOKMARK_MSG: `Removed!`,
+    API: ''
+  }
+
+  // Set Themes
+  let style = document.createElement('style');
+  style.innerHTML = `
+    ${COLOR_SCHEMES.map(function(theme) { 
+      return `
+        html[data-color-scheme="${theme.id}"], button[data-color-scheme="${theme.id}"] {
+          --color-primary: ${theme.colors.primary};
+          --color-secondary: ${theme.colors.secondary};
+
+          --color-text: ${theme.colors.text};
+          --color-text-acc-1: ${theme.colors.text_acc_1};
+          --color-text-acc-2: ${theme.colors.text_acc_2};
+          --color-text-acc-3: ${theme.colors.text_acc_3};
+          --color-text-reverse: ${theme.colors.text_reverse};
+
+          --color-bg-body: ${theme.colors.bg_body};  
+          --color-bg: ${theme.colors.bg}; 
+          --color-bg-acc-1: ${theme.colors.bg_acc_1}; 
+          --color-bg-acc-2: ${theme.colors.bg_acc_2}; 
+          --color-bg-acc-3: ${theme.colors.bg_acc_3}; 
+          --color-bg-reverse: ${theme.colors.bg_reverse};
+
+          --color-neutral: ${theme.colors.neutral}; 
+          --color-border: ${theme.colors.border};
+        }
+        .btn-theme-toggle{display: none}
+      `.replace(/\s+/g,'');
+    }).join(' ')}
+  `
+  document.getElementsByTagName('head')[0].appendChild(style);
+</script><style>
+    html[data-color-scheme="light"],button[data-color-scheme="light"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,10%);--color-text-acc-1:hsl(0,0%,20%);--color-text-acc-2:hsl(0,0%,30%);--color-text-acc-3:hsl(0,0%,40%);--color-text-reverse:hsl(0,0%,90%);--color-bg-body:hsl(219,23%,97%);--color-bg:hsl(0,100%,100%);--color-bg-acc-1:hsl(0,0%,98%);--color-bg-acc-2:hsl(0,0%,96%);--color-bg-acc-3:hsl(0,0%,94%);--color-bg-reverse:hsl(0,0%,10%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,95%);}.btn-theme-toggle{display:none} html[data-color-scheme="dark"],button[data-color-scheme="dark"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,90%);--color-text-acc-1:hsl(0,0%,80%);--color-text-acc-2:hsl(0,0%,70%);--color-text-acc-3:hsl(0,0%,60%);--color-text-reverse:hsl(0,0%,10%);--color-bg-body:hsl(0,0%,3%);--color-bg:hsl(0,0%,8%);--color-bg-acc-1:hsl(0,0%,10%);--color-bg-acc-2:hsl(0,0%,12%);--color-bg-acc-3:hsl(0,0%,15%);--color-bg-reverse:hsl(0,0%,90%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,15%);}.btn-theme-toggle{display:none}
+  </style>
+    <meta name="description" content="Light baking is a hot topic in the world of virtual environments. This article will reveal why it&#39;s so important for making Hubs scenes look and perform their very best on all devices.">
+    <link rel="icon" href="https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png" type="image/png">
+    <link rel="canonical" href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/amp/">
+    
+    <meta property="og:site_name" content="Creator Labs">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Baked Lighting for Better-Looking Hubs Scenes">
+    <meta property="og:description" content="Light baking is a hot topic in the world of virtual environments. This article will reveal why it&#39;s so important for making Hubs scenes look and perform their very best on all devices.">
+    <meta property="og:url" content="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/">
+    <meta property="og:image" content="https://hubs.mozilla.com/labs/content/images/2022/05/ArticleImage_00000-1.png">
+    <meta property="article:published_time" content="2022-05-24T21:30:32.000Z">
+    <meta property="article:modified_time" content="2022-05-24T22:18:50.000Z">
+    <meta property="article:tag" content="Tutorials">
+    <meta property="article:tag" content="Tools">
+    <meta property="article:tag" content="Intermediate">
+    <meta property="article:tag" content="Advanced">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Baked Lighting for Better-Looking Hubs Scenes">
+    <meta name="twitter:description" content="Light baking is a hot topic in the world of virtual environments. This article will reveal why it&#39;s so important for making Hubs scenes look and perform their very best on all devices.">
+    <meta name="twitter:url" content="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/">
+    <meta name="twitter:image" content="https://hubs.mozilla.com/labs/content/images/2022/05/ArticleImage_00000-1.png">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Jim Conrad">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Tutorials, Tools, Intermediate, Advanced">
+    <meta name="twitter:site" content="@MozillaHubs">
+    <meta property="og:image:width" content="1024">
+    <meta property="og:image:height" content="576">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Creator Labs",
+        "url": "https://hubs.mozilla.com/labs/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Jim Conrad",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/2022/03/NotARobotJim.jpg",
+            "width": 460,
+            "height": 460
+        },
+        "url": "https://hubs.mozilla.com/labs/author/jco/",
+        "sameAs": []
+    },
+    "headline": "Baked Lighting for Better-Looking Hubs Scenes",
+    "url": "https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/",
+    "datePublished": "2022-05-24T21:30:32.000Z",
+    "dateModified": "2022-05-24T22:18:50.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hubs.mozilla.com/labs/content/images/2022/05/ArticleImage_00000-1.png",
+        "width": 1024,
+        "height": 576
+    },
+    "keywords": "Tutorials, Tools, Intermediate, Advanced",
+    "description": "Light baking is a hot topic in the world of virtual environments. This article will reveal why it&#x27;s so important for making Hubs scenes look and perform their very best on all devices.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hubs.mozilla.com/labs/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.30">
+    <link rel="alternate" type="application/rss+xml" title="Creator Labs" href="https://hubs.mozilla.com/labs/rss/">
+    
+    <script defer="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/sodo-search.min.js" data-key="e3e2620efdf47912b1552dbb5b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://hubs.mozilla.com/labs/" crossorigin="anonymous"></script>
+    <link href="https://hubs.mozilla.com/labs/webmention" rel="webmention">
+    <script defer="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/cards.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Baked Lighting for Better-Looking Hubs Scenes_files/cards.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Baked Lighting for Better-Looking Hubs Scenes_files/js(3)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77033033-12');
+</script>
+<style>:root {--ghost-accent-color: #007AB8;}</style>
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightbox-loader{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightbox-loader div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightbox-loader 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightbox-loader div:nth-child(1){animation-delay:-.45s}.fslightbox-loader div:nth-child(2){animation-delay:-.3s}.fslightbox-loader div:nth-child(3){animation-delay:-.15s}@keyframes fslightbox-loader{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media (prefers-reduced-motion: no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+  <body class="post-template tag-tutorials tag-tools tag-intermediate tag-advanced">
+      <script>
+
+
+
+
+
+</script>
+
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+<a class="header__brand" href="https://hubs.mozilla.com/" target="_blank">        <img class="light" src="./Baked Lighting for Better-Looking Hubs Scenes_files/mozilla-hubs-logo.svg" alt="Creator Labs">
+         <img class="dark" src="./Baked Lighting for Better-Looking Hubs Scenes_files/mozilla-hubs-logo-dark.svg" alt="Creator Labs">    
+</a><a href="https://hubs.mozilla.com/labs">          <span class="header__title m-0">Creator Labs</span>
+</a>        
+        <div class="flex-1"></div>
+
+
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        
+
+        <div class="user-menu js-user-menu">
+    <a class="signup-link" href="https://hubs.mozilla.com/signup/" tabindex="0" title="Sign up" aria-label="Sign up">
+      <i class="icon icon-arrow-up-right icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up-right"></use>
+  </svg>
+</i>Sign up
+    </a>
+    <a class="signin-link" href="https://hubs.mozilla.com/signin/" tabindex="0" title="Sign in" aria-label="Sign in">
+      <i class="icon icon-log-in icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#log-in"></use>
+  </svg>
+</i>Sign in
+    </a>
+</div>      </div>
+       
+    </div>
+  </div>
+</header>
+      <nav class="menu js-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+          <i class="icon icon-spoke icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#spoke"></use>
+  </svg>
+</i>        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+          <i class="icon icon-mozilla-hubs icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#mozilla-hubs"></use>
+  </svg>
+</i>        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+
+  
+  <span class="flex-1"></span>
+
+
+
+
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle is-visible" tabindex="0" title="Theme color scheme" aria-label="Theme color scheme">
+    <span class="btn-toggle-icons">
+      <i class="icon icon-settings icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#settings"></use>
+  </svg>
+</i>    </span>
+    <span>Theme</span>
+  </button>
+
+  <div class="color-scheme-picker js-color-scheme-picker">
+<button class="color-scheme w-100 js-color-scheme" data-color-scheme="light">
+    <span class="color-scheme__name flex-1 text-left">Light</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button><button class="color-scheme w-100 js-color-scheme" data-color-scheme="dark">
+    <span class="color-scheme__name flex-1 text-left">Dark</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button></div>
+
+<template class="js-color-scheme-template"></template>
+
+</nav>
+    <main class="main">
+      
+  <div class="container wrapper">
+    <div class="hero">
+    <ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a></li>
+  <li class="breadcrumb-item breadcrumb-item-current">Baked Lighting for Better-Looking Hubs Scenes</li>
+</ul>  
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-tutorials tag-list__item has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" title="Tutorials" aria-label="Tutorials">
+              <span class="tag-list__item--accent" style="background-color: #F5325C"></span>
+            Tutorials
+          </a>
+          <a class="tag-tools tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tools/" title="Tools" aria-label="Tools">
+              <span class="tag-list__item--accent" style="background-color: #FF911A"></span>
+            Tools
+          </a>
+          <a class="tag-intermediate tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/intermediate/" title="Intermediate" aria-label="Intermediate">
+              <span class="tag-list__item--accent" style="background-color: #007AB8"></span>
+            Intermediate
+          </a>
+          <a class="tag-advanced tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" title="Advanced" aria-label="Advanced">
+              <span class="tag-list__item--accent" style="background-color: #007AB8"></span>
+            Advanced
+          </a>
+      </div>
+
+    <h1 class="hero__title text-center">Baked Lighting for Better-Looking Hubs Scenes</h1>
+
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>May 24, 2022</span>
+        <span class="m-l-sm m-r-sm">—</span>
+        <span>28 min read</span>
+      </div>
+
+  </div>
+
+    <div class="hero__media">
+      <figure class="hero__figure">
+        <img class="hero__img lazyautosizes lazyloaded" data-srcset="/labs/content/images/size/w300/2022/05/ArticleImage_00000-1.png 300w,
+                  /labs/content/images/size/w600/2022/05/ArticleImage_00000-1.png 600w,
+                  /labs/content/images/size/w1000/2022/05/ArticleImage_00000-1.png 1000w,
+                  /labs/content/images/size/w2000/2022/05/ArticleImage_00000-1.png 2000w" srcset="/labs/content/images/size/w300/2022/05/ArticleImage_00000-1.png 300w,
+                  /labs/content/images/size/w600/2022/05/ArticleImage_00000-1.png 600w,
+                  /labs/content/images/size/w1000/2022/05/ArticleImage_00000-1.png 1000w,
+                  /labs/content/images/size/w2000/2022/05/ArticleImage_00000-1.png 2000w" data-sizes="auto" data-src="/labs/content/images/size/w300/2022/05/ArticleImage_00000-1.png" src="./Baked Lighting for Better-Looking Hubs Scenes_files/ArticleImage_00000-1.png" alt="A 4-image progression of a 3d scene getting progressively better-looking." sizes="640px">
+      </figure>
+    </div>
+</div>
+    <article class="post tag-tutorials tag-tools tag-intermediate tag-advanced content-wrap post-access-public js-toc-content">
+        <div class="social-share">
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://twitter.com/share?text=Baked%20Lighting%20for%20Better-Looking%20Hubs%20Scenes&amp;url=https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/" title="Share on Twitter" aria-label="Share on Twitter">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/&amp;title=Baked%20Lighting%20for%20Better-Looking%20Hubs%20Scenes&amp;summary=Baked%20Lighting%20for%20Better-Looking%20Hubs%20Scenes" title="Share on Linkedin" aria-label="Share on Linkedin">
+    <i class="icon icon-linkedin icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#linkedin"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://getpocket.com/save" data-save-url="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/" data-pocket-label="pocket" data-pocket-count="none" title="Save on Pocket" aria-label="Save on Pocket">
+    <i class="icon icon-pocket icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#pocket"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item" tabindex="0" href="mailto:?subject=Baked%20Lighting%20for%20Better-Looking%20Hubs%20Scenes&amp;body=https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/%C2%A0Baked%20Lighting%20for%20Better-Looking%20Hubs%20Scenes" title="Share by email" aria-label="Share by email">
+    <i class="icon icon-mail icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#mail"></use>
+  </svg>
+</i>  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/" title="Copy to clipboard" data-label="Copied!" aria-label="Copy to clipboard">
+    <i class="icon icon-copy icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#copy"></use>
+  </svg>
+</i>  </button>
+  
+</div>
+
+      <div class="content">
+          <p class="context-excerpt text-lg">
+            Light baking is a hot topic in the world of virtual environments. This article will reveal why it's so important for making Hubs scenes look and perform their very best on all devices.
+          </p>
+
+          <p>Many creators that are relatively new to making content for virtual platforms have struggled with getting things to run smoothly, especially in VR headsets. Most of the challenges have to do with hardware limitations and how much effort it takes for devices to display so much with such relatively underpowered chipsets. While this will <a href="https://en.wikipedia.org/wiki/Moore%27s_law" target="_blank" rel="noreferrer noopener">inevitably improve as time goes on</a>, there are some clear steps you can take today that will make your scenes run more smoothly on all devices.</p><p>In this tutorial, we’ll be looking to eliminate the biggest enemy of smooth real-time graphics: dynamic lights. &lt;cue crash of thunder and lightning&gt; (Actually, don't. That would be another dynamic light.)</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">📱</div><div class="kg-callout-text">If you're viewing this tutorial on a phone, you'll have a better experience holding it in landscape (horizontal) orientation.</div></div><!--kg-card-begin: markdown--><h3 id="what-is-a-dynamic-light">What is a dynamic light?</h3>
+<!--kg-card-end: markdown--><p>Any light that is placed in a scene and generates light onto the environment and avatars is considered to be dynamic in that, in theory, you could move it around, change its color or brightness, or even delete it and you’d see the scene change in response.</p><p>We can illustrate this by attaching a light to an animated object or even an avatar. The results can be quite compelling, but don’t get too excited–even one dynamic light can make your scene too complex to run on certain devices.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/DynamicLight.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember344.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:05</span></div><input type="range" class="kg-video-seek-slider" max="5" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Oooooh... Look at that dynamic, shadow-casting light! Mobile device and VR headset users might not be as enthusiastic since they kill performance.</figcaption></figure><p>You might be thinking, <em>“But none of my lights are moving around? Shouldn’t that be ok?”</em>. The fact is, those lights are still being calculated in real time despite them sitting in one location. Therefore, we are still incurring a rendering cost and it gets worse with each light that’s added to the scene. Sure, it may run just fine on a desktop computer with a fancy graphics card. But it’s important to remember that people join <a href="https://hubs.mozilla.com/labs/extending-hubs-with-hubs-cloud/">Hubs rooms from all over the world</a> using all kinds of devices, including mobile phones. Ensuring everyone has access to virtual spaces should be important to anyone who cares about <a href="https://jessica-outlaw.medium.com/who-is-this-space-for-937acc3f5f51" target="_blank" rel="noreferrer noopener">maximizing the reach of their work</a>.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/DynamicLight2.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember363.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:04</span></div><input type="range" class="kg-video-seek-slider" max="4" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Even this non-moving light source is still being calculated in real-time, making it expensive to render.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="so-whats-the-alternative-to-dynamic-lights">So what's the alternative to dynamic lights?</h3>
+<!--kg-card-end: markdown--><p>The good news is that we can achieve similar results with baked lighting combined with reflection probes and we won’t need any dynamic lights whatsoever. The extra good news is that this means we can make scenes that actually look even better than their dynamically-lit versions since we can harness the power of bounced lighting. And then the extra extra (<em>I promise I’ll stop</em>) good news is that these even-better looking scenes can run on mobile phones and VR headsets.</p><!--kg-card-begin: markdown--><h3 id="whats-the-bad-news-then">What's the bad news then?</h3>
+<!--kg-card-end: markdown--><p>Well, like most things that look good, it’s going to require some work. But I think you’ll find the end result is so good that you’ll want to redo all your scenes.</p><p>Don’t believe me? Here’s a scene with zero dynamic lights:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/PromenadeNight.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember394.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:11</span></div><input type="range" class="kg-video-seek-slider" max="11" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Despite the complex look, there are no dynamic lights used in this Hubs scene.</figcaption></figure><p>Baking lighting can be a complicated topic to cover so I’m going to do my best to explain things step-by-step. You may find it easier to read through the whole thing first before attempting it yourself, but I’ll leave that up to you. I’m trying a new format where I have chapter headings alongside this article, so it should be easier to return to a step later in case you missed something.</p><!--kg-card-begin: markdown--><h3 id="step-1-setting-up-the-scene-for-success">Step 1: Setting up the scene for success</h3>
+<!--kg-card-end: markdown--><p>Whenever you’re starting out with something new like light baking, it’s often best to use a scene you don’t mind throwing away at the end. That way, you won’t feel too frustrated if it doesn’t work out exactly how you planned. I’ve made a very rough model as a starting point. It consists of just a few objects– Walls, Ground, and a sad little shed. <br>Each object has only the most basic materials on it–just some base color and the overall roughness adjusted a bit so that some things are slightly shinier than others.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/BasicSceneSetup.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember499.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:10</span></div><input type="range" class="kg-video-seek-slider" max="10" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Just three objects and four materials. (The shed has two materials.)</figcaption></figure><p>There’s certainly not much detail, but let’s see what happens when we export it as a .glb, import it into Spoke, leave the default lighting (1 directional ‘sun’), then publish our scene and visit it in Hubs:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/Dullsville.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/Dullsville.png" class="kg-image" alt="The backyard scene, as seen in Hubs. The lighting appears very flat and uniform." loading="lazy" width="1024" height="576" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/Dullsville.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/Dullsville.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/Dullsville.png 1024w" sizes="(min-width: 720px) 720px"></a><figcaption>1997 called, it wants its graphics back.</figcaption></figure><p>Ouch. Not exactly what I had hoped it would look like. Unfortunately, we can’t really expect much from Hubs’s renderer when we’ve provided it with so little. Most beginners will recognize that something’s not quite right, but they don’t quite know what’s missing.</p><p>Without going into a lecture on computer graphics, a quick way to describe this scene would be to say it looks “flat”. Almost all the surfaces appear to be one uniform color across their whole area. Without the subtle changes in color (hue) and value (brightness), it’s impossible to make out any detail. Sure, there’s not much detail in the geometry to begin with, but we would still hope to see that the ground is wavy or that the left wall has that small column sticking out. But both of those things are being obscured by the lack of lighting information.</p><p>Turning on shadows would help, but only very slightly. Those real-time shadows would also hurt our framerate as we discussed earlier.</p><p>Don’t quite believe me about those shadows? Judge for yourself:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/sadLightingShadows.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/sadLightingShadows.png" class="kg-image" alt="The backyard shed scene shown in Hubs, but with shadows enabled. The lighting still appears flat." loading="lazy" width="1024" height="576" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/sadLightingShadows.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/sadLightingShadows.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/sadLightingShadows.png 1024w" sizes="(min-width: 720px) 720px"></a><figcaption>The same model with ‘cast’ and ‘receive’ shadows turned on. Still sad, just more shade.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="lighting-the-scene">Lighting the Scene</h3>
+<!--kg-card-end: markdown--><p>If you’re looking to add lighting to the scene, we can do all of this ahead of time in our 3d application, in my case, Blender. Applications like Blender have all kinds of sophisticated ways of adding lighting. There are many videos out there explaining <a href="https://www.youtube.com/watch?v=_DLabt0anY4" target="_blank" rel="noreferrer noopener">how to do lighting</a>, so I’ll keep this part brief. I’m going to be adding one main light source for the sun since this is an outdoor scene that I’d like to look like mid-afternoon on a sunny day. Sometimes I achieve this with a simple ‘Sun’ (directional) light. Other times, I use a high dynamic range (HDR) 360-degree background image that lights up the whole scene. I’ll show that technique a little later, but for this, I’ll stick with a single light for simplicity’s sake.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AddSunLight.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember558.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:28</span></div><input type="range" class="kg-video-seek-slider" max="28" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Note how you can’t see shadows until you turn on the ‘Rendered’ view mode. In this clip, I’m using Blender’s Eevee renderer so I can’t see any bounced light yet.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">The names and settings for lights can vary in different 3d apps. ‘Sun’ gets used sometimes, but most use the term ‘Direct’ or ‘Directional’ to describe a light where all the light rays are essentially parallel, similar to how the sun’s rays appear by the time they reach distant planets.</div></div><p>From the clip above, you can see that the scene doesn’t look much better than it did in Spoke or Hubs. But everything changes when you switch from Blender’s ‘Eevee’ renderer to the more realistic ‘Cycles’ renderer. That can be found at the top of the ‘Render Properties’’ tab:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/EeveeVsCycles.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember593-1.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:18</span></div><input type="range" class="kg-video-seek-slider" max="18" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Switching to the Cycles renderer immediately shows the difference having bounced lighting makes. Notice how the areas behind the shed get much more realistic shading and the front of the shed turns greenish from the light bouncing off the ground.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">🏃</div><div class="kg-callout-text">It’s worth noting that I have a relatively fast computer so the speed at which it renders might be much higher (or lower) than yours. If you <em>do</em> have a fast graphics processor, you can switch the Cycles renderer to use your <a href="https://docs.blender.org/manual/en/dev/render/cycles/gpu_rendering.html" target="_blank" rel="noreferrer noopener">GPU instead of your CPU</a> and the render times can drop dramatically. Not all graphics cards are the same, so you may want to do a little research on the best option for you.</div></div><!--kg-card-begin: markdown--><h3 id="we-need-a-2nd-uv-layer">We Need a 2nd UV Layer</h3>
+<!--kg-card-end: markdown--><p>This is often the most misunderstood part of light baking so don’t be surprised if you need to go through this section a few times. It’s actually more difficult to explain so I would first highly recommend reading the <a href="https://hubs.mozilla.com/labs/animating-textures-with-the-uv-scroll-component-pt1/">beginning of this other Creator Labs article</a> to get a grasp on what UVs are.</p><p>If we wanted to store the light and shadow information and put it onto the surfaces of the scene, how would we know where to put them? This is where a 2nd layer of UVs comes into play. We need to unwrap all the surfaces of all the objects and make sure that none of the faces overlap. This is quite different from how we might unwrap them for regular texturing (like adding bricks to the wall, for example). In regular texture unwrapping, it’s often desirable to have parts overlapping so that you can reuse parts of the texture or have repeating textures that tile horizontally or vertically. But with light mapping, every single surface is getting unique lighting so they need their own unique spot on the UV layout. Go ahead and read this whole paragraph again because it’s very important.</p><p>Each object in the scene will require a new UV layer that is set up specifically for light baking.</p><p>There are many ways to accomplish this. I’m going to show you how I like to do it, but bear in mind that every situation and project is different so you may choose to experiment once you know how it all works.</p><p>The basic steps are:</p><!--kg-card-begin: markdown--><ol>
+<li>Duplicate the existing UV layer</li>
+<li>Re-unwrap the object</li>
+</ol>
+<!--kg-card-end: markdown--><p>Step 1 looks like this:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/2ndUVLayer.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember637-1.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:25</span></div><input type="range" class="kg-video-seek-slider" max="25" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Selecting each object and adding a new (duplicate) UV Layer</figcaption></figure><p><strong>It’s important from this point forward that we keep that new UV layer selected on all the objects.</strong> If you’re not sure what I mean, I’m talking about keeping that newly created layer called ‘<strong>UVMap.001</strong>’ highlighted:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/KeepUVLayerSelected.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/KeepUVLayerSelected.png" class="kg-image" alt="Blender&#39;s UV Maps dialog showing a new highlighted layer. It has been annotated to say &quot;KEEP THIS SELECTED!&quot;" loading="lazy" width="300" height="169"></a><figcaption>Each object will have a UVMap.001 layer. Keep them highlighted when baking.</figcaption></figure><p>When we do our light baking, this is how Blender knows which layer to operate on. We don’t want to accidentally render over any textures our objects may already have on the first UV layer.</p><!--kg-card-begin: markdown--><h3 id="unwrap-the-2nd-uv-layer">Unwrap the 2nd UV Layer</h3>
+<!--kg-card-end: markdown--><p>Step 2 is the unwrapping part. One cool thing about Blender is that it allows you to unwrap all your objects at once. The benefit of this method is that you can pack all those UV islands into one single texture if you wish. The other benefit is that a single lightmap texture can be faster to download (remember, Hubs runs in a browser). Also, if your objects all share the same material(s) already, having 1 lightmap texture is less work on your graphics card when running Hubs.<br><br>I like to do a sort of hybrid approach where I unwrap each object separately, but then pack them all together at the end. The benefit of unwrapping each object individually is that it’s often easier to understand what you’re looking at and you can optimize each object’s UVs without the clutter of all the other objects confusing things. <br><br>Ok, too much explanation– videos are so much easier to follow sometimes:<br></p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/UnwrapUV2.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember695.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 82%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:50</span></div><input type="range" class="kg-video-seek-slider" max="50" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>I’ve found Blender’s ‘Smart Project’ to have the best looking results of the various unwrap types. Don’t hesitate to experiment– other methods may work better for certain objects.</figcaption></figure><p>Notice how I didn’t even bother adjusting those unwrap settings (margins, etc.). That’s because I’m going to do all that when I pack all the objects at the same time. The only option that I sometimes adjust is the ‘Angle Limit’. Lower numbers cause the unwrap to make more islands, whereas higher numbers produce fewer islands but with less distortion. Once again, experimentation is key.</p><!--kg-card-begin: markdown--><h3 id="pack-it-up-pack-it-in">Pack it Up, Pack it In</h3>
+<!--kg-card-end: markdown--><p>Let me begin by saying that Blender’s UV packing algorithm (as of this writing anyway) is, shall we say, lackluster. I’ll show you what I mean.<br><br>All we have to do now is select ALL the objects, go into Edit Mode, select all their faces, then do a ‘Pack Islands’ operation:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/PackIslands.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember718.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:21</span></div><input type="range" class="kg-video-seek-slider" max="21" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Blender’s 'Pack Islands' gets the job done, just not very efficiently. Look at all that wasted space.</figcaption></figure><p>If that’s good enough, we can certainly move on. So feel free to skip past this next section and revisit it later.</p><!--kg-card-begin: markdown--><h3 id="less-empty-space-better-looking-textures">Less Empty Space = Better Looking Textures</h3>
+<!--kg-card-end: markdown--><p>What are the alternatives to Blender’s ‘Pack Islands’? Well, there are lots of add-ons out there (both free and paid) that attempt to solve this packing challenge. Of course, you could also manually move, rotate, and scale each island just how you like. The promise of computers hasn’t quite delivered on a work-free lifestyle quite yet, but they can certainly handle a task like this.</p><p>Admittedly, I haven’t used all of them, but I highly recommend this one called <a href="https://www.uv-packer.com/blender/" target="_blank" rel="noreferrer noopener">UV Packer</a>.</p><p>The website pretty much speaks for itself so I’ll spare you the free advertisement, except to say that it’s the easiest one I’ve come across in terms of interface and understanding. The biggest drawback (as of this writing) is that the core application only runs on Windows. A few of the other solutions also have this limitation, unfortunately. <em>Sorry Mac users.</em> :’(</p><p>Here’s a comparison of Blender’s Pack Islands vs. UV Packer:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/PackCompare.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/PackCompare.png" class="kg-image" alt="Side-by-side comparison of the UV layout generated by Blender&#39;s &#39;Pack Islands&#39; vs. &#39;UV Packer&#39; add-on." loading="lazy" width="1059" height="534" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/PackCompare.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/PackCompare.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/PackCompare.png 1059w" sizes="(min-width: 720px) 720px"></a><figcaption>Notice all the negative space being wasted on the left. UV Packer does a much better job of filling in holes and small gaps.</figcaption></figure><p>Having faces take up more UV space means that the resolution of the texture will be higher on those areas. It also means you can make room for more objects.</p><p>One last thing I do is to manually detach any faces that might make the pack less efficient. For example, there’s a large ‘L-shaped’ piece of the wall that could take up far less room if it were broken apart. (It happens to be causing that giant square of negative space on the left image above.)</p><p>I also will manually rotate some islands so they are not oriented at weird angles. This often reduces jagged shadows and other glitchy-looking parts of the baked lighting. Repacking after these manual tweaks will sometimes improve the pack dramatically.</p><p>Don’t be surprised if you find yourself spending lots of time iterating on this step. A <a href="https://www.uv-packer.com/wp-content/uploads/2021/02/UV-Packer_Blender_UV-Tiles_UDIM_control_1080px.jpg" target="_blank" rel="noreferrer noopener">well-packed UV layout</a> is a thing of beauty and it’s not something you want to have to redo once you’ve moved on to other tasks.</p><!--kg-card-begin: markdown--><h3 id="material-setup">Material Setup</h3>
+<!--kg-card-end: markdown--><p>This is the last big step before we actually perform the light bake, but it’s a very important one. We need to tell Blender exactly what and where we’d like the lighting to be baked. This involves going into each material and setting up a target texture. I’ll set it up on one material, then copy it to the others.</p><p>In Blender’s Shader Editor, we need to add an Image Texture node and create a new blank image while leaving it unhooked from the graph. The setup of that image is crucial. The size of the image will determine how detailed the light and shadows appear, but bear in mind that you can often get away with lower resolution lightmaps than you might think. I like to use a fairly large texture (2048 or even 4096) because I can easily scale it down later.</p><p>The other crucial step is checking that ‘<strong>32-bit</strong>’ checkbox. We need this lightmap texture to have a <a href="https://en.wikipedia.org/wiki/High-dynamic-range_rendering" target="_blank" rel="noreferrer noopener">high dynamic range</a>. In other words, we need the pixel values (brightness) to be able to go above and beyond what they normally can reach (0-255). That’s essentially what will make the lighting look realistic, especially when you have bright sunlight.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ImageTextureTargets.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember768.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:34</span></div><input type="range" class="kg-video-seek-slider" max="34" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>You can’t see me copying ('CTRL+c') that first Image Texture node, but I paste ('CTRL+v') the same one into every material.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-red"><div class="kg-callout-emoji">💥</div><div class="kg-callout-text">I forgot to show it in the video, but that shed actually has 2 materials on it. I need to make sure to paste that 'Image Texture' node in ALL materials I wish to bake. You can check to see if you have multiple materials on an object by using the dropdown that says ‘<strong>Slot 1</strong>’. Each slot can hold a material.</div></div><!--kg-card-begin: markdown--><h3 id="bake-it-till-you-make-it">Bake It Till You Make It</h3>
+<!--kg-card-end: markdown--><p>This is the part where we need to make sure we’ve got everything ready. I go through a mental checklist:</p><!--kg-card-begin: markdown--><ul>
+<li>Are all my lights set up the way I want?</li>
+<li>Are there any hidden objects that might interfere with my lighting?</li>
+<li>Do all my objects have a 2nd UV channel?</li>
+<li>Are all my objects unwrapped and have non-overlapping UVs?</li>
+<li>Are all the objects I’m baking selected?</li>
+<li>Do my selected objects have a target texture for baking?</li>
+<li>Is the target texture node selected in all the materials I’m baking?</li>
+</ul>
+<!--kg-card-end: markdown--><p>If you answered ‘Yes’ to all of these questions, you’re ready to bake.</p><p>So now we venture into the Render Properties tab which is where baking is started.We need to make sure we’re using the ‘Cycles’ renderer, otherwise we won’t get all that nice bounced lighting and everything that makes the lighting look so good.</p><p>Now, the settings for rendering can be daunting to look at, but we don’t need to worry about most of the settings as the defaults are generally pretty close to what we’ll be using. The only caveat here is that it’s sometimes helpful to bake with lower quality at first while testing. Then, once you know things are working, you can turn up the quality level for a final bake.</p><p>Under the ‘Sampling’--&gt;’Render’ section, I usually set the ‘Max Samples’ to a lower number like 1024. I leave the rest of the values alone for now.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/RenderPropsSamples.mp4" poster="https://img.spacergif.org/v1/326x508/0a/spacer.png" width="326" height="508" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember815.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:15</span></div><input type="range" class="kg-video-seek-slider" max="15" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Blender’s Render Properties. Start with lower samples and increase them as needed.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Make sure you’re adjusting the ‘Render’ samples. It’s easy to confuse them with the ‘Viewport’ samples right above them. Those ‘Viewport’ settings only affect the 3d viewport inside Blender and have no effect on your bake.</div></div><p>Still in the ‘Render Properties’ tab, now we can scroll down to the ‘Bake’ section. From here, we change the ‘Bake Type’ to ‘Diffuse’. We don’t actually want the color of the surface textures to get baked into our lighting, so we <strong>un</strong>check ‘Color’ but leave ‘Direct’ and ‘Indirect’ lighting contributions on.</p><p>Second, under ‘Margin’, we adjust the ‘Size’ value to be a little lower. This parameter adds extra pixels around the perimeter of each UV island. That way, if an island is right on the edge of a rendered pixel and the background, those extra pixels will keep the model from having visible seams. You can always adjust this value after baking if it’s too high or too low. My UV islands are pretty tightly packed so I lower it quite a bit.</p><p>Last, we press the big ‘Bake’ button and wait…</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/BakeDiffuse.mp4" poster="https://img.spacergif.org/v1/332x678/0a/spacer.png" width="332" height="678" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember838.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:30</span></div><input type="range" class="kg-video-seek-slider" max="30" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Baking the Diffuse with no color contribution. This will capture just light and shadow information and render it into our target texture.</figcaption></figure><p>The status bar at the very bottom of Blender will display the progress. Depending on the complexity of the scene, lighting, texture resolution, and render samples, this baking process can take a long time. Don’t be surprised if it takes many minutes–even hours.</p><p>For this particular scene, it’s a few minutes. If I first switch the renderer to use my GPU, it drops to mere seconds.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/BakeProgress.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/BakeProgress.png" class="kg-image" alt="Blender&#39;s status bar showing &#39;Texture Bake&#39; progress meter at 6%. Time Remaining reads &#39;09:51.14&#39; Time Elapsed reads &#39;00:42.04&#39;" loading="lazy" width="360" height="92"></a><figcaption>Blender’s Texture Bake progress meter shown in the status bar. Mousing over it will display the Time Remaining estimate and the Time Elapsed.</figcaption></figure><p>As soon as it’s finished baking, that status bar displays a message that reads:</p><p><code>“Baking map saved to internal image, save it externally or pack it”</code></p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/BakeWarning.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/BakeWarning.png" class="kg-image" alt="Blender&#39;s status bar, post bake. It reads &quot;Baking map saved to internal image, save it externally or pack it.&quot;" loading="lazy" width="425" height="65"></a><figcaption>Sometimes I wish this warning were more prominent.</figcaption></figure><p>This is a reminder that you must explicitly save the rendered image or else it will get purged when you exit Blender.</p><p>If you have an Image Editor window visible, you should see the rendered result appear when it’s done. Here’s how mine turned out:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/RenderedResult.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/RenderedResult.png" class="kg-image" alt="Blender&#39;s Image Editor window showing a square image of the baked lightmap texture." loading="lazy" width="476" height="499"></a><figcaption>The baked lightmap with 1024 samples. It’s much more detailed if I zoom into this 2048x2048 texture, but it’s still a bit grainy.</figcaption></figure><p>At the top of the Image Editor window (shown above), you will need to use that hamburger menu (three horizontal lines) and choose ‘Image’--&gt; ‘Save As…’</p><p>In the Save dialog that appears, we’ll save our image as a ‘<strong>Radiance .HDR</strong>’ file.</p><p>I like to save that image into whatever folder I use to store textures for this project.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/SaveHDR.mp4" poster="https://img.spacergif.org/v1/336x300/0a/spacer.png" width="336" height="300" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember913.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:07</span></div><input type="range" class="kg-video-seek-slider" max="7" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Lightmaps need to have high dynamic range. If you choose some other format (jpg, png, etc.), it will strip the image of all that important lighting information that makes it look realistic.</figcaption></figure><p>If your baked lightmap image turns out kind of grainy or noisy, you can turn up the Renderer’s ‘Max Samples’ value a bit and re-bake it. I will probably raise mine to 4096. The other helpful option you can try is that ‘Denoise’ checkbox. It uses the ‘Noise Threshold’ value above to determine how much to reduce that graininess. Just bear in mind that setting the threshold too low can increase render times significantly. It can also potentially remove detail that you might otherwise want to keep, such as when you have small bumps or other details in the geometry. Like most settings, you’ll have to iterate a bit. I’ve had good results when the Noise Threshold was set to ‘0.001’. A general tip is to try to find settings that give you the best looking results you can without taking too long.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Darker scenes tend to produce noisier renders. You may find that you really have to turn down the noise threshold to get rid of all that grain. If it’s taking too long, you might consider trying to reduce the noise using your image editor of choice. Just don’t change it from an .HDR in the process!</div></div><p>If I zoom into these lightmaps, it’s easy to see the effect of denoising:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/NoiseDenoise.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/NoiseDenoise.png" class="kg-image" alt="The left side shows a grainy/noisy looking part of the lightmap. The right side is the same part of the lightmap with a much smoother gradient." loading="lazy" width="811" height="485" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/NoiseDenoise.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/NoiseDenoise.png 811w" sizes="(min-width: 720px) 720px"></a><figcaption>A zoomed-in view of part of the lightmaps. On the left is the one rendered with 1024 Max Samples. On the right is the same part, but rendered with 4096 Max Samples and denoised with a Noise Threshold of 0.001. The right side took several minutes longer but was worth the wait.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="preparing-for-export">Preparing for Export</h3>
+<!--kg-card-end: markdown--><p>We’ve made it to the home stretch (<em>of lighting anyway</em>)! The last step is to get these lightmaps exported properly with our scene. For this, we’ll need to make sure we’re using the <a href="https://hubs.mozilla.com/labs/what-is-the-blender-add-on/">Hubs Blender Add-on</a>.</p><p>I’ve provided a link above in case you need to install it. There’s only one thing we need from it and it’s available inside the Shader Editor.</p><p>For each material that has baked lighting, we need to add the node called ‘<strong>MOZ_lightmap</strong>’. Our Image Texture node with the lightmap on it will have it’s output connected to this new node.</p><p>We must also tell our ‘Image Texture’ node which UV layer to use. For this, we add a ‘UV Map’ node and pick our ‘UVMap.001’ from its dropdown menu. The output of the ‘UV Map’ node will get connected to the ‘Vector’ input of the ‘Image Texture’ node.</p><p>Once this has been set up for one material, we can simply copy those three connected nodes to all the other materials.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/LightmapGraph.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember962.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:49</span></div><input type="range" class="kg-video-seek-slider" max="49" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Setting up each material with lightmap settings for export. Copying &amp; pasting to each graph works since they all share the same <strong><em>UVMap.001</em></strong> name and use the same lightmap texture.</figcaption></figure><p>To see these lightmaps in all their glory, we need to export the scene. Remember, there’s no need to export any lights since they are only used in Blender and we’ve already gotten what we need from them. I like to keep my lights in their own Collection in case I need to re-bake things at some point.</p><p>I’m exporting the whole scene as one big .glb file. Don’t be shocked if the file is larger than you expected. Those .HDR files can get pretty huge, which is why I often reduce their resolution. Unfortunately, we cannot compress the .HDR without losing all the important information it contains. Perhaps in the future, there will be ways of handling it.</p><!--kg-card-begin: markdown--><h3 id="to-hubs-with-a-quick-pit-stop-at-spoke">To Hubs!... (with a quick pit stop at Spoke)</h3>
+<!--kg-card-end: markdown--><p>This part may change in the future, but the way we’re going to publish our scene is through Spoke–but not using the typical 3d editor part. Spoke will merely act as an intermediary between our .glb and Hubs.</p><p>When you are in the main <a href="https://hubs.mozilla.com/spoke">Spoke</a> Projects page, you’ll choose ‘<strong>New Project</strong>’ as usual. However, instead of selecting a template or blank scene, we’ll use that little ‘<strong>Import From Blender</strong>’ button near the top.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/SpokeImportBlender.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/SpokeImportBlender.png" class="kg-image" alt="A cropped portion of Spoke&#39;s New Project webpage. The &#39;Import From Blender&#39; button is circled." loading="lazy" width="1202" height="303" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/SpokeImportBlender.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/SpokeImportBlender.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/SpokeImportBlender.png 1202w" sizes="(min-width: 720px) 720px"></a><figcaption>Spoke’s New Project dialog has an ‘Import From Blender’ button. That’s where you’ll choose your .glb you exported from Blender.</figcaption></figure><p>A new dialog appears and here’s where you’ll set the name of your scene, add a thumbnail image, and attribution.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/Publish.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1343.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:38</span></div><input type="range" class="kg-video-seek-slider" max="38" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Publishing dialog from Spoke. <em>Make sure you credit any models you need to in the Attribution field.</em></figcaption></figure><p>Once published, you may create a room from your scene to check it out.</p><p>Right away, I can see how much the light maps add to the look of my scene. The surfaces no longer have flat lighting across them. And this whole thing doesn’t have one single dynamic light:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/BakedLightingHubs1.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1366.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:12</span></div><input type="range" class="kg-video-seek-slider" max="12" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>The lighting sure helps, but it’s a bit darker than I’d hoped. That’s because of the lack of background and reflected light.</figcaption></figure><p>As much as I’ve improved the overall look, it’s still much darker than I want. We can improve this by going back to Blender and adding some background lighting information.</p><!--kg-card-begin: markdown--><h3 id="setting-up-the-background-environment">Setting up the Background Environment</h3>
+<!--kg-card-end: markdown--><p>One thing that may not be immediately obvious is that Blender’s background has an effect on the lighting. If you go to the ‘World Properties’ tab, you’ll see there’s a default background color that is used in Blender’s 3d viewports. By changing that color swatch, you can actually see it affect the rendering of the scene. Guess what? It affects the light bake too.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AdjustBGColor.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1389.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:18</span></div><input type="range" class="kg-video-seek-slider" max="18" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Blender’s background color affects the overall scene lighting when rendering or baking.</figcaption></figure><p>I haven’t given much thought to what the background should look like in Hubs, but even a light blue sky would be better than the default black background I have now. But there’s yet another way to use this background to our advantage. We can use a 360-degree panoramic HDR image as a background and it will emit light in all directions based on its values and hues. This may be done instead of using Blender lights OR in conjunction with them. Just be aware that the look of the HDR image could interfere with your Blender lighting. For example, if the image has a bright sun in it, that may give the appearance of an extra sun since it gets doubled with your Blender light. Choosing a good HDR image can be tricky, but you can find lots of them for free at <a href="https://polyhaven.com/" target="_blank" rel="noreferrer noopener">Polyhaven.com</a> where people have kindly donated many different assets with Creative Commons licenses.</p><p>Here’s how we can add one to our background:</p><p>In the Shader Editor, we’ll switch the view from ‘Object’ to ‘World’. Then, we can add a new ‘Environment Texture’ node, and drop in our new HDR image into it. Last, we’ll hook it up to the existing ‘Background’ node:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/BackgroundHDR.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1404.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:36</span></div><input type="range" class="kg-video-seek-slider" max="36" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Using a downloaded HDR image from <a href="https://polyhaven.com/" target="_blank" rel="noreferrer noopener">Polyhaven.com</a>. This is one of the quickest ways to light a scene and requires no actual lights before baking.</figcaption></figure><p>One of the first things you might notice is that light is coming from <em>every</em> direction now, including the ground. The effect of this phenomenon is that we see more light inside the shed and other downward facing surfaces. This accurately mimics real life in a way that is quite convincing. If you want, you could try disabling the sun light from the render/bake. The background image may be sufficient for the look you want.</p><p>Try an HDR image that has a more prominent bright sun in it and you’ll even see crisp shadows. The resolution of these HDR images doesn’t need to be super high, but they do need to have high dynamic range so any old image isn’t going to work. I usually download the 2k version and it’s plenty.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/RotateHDR.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1420.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:17</span></div><input type="range" class="kg-video-seek-slider" max="17" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Adding a ‘Texture Coordinate’ and ‘Mapping’ node allows you to play with the background image’s Z-Rotation, affecting the whole scene’s lighting, including that crisp shadow.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="the-sky%E2%80%99s-the-limit">The Sky’s the Limit</h3>
+<!--kg-card-end: markdown--><p>But wait, there’s more! If you can’t find an appropriate background image, or otherwise just want something simpler, you can use another method where we let Blender generate a simulated sky surrounding the scene. You’ll need to enable an add-on in your Preferences called ‘<a href="https://docs.blender.org/manual/en/3.1/addons/lighting/dynamic_sky.html" target="_blank" rel="noreferrer noopener">Dynamic Sky</a>’:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/SkyAddon.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/SkyAddon.png" class="kg-image" alt="Blender&#39;s Preferences window; Add-ons section; The Lighting:Dynamic Sky add-on is enabled via checkbox." loading="lazy" width="659" height="326" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/SkyAddon.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/SkyAddon.png 659w"></a><figcaption>Dynamic Sky is just one of many useful add-ons that you can enable in Blender.</figcaption></figure><p>This gives you a new node you can add inside that ‘World’ section of the ‘Shader Editor’.</p><p>It works a lot like using an HDR image, but has its own parameters for Sun size, elevation, rotation, and even dust and ozone in the atmosphere. It doesn’t have clouds or anything too complicated but I highly recommend playing around with it to achieve different results.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/SkyGraph.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/SkyGraph.png" class="kg-image" alt="Split view: Top shows the backyard shed scene. Bottom shows Blender&#39;s Shader Editor with the World&#39;s node graph featuring the &#39;Sky Texture&#39; node." loading="lazy" width="986" height="651" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/SkyGraph.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/SkyGraph.png 986w" sizes="(min-width: 720px) 720px"></a><figcaption>The ‘Dynamic Sky’ add-on ships with Blender but needs to be enabled in Preferences. You add it to the 'World' section of the Shader Editor.</figcaption></figure><p>Once you dial in a look you like, you can repeat the steps you took to re-bake the lightmap texture(s). You just have to make sure you’ve selected the objects, their Image Texture nodes, and hit ‘Bake’. <strong>Remember to save over the old image when it’s done baking.</strong></p><!--kg-card-begin: markdown--><h3 id="exporting-a-background">Exporting a Background</h3>
+<!--kg-card-end: markdown--><p>With the Hubs Blender Add-on, you now have a way to export your scene with the addition of a background. This can be found in the ‘Scene Properties’ tab. There will be a ‘Hubs’ section where you can add an ‘Environment Settings’ component:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/BGColor.mp4" poster="https://img.spacergif.org/v1/328x628/0a/spacer.png" width="328" height="628" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1570.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:15</span></div><input type="range" class="kg-video-seek-slider" max="15" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>The Environment Settings component can be used to add a background color, image, and even adjust the overall exposure. I’m only setting the color here.</figcaption></figure><p>When we export the scene again, we overwrite the old .glb. But now we must update our Hubs scene by returning to Spoke. After clicking on the project thumbnail, we now see the same dialog as before, except now it’s titled ‘Update Blender Scene’. We just need to replace the .glb and hit ‘Update’.</p><p>The cool thing is if you still have your Hubs room open, you can simply refresh the page to see the changes. Otherwise, just click the ‘Open in Hubs’ button to create a new room.</p><p>Let’s take a look at our updated scene with improved lighting and background color:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/SkyLit.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1585.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 83.33333333333334%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:18</span></div><input type="range" class="kg-video-seek-slider" max="18" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>The subtle details of bounced lighting add so much warmth to the overall feeling. Even the dark shed is getting bounced light inside.</figcaption></figure><p>If we actually want the detailed background–whether it’s an HDR image or made with the Sky add-on, we can add it inside the Scene Properties tab where we set the background color.</p><p>But I’ll save that for the next section where we talk about…</p><!--kg-card-begin: markdown--><h3 id="reflections">Reflections</h3>
+<!--kg-card-end: markdown--><p>The scene is really looking good now, but there’s still something missing. You may not have realized it if you visited your room alone. But if you press <code>i</code> in Hubs, or if you drag/drop a 3d model into your browser window, you’ll soon see a problem. None of the avatars or objects have any lighting on them!</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/NoReflections.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/NoReflections.png" class="kg-image" alt="A humanoid avatar in Hubs, completely unlit except for part of the shirt. You can still make out the silhouette. The background remains lit." loading="lazy" width="661" height="450" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/NoReflections.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/NoReflections.png 661w"></a><figcaption>With no dynamic lights in the scene, things run smoothly– but objects and avatars are completely dark! Only the emissive texture (the heart on my shirt) is lit up.</figcaption></figure><p>To remedy this situation, I’m heading back into Blender. We’ll be adding something called a ‘Reflection Cubemap’ to our scene. Using the Hubs Blender Add-on tooling, we can render our own 360-degree HDR image that may be used as a background image and/or used as something to create reflections.</p><p>From the ‘Add’ menu, we’ll choose ‘Lighting’--&gt;’Reflection Cubemap’. Then we’ll move it around so the center is sitting roughly at eye-level in the center of our scene. We’ll be adjusting its ‘Size’ parameter to encompass the geometry, but you can also use the scale tool for non-uniform shapes. The size of the reflection cubemap is important because it needs to cover any geometry you want affected by its reflection.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ReflectionCubemap.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1626.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:40</span></div><input type="range" class="kg-video-seek-slider" max="40" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Blender’s Reflection Cubemaps can be used to generate our own 360-degree HDR images. The center is where the panorama will originate so keep it from being stuck inside a wall or other geometry. We'll be using some special operations from the Hubs Blender Add-on to make it work.</figcaption></figure><p>We’re going to use this reflection cubemap as a quick way to render a 360-degree panorama from that spot. The resulting image can be used to reflect on the surfaces of anything inside that cube. What’s extra cool is that we’ll see subtle reflections on background models too, adding an extra layer of realism to our lighting. The shinier (less rough) a model is, the clearer the reflection will appear. A fully metallic, zero-roughness object will look like a reflective chrome material.</p><p>We need to go to the reflection cubemap’s Object Properties tab and add the Hubs component called ‘Reflection Probe’. This will show a dropdown menu where you may set the resolution of the reflection image it will create. The default works fine. You might be tempted to set this very large, but trust me, unless your scene is full of mirror-like surfaces, stick with a low resolution and it will still look good while not requiring users to load a giant texture they only see in reflections.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/ReflectionProbeComponent.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/ReflectionProbeComponent.png" class="kg-image" alt="Side-by-side view of Blender&#39;s 3d viewport and the Object Properties panel showing the Reflection Probe component." loading="lazy" width="765" height="267" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/ReflectionProbeComponent.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/ReflectionProbeComponent.png 765w" sizes="(min-width: 720px) 720px"></a><figcaption>The ‘Reflection Probe’ component that’s part of the Hubs Blender Add-on. This is how we’ll generate quick 360-panoramic images to be seen in our reflections.</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-yellow"><div class="kg-callout-emoji">🦆</div><div class="kg-callout-text">The Hubs team made this component for quick reflection textures, but it’s a useful tool for any Blender project where you need to render a 360-degree panorama. Sure, you can do it with Blender’s 360-equirectangular camera type, but this component eliminates a few steps.</div></div><p>When you press the big ‘Bake’ button and wait a moment, it generates the 360-degree <a href="https://en.wikipedia.org/wiki/Equirectangular_projection" target="_blank" rel="noreferrer noopener">equirectangular</a> image and automatically saves it in a subfolder called ‘<em>generated_cubemaps</em>’.</p><p>It’s a bit of a ‘set it and forget it’ tool, but you must remember to re-bake any and all reflection cubemaps if your scene changes in any meaningful way.</p><p>Opening an ‘Image Editor’ window and using the dropdown menu, you can find the image called something like ‘<em>generated_cubemap-ReflectionCubemap</em>’. (The name matches the object name.)</p><p>Here’s how mine turned out:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/generatedReflection.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/generatedReflection.png" class="kg-image" alt="Blender&#39;s Image Editor window showing the generated cubemap texture: a 360-degree panorama of the scene." loading="lazy" width="668" height="370" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/generatedReflection.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/generatedReflection.png 668w"></a><figcaption>My generated reflection cubemap image. These are also .HDR images–another good reason to keep them as small as possible.</figcaption></figure><p>To have the reflection image export to Hubs, we’ll need to add it to part of our ‘Environment Settings’ component we made earlier. It’s in the ‘Scene Properties’ tab, in case you forgot.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/EnvmapAdd.mp4" poster="https://img.spacergif.org/v1/330x554/0a/spacer.png" width="330" height="554" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1706.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:11</span></div><input type="range" class="kg-video-seek-slider" max="11" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Adding our newly made reflection cubemap to the ‘Environment Settings’ before export.</figcaption></figure><p>Export the scene again, update it as we did before in Spoke, and check the result:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/ReflectionsWorking.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1721.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 87.5%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:16</span></div><input type="range" class="kg-video-seek-slider" max="16" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Reflections suddenly make every surface reflect the cubemap texture, including my avatar. Some may be a little too reflective now…</figcaption></figure><p>I can immediately see the difference, especially in the metallic trim of the shed. But I can also see the grass and other surfaces reflecting the blue sky a little more than I like. This can be remedied by adjusting the ‘Roughness’ property of their materials. Higher roughness will make reflections less prominent.</p><p>The other, more obvious problem is that my once-dark shed is now quite bright inside. That’s because it’s also reflecting the sky and surrounding scene without any regard to it being ‘indoors’. To fix this, we’ll be adding a second reflection cubemap that’s just for the inside of the shed.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/ReflectionCubemap2.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/ReflectionCubemap2.png" class="kg-image" alt="3d view of the scene in Blender. We now have a second reflection cubemap gizmo inside the shed." loading="lazy" width="539" height="343"></a><figcaption>A second Reflection Cubemap is added inside the shed. Don’t forget to give this one the ‘Reflection Probe’ component and bake it.</figcaption></figure><p>The result of baking the second cubemap:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/generatedReflection2.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/generatedReflection2.png" class="kg-image" alt="Blender&#39;s Image Editor window showing the generated cubemap texture: a 360-degree panorama of the inside of the shed." loading="lazy" width="669" height="349" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/generatedReflection2.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/generatedReflection2.png 669w"></a><figcaption>Notice how much darker the interior cubemap looks. This will help it not look so bright inside.</figcaption></figure><p>This time, because we already have a cubemap set up in our ‘Environment Settings’ component, It treats this one as the default, while any additional Reflection Cubemaps will simply get added during export. They will affect any geometry that they detect inside their bounds.</p><p>Let’s see how it affects my avatar now:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/AvatarReflections.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1784.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:05</span></div><input type="range" class="kg-video-seek-slider" max="5" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>My avatar gets darker when entering the bounds of the second reflection cubemap. If I throw an object in there, it also is affected.</figcaption></figure><p>That’s really cool because it means we can make scenes with varying brightness and avatars will look much more grounded based on where they’re standing.</p><p>The last problem I’d like to fix is the interior of the shed <strong>still</strong> looks too bright. The reason for this is that the interior of the shed is attached to the exterior of the shed. Since it’s one object, it doesn’t understand that part of it is inside while the rest is outside. If we really want to make it look good, we can detach the interior as its own object. We’ll likely need to adjust these objects’ centers (pivot points) to help define where exactly they are.</p><p>In Blender, I’m going to select the interior faces of the shed and detach them (`p`) into a new object:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/SeparateInterior.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1799.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:20</span></div><input type="range" class="kg-video-seek-slider" max="20" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Selecting then separating the interior faces into a new object. This will allow the interior to be affected by the ‘interior’ cubemap reflections while the exterior remains bright from the first cubemap.</figcaption></figure><p>Then I’ll make sure the center (pivot point) of this shed interior is, in fact, inside my second reflection cubemap:</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/05/MoveOrigin.mp4" poster="https://img.spacergif.org/v1/1024x576/0a/spacer.png" width="1024" height="576" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/05/media-thumbnail-ember1814.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 94.11764705882352%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:17</span></div><input type="range" class="kg-video-seek-slider" max="17" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Using Blender’s ‘Affect Only Origins’ checkbox, then the ‘Move’ tool so I can get the exterior shed’s pivot point outside the interior reflection cubemap.</figcaption></figure><p>After adjusting the roughness values of my various materials and re-exporting everything, we can see how much darker the interior has become, matching the avatar a little better.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/DarkerInterior.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/DarkerInterior.png" class="kg-image" alt="A view from inside the darker shed in Hubs. The avatar&#39;s lighting matches the interior brightness." loading="lazy" width="917" height="622" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/DarkerInterior.png 600w, https://hubs.mozilla.com/labs/content/images/2022/05/DarkerInterior.png 917w" sizes="(min-width: 720px) 720px"></a><figcaption>With a separate reflection cubemap inside the shed, we can achieve a better match between the avatars and the environment. I should probably do the same for the metallic trim, but their faces extend both inside and outside the shed and this tutorial is long enough as it is.</figcaption></figure><!--kg-card-begin: markdown--><h3 id="a-final-note-on-reflection-probes">A Final Note on Reflection Probes</h3>
+<!--kg-card-end: markdown--><p>In case you were wondering what those 6 ‘sticks’ pointing out of the Reflection Cubemap objects are, they serve a very important purpose. To see them, go to the Reflection Cubemap’s ‘Object Data Properties’ tab→ ‘Viewport Display’→ ‘Clipping’.</p><p>These lines indicate how far the camera will reach when generating the reflection image. Why would you need this? Well, sometimes you need to place the probe on one side of a room and you need to make sure it renders (or doesn't render) things that are far away. In this case, you’d adjust the ‘Clipping End’ value so the lines reach as far as you need:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/ClippingEnd.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/ClippingEnd.png" class="kg-image" alt="Split view of a reflection cubemap in Blender&#39;s 3d view and the cubemap&#39;s parameters in the Object Properties tab. The Clipping End value is circled with an arrow pointing to the end of the Clipping lines." loading="lazy" width="1152" height="401" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/ClippingEnd.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/ClippingEnd.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/ClippingEnd.png 1152w" sizes="(min-width: 720px) 720px"></a><figcaption>If that Clipping End value didn’t reach those cylinders, they would not appear in the generated reflection image.</figcaption></figure><p>In other cases, you may need to put the probe <em>inside</em> an object, like a statue at the center of a room. Here, you wouldn’t want the statue to be captured in the reflection so you’d increase the ‘Clipping Start’ value so it was starting beyond the bounds of the statue:</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./Baked Lighting for Better-Looking Hubs Scenes_files/ClippingStart-1.png" aria-label="Click for Lightbox"><img src="./Baked Lighting for Better-Looking Hubs Scenes_files/ClippingStart-1.png" class="kg-image" alt="Split view of a reflection cubemap in Blender&#39;s 3d view and the cubemap&#39;s parameters in the Object Properties tab. The Clipping Start value is circled with an arrow pointing to the start of the Clipping lines." loading="lazy" width="1261" height="462" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/05/ClippingStart-1.png 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/05/ClippingStart-1.png 1000w, https://hubs.mozilla.com/labs/content/images/2022/05/ClippingStart-1.png 1261w" sizes="(min-width: 720px) 720px"></a><figcaption>Raising the Clipping Start value so it lies outside the bounds of the center statue means that the statue will NOT appear in the generated reflection image. You wouldn’t want to see a reflection of the statue in the statue itself!</figcaption></figure><p>There may be times where it’s simpler to just hide certain objects so they don’t get captured in any reflections. You can turn off Blender’s render ‘eye’ icon when you need to.</p><p>If you have lots of reflection probes in a scene, that’s all the more reason to keep those generated cubemap images as small as possible since they will start to add up quickly.</p><p>At the time of this writing, Hubs does not support rotating the reflection cubemaps at all. Unfortunately for my shed, which is on a slight diagonal, it will not be possible to align its interior cubemap exactly. But you’ll discover that Hubs blends between those reflection probes as you move between them–cross-fading the images, minimizing any obvious transition between them. You may find it better to have them overlap a bit for this reason.</p><!--kg-card-begin: markdown--><h3 id="you-made-it">You made it!</h3>
+<!--kg-card-end: markdown--><p>This is one of the more difficult endeavors you can take when making a virtual environment for Hubs, and if you made it all the way through, I applaud your perseverance. The reward for your hard work is a much better looking scene than you started with. But the larger payoff will be on any future scenes you make–which, by the way, would be great to share in our <a href="https://discord.gg/dFJncWwHun" target="_blank" rel="noreferrer noopener">Hubs Discord</a>. I’m personally excited to see what clever ideas and techniques you come up with along the way.</p>
+      </div>
+    </article>
+
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">Published by</div>
+          <span class="special-delimiter"></span>
+              <div class="card author-card author-jco" data-type="post">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/jco/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow" data-srcset="/labs/content/images/size/w300/2022/03/NotARobotJim.jpg 300w,
+            /labs/content/images/size/w600/2022/03/NotARobotJim.jpg 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/03/NotARobotJim.jpg" src="./Baked Lighting for Better-Looking Hubs Scenes_files/NotARobotJim.jpg" alt="Jim Conrad">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/jco/">Jim Conrad</a></div>
+    
+      <div class="author-card__descr text-acc-2 m-b">Jim is a senior artist for Mozilla Hubs. His background includes video game art and design. He has worked on VR-related projects since 2015.</div>
+    
+      <div class="author-card__details flex">
+
+        <div class="author-card__social flex">
+        </div>
+      </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+
+        <div class="related-posts m-t-lg">
+      <div class="section__title m-b">You might also like</div>
+      
+      <div class="row post-feed">
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/installing-mozilla-hubs-community-edition-on-your-own-microsoft-azure-kubernetes-service/" aria-label="Installing Community Edition on Microsoft Azure AKS">Installing Community Edition on Microsoft Azure AKS</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">14 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Community Edition Documentation Awardee Stan Tophoven's guide takes you through his process of deploying Community Edition on Azure's AKS. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/stan/" class="author-mini__item has-icon nr-1" title="Stan Tophoven" aria-label="Stan Tophoven">
+            <span class="author-mini__tooltip">Stan Tophoven</span>
+              <span class="author-mini__letter">Stan Tophoven</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-google-cloud-with-aws-services-ri-ben-yu-ban/" aria-label="Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版">Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">12 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Documentation Awardee Kojiro Yano translates Mozilla's quick start guide to Community Edition on GCP. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/kojiro/" class="author-mini__item has-icon nr-1" title="Kojiro Yano" aria-label="Kojiro Yano">
+            <span class="author-mini__tooltip">Kojiro Yano</span>
+              <span class="author-mini__letter">Kojiro Yano</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/deploying-mozilla-hubs-ce-on-gcp-with-ease-a-guide-to-the-personal-edition-helm-chart/" aria-label="Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart">Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">13 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        In this guide, Alex Griggs shows readers how to deploy his Community Edition Helm Chart: Personal Edition on GCP 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2023-12-27" class="post-card__date flex-1">
+        Dec 27, 2023
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/alex/" class="author-mini__item has-img  nr-1" title="Alex Griggs" aria-label="Alex Griggs">
+            <span class="author-mini__tooltip">Alex Griggs</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2023/12/alex-avatar.png" src="./Baked Lighting for Better-Looking Hubs Scenes_files/alex-avatar.png" alt="Alex Griggs">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+      </div>
+    </div>
+
+  </div>
+
+    </main>
+
+      <footer class="footer">
+  <div class="container wrapper">
+
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">Creator Labs</div>
+          <div class="m-b text-acc-3">Mozilla Hubs Creator Labs</div>
+          <div class="social flex">
+  <a class="social__item" href="https://twitter.com/MozillaHubs" target="_blank" title="Twitter" aria-label="Twitter" rel="noreferrer">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://github.com/mozilla/hubs" target="_blank" title="Github" aria-label="Github" rel="noreferrer">
+    <i class="icon icon-github icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#github"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://hubs.mozilla.com/rss" target="_blank" title="RSS" aria-label="RSS" rel="noreferrer">
+    <i class="icon icon-rss icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#rss"></use>
+  </svg>
+</i>  </a>
+</div>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Navigation</div>
+          <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Tags</div>
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+                <a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a>
+                <a href="https://hubs.mozilla.com/labs/tag/inspiration-2/">Inspiration</a>
+                <a href="https://hubs.mozilla.com/labs/tag/beginner/">Beginner</a>
+                <a href="https://hubs.mozilla.com/labs/tag/intermediate/">Intermediate</a>
+                <a href="https://hubs.mozilla.com/labs/tag/advanced/">Advanced</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom text-center">
+      <span>Visit <a href="https://www.mozilla.org/en-US/">Mozilla Corporation’s</a> not-for-profit parent, the <a href="https://foundation.mozilla.org/?utm_source=www.mozilla.org&amp;utm_medium=referral&amp;utm_campaign=footer">Mozilla Foundation</a>&gt;.
+Portions of this content are ©1998–2024 by individual mozilla.org contributors. Content available under a <a href="https://www.mozilla.org/en-US/foundation/licensing/website-content/">Creative Commons license</a></span>
+    </div>
+  </div>
+</footer>
+      <button class="btn-toggle-round scroll-top js-scroll-top" type="button" title="Scroll to top" aria-label="Scroll to top">
+  <svg class="progress-circle" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+  </svg>
+  <i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up"></use>
+  </svg>
+</i></button>
+
+    
+            <button class="toc-toggle btn-toggle-round js-toc-toggle is-active">
+          <i class="icon icon-file-text icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#file-text"></use>
+  </svg>
+</i>        </button>
+        <div class="post-toc shadow js-post-toc"> 
+          <div class="section__title">Table of Contents</div>
+          <span class="special-delimiter m-t-sm m-b-sm"></span>
+          <div class="post-toc__content js-toc"><ol class="toc-list "><li class="toc-list-item is-active-li"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#what-is-a-dynamic-light" class="toc-link node-name--H3  is-active-link">What is a dynamic light?</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#so-whats-the-alternative-to-dynamic-lights" class="toc-link node-name--H3 ">So what's the alternative to dynamic lights?</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#whats-the-bad-news-then" class="toc-link node-name--H3 ">What's the bad news then?</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#step-1-setting-up-the-scene-for-success" class="toc-link node-name--H3 ">Step 1: Setting up the scene for success</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#lighting-the-scene" class="toc-link node-name--H3 ">Lighting the Scene</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#we-need-a-2nd-uv-layer" class="toc-link node-name--H3 ">We Need a 2nd UV Layer</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#unwrap-the-2nd-uv-layer" class="toc-link node-name--H3 ">Unwrap the 2nd UV Layer</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#pack-it-up-pack-it-in" class="toc-link node-name--H3 ">Pack it Up, Pack it In</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#less-empty-space-better-looking-textures" class="toc-link node-name--H3 ">Less Empty Space = Better Looking Textures</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#material-setup" class="toc-link node-name--H3 ">Material Setup</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#bake-it-till-you-make-it" class="toc-link node-name--H3 ">Bake It Till You Make It</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#preparing-for-export" class="toc-link node-name--H3 ">Preparing for Export</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#to-hubs-with-a-quick-pit-stop-at-spoke" class="toc-link node-name--H3 ">To Hubs!... (with a quick pit stop at Spoke)</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#setting-up-the-background-environment" class="toc-link node-name--H3 ">Setting up the Background Environment</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#the-sky%E2%80%99s-the-limit" class="toc-link node-name--H3 ">The Sky’s the Limit</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#exporting-a-background" class="toc-link node-name--H3 ">Exporting a Background</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#reflections" class="toc-link node-name--H3 ">Reflections</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#a-final-note-on-reflection-probes" class="toc-link node-name--H3 ">A Final Note on Reflection Probes</a></li><li class="toc-list-item"><a href="https://hubs.mozilla.com/labs/baked-lighting-for-better-looking-hubs-scenes/#you-made-it" class="toc-link node-name--H3 ">You made it!</a></li></ol></div>
+        </div>
+
+
+    <div class="notifications">
+  <a tabindex="0" class="notify notify-signup js-notify-close" href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Great! Next, complete checkout for full access to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-signin js-notify-close" href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Welcome back! You've successfully signed in.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">You've successfully subscribed to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-checkout js-notify-close" href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your account is fully activated, you now have access to all content.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your billing info has been updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Your billing was not updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+</div>
+
+
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+      <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('628c144bf5f6b400018113ea')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+
+        <script>
+          document.addEventListener('readystatechange', function(event) {
+            if (document.readyState === "complete") {
+              // table of contents toggle
+              const tocToggleBtn = document.querySelector('.js-toc-toggle');
+              const postToc = document.querySelector('.js-post-toc');
+
+
+              // media query for TOC function
+              const mqSmall = window.matchMedia('(max-width: 767px)');
+              const mqLarge = window.matchMedia('(min-width: 768px)');
+
+              if (tocToggleBtn && postToc) {
+                // if device is large, show the TOC by default
+                if (mqLarge.matches) tocToggleBtn.classList.add('is-active');
+
+                // open/close the TOC
+                tocToggleBtn.onclick = function(event) {
+                  this.classList.toggle('is-active');
+                }
+              }
+
+              const offset = 60;
+              window.addEventListener('scroll', function(event) {
+                //Scroll back to top
+                const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+                scrollPos > offset ? tocToggleBtn.classList.add('is-visible') : tocToggleBtn.classList.remove('is-visible');
+              
+              }, false);
+
+              if (postToc) {
+                tocbot.init({
+                  // Where to render the table of contents.
+                  tocSelector: '.js-toc',
+                  // Where to grab the headings to build the table of contents.
+                  contentSelector: '.js-toc-content',
+                  // Which headings to grab inside of the contentSelector element.
+                  headingSelector: 'h1, h2, h3',
+                  // For headings inside relative or absolute positioned containers within content.
+                  hasInnerContainers: false,
+                  // smooth scroll
+                  scrollSmooth: false,
+                  // offset
+                  headingsOffset: 10,
+                  // onclick event
+                  onClick: function(e){ 
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    var el = document.querySelector(`#${CSS.escape(href.substring(1))}`);
+                    let offset;
+                    CONFIG.ENABLE_STICKY_HEADER === true ? offset = 80 : offset = 20 
+                    const bodyRect = document.body.getBoundingClientRect().top;
+                    const elementRect = el.getBoundingClientRect().top;
+                    const elementPosition = elementRect - bodyRect;
+                    const offsetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                      top: offsetPosition,
+                      behavior: 'smooth'
+                    });
+
+                    document.querySelector('.js-toc-toggle').classList.remove('is-active');
+                  }
+                });
+              }
+            }
+          });
+        </script>
+
+  <script>
+    if (CONFIG.ENABLE_COLOR_SCHEME_PICKER && 'content' in document.createElement('template')) {
+      const themeButton = document.querySelector('.js-theme-toggle');
+      themeButton ? themeButton.classList.add('is-visible') : '';
+
+      let colorSchemePicker = document.querySelector('.js-color-scheme-picker');
+      let colorSchemeTemplate = document.querySelector('.js-color-scheme-template');
+
+      COLOR_SCHEMES.map(function(theme) { 
+        var colorSchemeBtn = colorSchemeTemplate.content.cloneNode(true).querySelector('button');
+        colorSchemeBtn.setAttribute('data-color-scheme', theme.id);
+        colorSchemeBtn.querySelector('.color-scheme__name').textContent = theme.name;
+        colorSchemePicker.appendChild(colorSchemeBtn);
+      }).join(' ')
+    } 
+
+    const colorSchemeBtns = document.querySelectorAll('.js-color-scheme');
+    colorSchemeBtns.forEach(function(colorSchemeBtn) {
+      colorSchemeBtn.onclick = function(event) {
+        setColorScheme(event.currentTarget.getAttribute('data-color-scheme'));
+      }
+    })
+  </script>
+
+  <script>
+    const scrollTop = document.querySelector('.js-scroll-top');
+
+    if (scrollTop && CONFIG.ENABLE_SCROLL_TO_TOP) {
+      const progressPath = document.querySelector('.scroll-top path');
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
+      const updateProgress = function() {
+        const scroll = window.scrollY || window.scrollTop || document.documentElement.scrollTop;
+    
+        const docHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+    
+        const windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    
+        const height = docHeight - windowHeight;
+        var progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      }
+    
+      updateProgress();
+      const offset = 60;
+
+      window.addEventListener('scroll', function(event) {
+        updateProgress();
+        
+        //Scroll back to top
+        const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+        scrollPos > offset ? scrollTop.classList.add('is-active') : scrollTop.classList.remove('is-active');
+      
+      }, false);
+    }
+  </script>
+
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        // window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+
+
+    
+  
+
+<div id="sodo-search-root"></div></body></html>

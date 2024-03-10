@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<!-- saved from url=(0072)https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/ -->
+<html lang="en" data-grid-columns="3" data-color-scheme="dark" data-view-type="grid"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>How To Get the Best Screen Captures in Mozilla Hubs</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preload" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/app.min.js" as="script">
+    <link rel="preload" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/app.min.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <script type="text/javascript" async="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/analytics.js"></script><script type="text/javascript" async="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/js"></script><script async="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/js(1)">
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-77033033-12');
+    </script>
+
+        <link rel="stylesheet" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/css2" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" crossorigin="">
+
+        <noscript>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+
+
+
+
+    <script async="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/app.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/app.min.css">
+
+    <!--cssential--><style></style><!--/cssential-->
+
+    <script>
+  // Basic Config
+  let CONFIG = {
+    GHOST_URL: ``, 
+    GHOST_KEY: ``,
+    GHOST_SEARCH_IN_CONTENT: !!``,
+    GHOST_VERSION: 'v4', /* Ghost version: v4 or v3 */
+    GHOST_SEARCH_LIMIT: 8, /* Search result limit */
+    DEFAULT_VIEW_TYPE: `grid`,
+    DEFAULT_GRID_COLUMNS: 3, /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_COLOR_SCHEME: `System`,
+    ENABLE_COLOR_SCHEME_PICKER: true, /* Enable Color cheme picker */
+    ENABLE_IMAGE_LIGHTBOX: !!`true`,
+    ENABLE_SCROLL_TO_TOP: true, /* Enable Scroll Top Button */
+    ENABLE_FILTER: true, /* Enable filter feature on homepage */
+    ENABLE_HYPHENS: false, /* Enable hyphens */
+    ENABLE_PWA: false, /* Enable PWA - Progressive Web App */
+    ENABLE_STICKY_HEADER: !!``,
+    ENABLE_MENU_AUTO_CLOSE: true, /* Auto close menu when clicking outside of it */
+    DISQUS_SHORTNAME: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+    COVE_ID: '9a56f94608ec8169ab6bb801d004f591', /* To use Cove, replace the below id with your cove publication id*/
+    OPEN_LINKS_IN_NEW_TAB: !!`true`,
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    } /* 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } */
+  ];
+</script>
+
+<style>
+  body {
+    --global-max-width: 1280px;
+    --global-radius: 2px;
+    --global-radius-round: 50%;
+    --global-header-position: initial;
+    --global-hyphens: none; /* none / auto */
+    --global-menu-icons: none;
+    --global-menu-alignement: flex-start; /* flex-start / center / flex-end */
+    --global-breadcrumb: none; /* none / flex */
+    --global-menu-cta: flex; /* none / flex */
+  }
+</style>
+
+    <script>
+  // Dark/Light Theme Handling
+  let preferredTheme; 
+  if (CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase() === 'system') {
+    const preferredColorScheme = 
+    ( window.matchMedia 
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) 
+    ? 'dark' 
+    : 'light'
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase();
+  }
+  document.documentElement.setAttribute('data-color-scheme', preferredTheme);
+
+
+
+  // Grid/List View Handling
+  let preferredView = localStorage.getItem('USER_VIEW_TYPE') || CONFIG.DEFAULT_VIEW_TYPE;
+  document.documentElement.setAttribute('data-view-type', preferredView);
+
+  // Grid columns setting
+  document.documentElement.setAttribute('data-grid-columns', CONFIG.DEFAULT_GRID_COLUMNS);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (CONFIG.ENABLE_HYPHENS) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  if (CONFIG.ENABLE_STICKY_HEADER) {
+    //root.style.setProperty('--global-header-position', 'sticky');
+    document.documentElement.setAttribute('data-header', 'sticky');
+  }
+  
+  // Global values needed
+  const GLOBAL = {
+    CURRENT_PAGE: parseInt(''),
+    NEXT_PAGE: parseInt(''),
+    NEXT_PAGE_LINK: '',
+    MAX_PAGES: parseInt(''), 
+    LAST_PAGE: `` === `` ? true : false,
+    POSTS_PER_PAGE: parseInt('12'),
+    ADD_BOOKMARK_MSG: `Saved!`,
+    REMOVE_BOOKMARK_MSG: `Removed!`,
+    API: ''
+  }
+
+  // Set Themes
+  let style = document.createElement('style');
+  style.innerHTML = `
+    ${COLOR_SCHEMES.map(function(theme) { 
+      return `
+        html[data-color-scheme="${theme.id}"], button[data-color-scheme="${theme.id}"] {
+          --color-primary: ${theme.colors.primary};
+          --color-secondary: ${theme.colors.secondary};
+
+          --color-text: ${theme.colors.text};
+          --color-text-acc-1: ${theme.colors.text_acc_1};
+          --color-text-acc-2: ${theme.colors.text_acc_2};
+          --color-text-acc-3: ${theme.colors.text_acc_3};
+          --color-text-reverse: ${theme.colors.text_reverse};
+
+          --color-bg-body: ${theme.colors.bg_body};  
+          --color-bg: ${theme.colors.bg}; 
+          --color-bg-acc-1: ${theme.colors.bg_acc_1}; 
+          --color-bg-acc-2: ${theme.colors.bg_acc_2}; 
+          --color-bg-acc-3: ${theme.colors.bg_acc_3}; 
+          --color-bg-reverse: ${theme.colors.bg_reverse};
+
+          --color-neutral: ${theme.colors.neutral}; 
+          --color-border: ${theme.colors.border};
+        }
+        .btn-theme-toggle{display: none}
+      `.replace(/\s+/g,'');
+    }).join(' ')}
+  `
+  document.getElementsByTagName('head')[0].appendChild(style);
+</script><style>
+    html[data-color-scheme="light"],button[data-color-scheme="light"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,10%);--color-text-acc-1:hsl(0,0%,20%);--color-text-acc-2:hsl(0,0%,30%);--color-text-acc-3:hsl(0,0%,40%);--color-text-reverse:hsl(0,0%,90%);--color-bg-body:hsl(219,23%,97%);--color-bg:hsl(0,100%,100%);--color-bg-acc-1:hsl(0,0%,98%);--color-bg-acc-2:hsl(0,0%,96%);--color-bg-acc-3:hsl(0,0%,94%);--color-bg-reverse:hsl(0,0%,10%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,95%);}.btn-theme-toggle{display:none} html[data-color-scheme="dark"],button[data-color-scheme="dark"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,90%);--color-text-acc-1:hsl(0,0%,80%);--color-text-acc-2:hsl(0,0%,70%);--color-text-acc-3:hsl(0,0%,60%);--color-text-reverse:hsl(0,0%,10%);--color-bg-body:hsl(0,0%,3%);--color-bg:hsl(0,0%,8%);--color-bg-acc-1:hsl(0,0%,10%);--color-bg-acc-2:hsl(0,0%,12%);--color-bg-acc-3:hsl(0,0%,15%);--color-bg-reverse:hsl(0,0%,90%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,15%);}.btn-theme-toggle{display:none}
+  </style>
+    <link rel="icon" href="https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png" type="image/png">
+    <link rel="canonical" href="https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/amp/">
+    
+    <meta property="og:site_name" content="Creator Labs">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="How To Get the Best Screen Captures in Mozilla Hubs">
+    <meta property="og:description" content="How can you get the best screen captures in Mozilla Hubs on desktop? Maybe you would like to livestream your event, capture a clip of your latest creations to share, or demo a new feature you are working on.
+
+Read on to learn how to dramatically improve your screen captures">
+    <meta property="og:url" content="https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/">
+    <meta property="og:image" content="https://hubs.mozilla.com/labs/content/images/2022/12/ssinhubs.jpg">
+    <meta property="article:published_time" content="2022-12-22T20:57:40.000Z">
+    <meta property="article:modified_time" content="2023-04-20T20:18:22.000Z">
+    <meta property="article:tag" content="Tutorials">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="How To Get the Best Screen Captures in Mozilla Hubs">
+    <meta name="twitter:description" content="How can you get the best screen captures in Mozilla Hubs on desktop? Maybe you would like to livestream your event, capture a clip of your latest creations to share, or demo a new feature you are working on.
+
+Read on to learn how to dramatically improve your screen captures">
+    <meta name="twitter:url" content="https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/">
+    <meta name="twitter:image" content="https://hubs.mozilla.com/labs/content/images/2022/12/ssinhubs.jpg">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Matt Cool">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Tutorials">
+    <meta name="twitter:site" content="@MozillaHubs">
+    <meta name="twitter:creator" content="@MattBCool">
+    <meta property="og:image:width" content="2404">
+    <meta property="og:image:height" content="1406">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Creator Labs",
+        "url": "https://hubs.mozilla.com/labs/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Matt Cool",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/2022/03/mattprofile_8RGm2df.png",
+            "width": 590,
+            "height": 698
+        },
+        "url": "https://hubs.mozilla.com/labs/author/mattcool/",
+        "sameAs": [
+            "https://mattcool.tech/",
+            "https://twitter.com/MattBCool"
+        ]
+    },
+    "headline": "How To Get the Best Screen Captures in Mozilla Hubs",
+    "url": "https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/",
+    "datePublished": "2022-12-22T20:57:40.000Z",
+    "dateModified": "2023-04-20T20:18:22.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hubs.mozilla.com/labs/content/images/2022/12/ssinhubs.jpg",
+        "width": 2404,
+        "height": 1406
+    },
+    "keywords": "Tutorials",
+    "description": "How can you get the best screen captures in Mozilla Hubs on desktop? Maybe you would like to livestream your event, capture a clip of your latest creations to share, or demo a new feature you are working on.\n\nRead on to learn how to dramatically improve your screen captures in Hubs. 🌆\n\n\n\nScreen Capture Mode\n\nUse the new screen capture mode feature built by Hubs Community Developers. A small group of developers worked together to contribute this feature specifically to make screen captures more ",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hubs.mozilla.com/labs/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.30">
+    <link rel="alternate" type="application/rss+xml" title="Creator Labs" href="https://hubs.mozilla.com/labs/rss/">
+    
+    <script defer="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/sodo-search.min.js" data-key="e3e2620efdf47912b1552dbb5b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://hubs.mozilla.com/labs/" crossorigin="anonymous"></script>
+    <link href="https://hubs.mozilla.com/labs/webmention" rel="webmention">
+    <script defer="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/cards.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/cards.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/js(2)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77033033-12');
+</script>
+<style>:root {--ghost-accent-color: #007AB8;}</style>
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightbox-loader{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightbox-loader div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightbox-loader 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightbox-loader div:nth-child(1){animation-delay:-.45s}.fslightbox-loader div:nth-child(2){animation-delay:-.3s}.fslightbox-loader div:nth-child(3){animation-delay:-.15s}@keyframes fslightbox-loader{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media (prefers-reduced-motion: no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"></head>
+  <body class="post-template tag-tutorials">
+      <script>
+
+
+
+
+
+</script>
+
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+<a class="header__brand" href="https://hubs.mozilla.com/" target="_blank">        <img class="light" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/mozilla-hubs-logo.svg" alt="Creator Labs">
+         <img class="dark" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/mozilla-hubs-logo-dark.svg" alt="Creator Labs">    
+</a><a href="https://hubs.mozilla.com/labs">          <span class="header__title m-0">Creator Labs</span>
+</a>        
+        <div class="flex-1"></div>
+
+
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        
+
+        <div class="user-menu js-user-menu">
+    <a class="signup-link" href="https://hubs.mozilla.com/signup/" tabindex="0" title="Sign up" aria-label="Sign up">
+      <i class="icon icon-arrow-up-right icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up-right"></use>
+  </svg>
+</i>Sign up
+    </a>
+    <a class="signin-link" href="https://hubs.mozilla.com/signin/" tabindex="0" title="Sign in" aria-label="Sign in">
+      <i class="icon icon-log-in icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#log-in"></use>
+  </svg>
+</i>Sign in
+    </a>
+</div>      </div>
+       
+    </div>
+  </div>
+</header>
+      <nav class="menu js-menu">
+  <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+          <i class="icon icon-spoke icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#spoke"></use>
+  </svg>
+</i>        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+          <i class="icon icon-mozilla-hubs icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#mozilla-hubs"></use>
+  </svg>
+</i>        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+
+  
+  <span class="flex-1"></span>
+
+
+
+
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle is-visible" tabindex="0" title="Theme color scheme" aria-label="Theme color scheme">
+    <span class="btn-toggle-icons">
+      <i class="icon icon-settings icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#settings"></use>
+  </svg>
+</i>    </span>
+    <span>Theme</span>
+  </button>
+
+  <div class="color-scheme-picker js-color-scheme-picker">
+<button class="color-scheme w-100 js-color-scheme" data-color-scheme="light">
+    <span class="color-scheme__name flex-1 text-left">Light</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button><button class="color-scheme w-100 js-color-scheme" data-color-scheme="dark">
+    <span class="color-scheme__name flex-1 text-left">Dark</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button></div>
+
+<template class="js-color-scheme-template"></template>
+
+</nav>
+    <main class="main">
+      <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  <div class="container wrapper">
+    <div class="hero">
+    <ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a></li>
+  <li class="breadcrumb-item breadcrumb-item-current">How To Get the Best Screen Captures in Mozilla Hubs</li>
+</ul>  
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-tutorials tag-list__item has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" title="Tutorials" aria-label="Tutorials">
+              <span class="tag-list__item--accent" style="background-color: #F5325C"></span>
+            Tutorials
+          </a>
+      </div>
+
+    <h1 class="hero__title text-center">How To Get the Best Screen Captures in Mozilla Hubs</h1>
+
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>Dec 22, 2022</span>
+        <span class="m-l-sm m-r-sm">—</span>
+        <span>4 min read</span>
+      </div>
+
+  </div>
+
+    <div class="hero__media has-caption">
+      <figure class="hero__figure">
+        <img class="hero__img lazyautosizes ls-is-cached lazyloaded" data-srcset="/labs/content/images/size/w300/2022/12/ssinhubs.jpg 300w,
+                  /labs/content/images/size/w600/2022/12/ssinhubs.jpg 600w,
+                  /labs/content/images/size/w1000/2022/12/ssinhubs.jpg 1000w,
+                  /labs/content/images/size/w2000/2022/12/ssinhubs.jpg 2000w" srcset="/labs/content/images/size/w300/2022/12/ssinhubs.jpg 300w,
+                  /labs/content/images/size/w600/2022/12/ssinhubs.jpg 600w,
+                  /labs/content/images/size/w1000/2022/12/ssinhubs.jpg 1000w,
+                  /labs/content/images/size/w2000/2022/12/ssinhubs.jpg 2000w" data-sizes="auto" data-src="/labs/content/images/size/w300/2022/12/ssinhubs.jpg" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/ssinhubs.jpg" alt="a yellow rubber duck floating in a Jacuzzi. Two green lounge chairs beneath a blue umbrella." sizes="640px">
+          <figcaption><a href="https://hubs.mozilla.com/labs/codezart-gallery/">Codeartz Gallery</a></figcaption>
+      </figure>
+    </div>
+</div>
+    <article class="post tag-tutorials content-wrap post-access-public">
+     
+
+      <div class="content">
+        
+          <p>How can you get the best screen captures in Mozilla Hubs on desktop? Maybe you would like to livestream your event, capture a clip of your latest creations to share, or demo a new feature you are working on. <br><br>Read on to learn how to dramatically improve your screen captures in Hubs. 🌆</p><h2 id="screen-capture-mode"><br>Screen Capture Mode</h2><p>Use the new screen capture mode feature built by Hubs Community Developers. A small group of developers worked together to contribute this feature specifically to make screen captures more accessible and convenient - yay open source! &nbsp;</p><p>You may want to hide UI elements to better frame the content and eliminate distracting chat or debug menus. &nbsp;You can press the B key to conveniently hide all the UI. <br><br>If you would like to include the cursor but still hide the UI, you can press the ~ key. </p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/11/ff2c9b59775ec70005fc9f048a241258.mp4" poster="https://img.spacergif.org/v1/1538x950/0a/spacer.png" width="1538" height="950" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/11/media-thumbnail-ember221.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 84.61538461538461%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:13</span></div><input type="range" class="kg-video-seek-slider" max="13" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Press 'B' to hide the ui, cursor, and debug menus. You can also hide the ui with the tilde ~ key if you would still like to see the cursor. Credit: https://skfb.ly/ovoBo</figcaption></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">❤️</div><div class="kg-callout-text"><em>Special thanks to the Hubs Client Hack Community group for making <a href="https://github.com/mozilla/hubs/pull/5718" target="_blank" rel="noreferrer noopener">this PR</a> led by <a href="https://www.linkedin.com/in/david-ballowe-90a164178/" target="_blank" rel="noreferrer noopener">David Ballowe</a> with the help of Imaginer, Ravindra, Ben, Qi, JT, Hrithik and FreeCodeCamp Sacramento.</em></div></div><h2 id="know-your-preferences">Know Your Preferences </h2><p>Nametags, auto pixel adjustment, auto-exit, dynamic shadows, high-quality mode, post-processing, movement, resolution....</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/60c00df738a2dd1e032102fa84dae0e1.jpg" aria-label="Click for Lightbox"><img src="./How To Get the Best Screen Captures in Mozilla Hubs_files/60c00df738a2dd1e032102fa84dae0e1.jpg" class="kg-image" alt="" loading="lazy" width="498" height="530"></a><figcaption>Preferences are accessible through the more menu (...).</figcaption></figure><p>Understanding the options available to you will be a huge help to getting the best-quality screenshots and recordings. Here are a few to look out for:<br><br><strong>Nametags</strong><br>There are several options for displaying name tags, you can hide them when your camera is in close proximity, completely turn them off or have them on only when the object menus are open. </p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/12/ThankYouAWE.mp4" poster="https://img.spacergif.org/v1/1920x1080/0a/spacer.png" width="1920" height="1080" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/12/media-thumbnail-ember210.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay"><button class="kg-video-large-play-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container"><div class="kg-video-player" style="--buffered-width: 0%;"><button class="kg-video-play-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:11</span></div><input type="range" class="kg-video-seek-slider" max="11" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Name tags have several options. Pictured here Amber, Elgin, Matt, Cris, Dom, Pellinore, Alex, Sage, Imaginer and Conor.</figcaption></figure><p><strong>Auto Exit</strong><br>Some settings here you will want to check to ensure smooth recordings with multiple cameras or when you're backgrounding a tab.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/353372e47a7452112478ed4e944787d0.jpg" aria-label="Click for Lightbox"><img src="./How To Get the Best Screen Captures in Mozilla Hubs_files/353372e47a7452112478ed4e944787d0.jpg" class="kg-image" alt="Disable auto-exit when multiple hubs instances are open. Disable auto exit when idle or backgrounded." loading="lazy" width="1088" height="214" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/353372e47a7452112478ed4e944787d0.jpg 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/353372e47a7452112478ed4e944787d0.jpg 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/353372e47a7452112478ed4e944787d0.jpg 1088w" sizes="(min-width: 720px) 720px"></a><figcaption>Be in multiple places at once across the same Hubs, if you are backgrounding a tab or idle you will want to have this one checked!</figcaption></figure><p><strong>High Quality Mode / Dynamic Shadows / Post-Processing Effects / Resolution</strong><br>These are all preferences you will want to consider when recording with your best hardware to get the best looking shots possible.</p><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/065975592c51b27f1dbeaca7f72d3905.jpg" aria-label="Click for Lightbox"><img src="./How To Get the Best Screen Captures in Mozilla Hubs_files/065975592c51b27f1dbeaca7f72d3905.jpg" class="kg-image" alt="" loading="lazy" width="1568" height="480" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/065975592c51b27f1dbeaca7f72d3905.jpg 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/065975592c51b27f1dbeaca7f72d3905.jpg 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/065975592c51b27f1dbeaca7f72d3905.jpg 1568w" sizes="(min-width: 720px) 720px"></a></figure><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/12/d5630f6c287711250510861ecd860a6f.mp4" poster="https://img.spacergif.org/v1/1128x826/0a/spacer.png" width="1128" height="826" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/12/media-thumbnail-ember242.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay"><button class="kg-video-large-play-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container"><div class="kg-video-player" style="--buffered-width: 100%;"><button class="kg-video-play-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:06</span></div><input type="range" class="kg-video-seek-slider" max="6" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>Bloom effects demo at a Hubs Community meetup featuring Mikko, Heather, Gary, Dom, Sandeep, Paula, Jim, and Matt.</figcaption></figure><p><strong>Movement</strong><br>You may want to slow your cameras speed down to reduce the motion. Don't forget you can also right-click to teleport to a location.</p><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/622a530ad56574806fba7dc43dd39855.jpg" aria-label="Click for Lightbox"><img src="./How To Get the Best Screen Captures in Mozilla Hubs_files/622a530ad56574806fba7dc43dd39855.jpg" class="kg-image" alt="Movement Rotation per snap(in degrees). Disable Movement. Disable backwards movement. Disable strafing. Disable teleporter. Movement speed modifier." loading="lazy" width="1144" height="780" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/622a530ad56574806fba7dc43dd39855.jpg 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/622a530ad56574806fba7dc43dd39855.jpg 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/622a530ad56574806fba7dc43dd39855.jpg 1144w" sizes="(min-width: 720px) 720px"></a><figcaption>Various options for modifying movement controls in Mozilla Hubs</figcaption></figure><figure class="kg-card kg-video-card"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/12/26cffb62f49fbae228b6c13602b6a52b.mp4" poster="https://img.spacergif.org/v1/1706x930/0a/spacer.png" width="1706" height="930" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/12/media-thumbnail-ember257.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:05</span></div><input type="range" class="kg-video-seek-slider" max="5" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div></figure><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text"><strong>Using the <code>i</code> Key to Inspect your Avatar</strong><br>You may want to try changing your perspective so you can get a third person view with your avatar. You can achieve this with the <code>i</code> key and use the arrow keys to move.</div></div><p><strong>Using OBS</strong><br><a href="https://obsproject.com/" target="_blank" rel="noreferrer noopener">Open Broadcast Studio</a> is free and open source software for video recording and live streaming. This software is available for mac, windows and linix and allows you to capture different windows, tabs and even control transitions and mix audio. Combine OBS with the above tips to get some high quality production value out of your recorded events.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">🎇</div><div class="kg-callout-text">You can record high-quality, high resolution video with OBS but you will likely need to adjust some settings and understand the limitations of your computer. Here is a <a href="https://youtu.be/oObQ2blbCG8" target="_blank" rel="noreferrer noopener">great tutorial video</a> related to this topic from youtuber Michael Feyrer Jr.</div></div><figure class="kg-card kg-image-card kg-card-hascaption"><a data-no-swup="" data-fslightbox="" href="./How To Get the Best Screen Captures in Mozilla Hubs_files/79c7fbe2-924e-4024-99b5-e702f09aae2d.jpg" aria-label="Click for Lightbox"><img src="./How To Get the Best Screen Captures in Mozilla Hubs_files/79c7fbe2-924e-4024-99b5-e702f09aae2d.jpg" class="kg-image" alt="top main window with Hubs space: this window is what will be seen int h evideo. You can overlay multiple &quot;Sources&quot; below. OBS control panels: &quot;Scenes&quot;, &quot;Sources&quot;, &quot;Audio Mixer&quot;, &quot;Scene Transitions&quot;, &quot;Controls&quot; " loading="lazy" width="1273" height="947" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2022/12/79c7fbe2-924e-4024-99b5-e702f09aae2d.jpg 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2022/12/79c7fbe2-924e-4024-99b5-e702f09aae2d.jpg 1000w, https://hubs.mozilla.com/labs/content/images/2022/12/79c7fbe2-924e-4024-99b5-e702f09aae2d.jpg 1273w" sizes="(min-width: 720px) 720px"></a><figcaption>OBS setup courtesy of <a href="https://hubs.mozilla.com/labs/author/liv/">Liv E</a></figcaption></figure><p>You can even set up multiple cameras and use OBS scene transitions to toggle between them. You can add elements like overlays, logos, and <a href="https://webcaptioner.com/" target="_blank" rel="noreferrer noopener">captions</a> via the sources tab.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">⚠️</div><div class="kg-callout-text">If you want to include your own voice in the recording, you'll need to set up a separate audio source for your microphone. In OBS, go to the "Sources" menu and select "Add &gt; Audio Input Capture." Then, select your microphone from the drop-down menu and adjust the other settings as needed.</div></div><p>The key to recording good audio from a web browser is to experiment with different settings and find what works best for your specific setup and recording environment. It's also important to make sure that the web page you're recording has audio enabled, and that you have the necessary permissions to record it.</p><h2 id="event-best-practices">Event Best Practices <br></h2><p><strong>Let people know you are recording. </strong><br>Avatars can help communicate to others in the room where your camera feed is coming from. Pasting a message in chat and making an announcement in the room (maybe even one you broadcast with an audio-zone) is also a great practice.</p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/12/5ecf036e95c6be3b5bbd1eccd8257cb9.mp4" poster="https://img.spacergif.org/v1/714x456/0a/spacer.png" width="714" height="456" loop="" autoplay="" muted="" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/12/media-thumbnail-ember114.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay kg-video-hide-animated"><button class="kg-video-large-play-icon kg-video-hide-animated"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container kg-video-hide"><div class="kg-video-player" style="--buffered-width: 100%; --seek-before-width: 0%;"><button class="kg-video-play-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:02</span></div><input type="range" class="kg-video-seek-slider" max="2" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>A camera avatar may help some participants understand your event is live and being recorded and allows them to potentially position themselves better so they don't block the view.</figcaption></figure><p><strong>Moderation Tools</strong><br>Be familiar with the moderation tools. You can hide, kick, mute, and control individual volumes of people in the space with you. Make sure you are aware of all these tools. See '<a href="https://hubs.mozilla.com/docs/intro-events.html#moderation--event-controls">Hosting Events in Hubs</a>' in the Hubs docs. </p><figure class="kg-card kg-video-card kg-card-hascaption"><div class="kg-video-container"><video src="https://hubs.mozilla.com/labs/content/media/2022/12/peoplemenu-mic-mute--1-.mp4" poster="https://img.spacergif.org/v1/1348x944/0a/spacer.png" width="1348" height="944" playsinline="" preload="metadata" style="background: transparent url(&#39;https://hubs.mozilla.com/labs/content/images/2022/12/media-thumbnail-ember171.jpg&#39;) 50% 50% / cover no-repeat;"></video><div class="kg-video-overlay"><button class="kg-video-large-play-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button></div><div class="kg-video-player-container"><div class="kg-video-player" style="--buffered-width: 100%;"><button class="kg-video-play-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.14 10.608 2.253.164A1.559 1.559 0 0 0 0 1.557v20.887a1.558 1.558 0 0 0 2.253 1.392L23.14 13.393a1.557 1.557 0 0 0 0-2.785Z"></path></svg></button><button class="kg-video-pause-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect x="3" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect><rect x="14" y="1" width="7" height="22" rx="1.5" ry="1.5"></rect></svg></button><span class="kg-video-current-time">0:00</span><div class="kg-video-time">/<span class="kg-video-duration">0:10</span></div><input type="range" class="kg-video-seek-slider" max="10" value="0"><button class="kg-video-playback-rate">1×</button><button class="kg-video-unmute-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.189 2.021a9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1.794a.249.249 0 0 1 .221.133 9.73 9.73 0 0 0 7.924 4.85h.06a1 1 0 0 0 1-1V3.02a1 1 0 0 0-1.06-.998Z"></path></svg></button><button class="kg-video-mute-icon kg-video-hide"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.177 4.3a.248.248 0 0 0 .073-.176v-1.1a1 1 0 0 0-1.061-1 9.728 9.728 0 0 0-7.924 4.85.249.249 0 0 1-.221.133H5.25a3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h.114a.251.251 0 0 0 .177-.073ZM23.707 1.706A1 1 0 0 0 22.293.292l-22 22a1 1 0 0 0 0 1.414l.009.009a1 1 0 0 0 1.405-.009l6.63-6.631A.251.251 0 0 1 8.515 17a.245.245 0 0 1 .177.075 10.081 10.081 0 0 0 6.5 2.92 1 1 0 0 0 1.061-1V9.266a.247.247 0 0 1 .073-.176Z"></path></svg></button><input type="range" class="kg-video-volume-slider" max="100" value="100"></div></div></div><figcaption>One way to mute a participant via the people menu.</figcaption></figure><p><strong>Spatial Audio</strong><br>If recording audio with OBS, be aware of <a href="https://hubs.mozilla.com/labs/creating-speaker-stages-and-manipulating-audio-in-hubs/">spatial audio and the audio set up</a>. Be cognizant of what camera source/tab you are getting audio from and their proximity to the action.<br><br>Feel ready to record your event and get some great-looking screen captures? I hope so! For more Mozilla Hubs updates Creator Labs content, follow us on <a href="https://twitter.com/MozillaHubs" target="_blank" rel="noreferrer noopener">Twitter</a>, <a href="https://www.linkedin.com/showcase/mozilla-hubs/" target="_blank" rel="noreferrer noopener">LinkedIn</a> or <a href="https://discord.gg/sBMqSjCndj" target="_blank" rel="noreferrer noopener">Discord</a>. Thanks for reading!</p><p><em>Ready to get started with your own hub? Visit </em><a href="https://hubs.mozilla.com/#subscribe">https://hubs.mozilla.com/#subscribe</a> <em>today</em>!</p><p></p>
+      </div>
+        <div class="social-share">
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://twitter.com/share?text=How%20To%20Get%20the%20Best%20Screen%20Captures%20in%20Mozilla%20Hubs&amp;url=https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/" title="Share on Twitter" aria-label="Share on Twitter">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/&amp;title=How%20To%20Get%20the%20Best%20Screen%20Captures%20in%20Mozilla%20Hubs&amp;summary=How%20To%20Get%20the%20Best%20Screen%20Captures%20in%20Mozilla%20Hubs" title="Share on Linkedin" aria-label="Share on Linkedin">
+    <i class="icon icon-linkedin icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#linkedin"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://getpocket.com/save" data-save-url="https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/" data-pocket-label="pocket" data-pocket-count="none" title="Save on Pocket" aria-label="Save on Pocket">
+    <i class="icon icon-pocket icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#pocket"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item" tabindex="0" href="mailto:?subject=How%20To%20Get%20the%20Best%20Screen%20Captures%20in%20Mozilla%20Hubs&amp;body=https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/%C2%A0How%20To%20Get%20the%20Best%20Screen%20Captures%20in%20Mozilla%20Hubs" title="Share by email" aria-label="Share by email">
+    <i class="icon icon-mail icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#mail"></use>
+  </svg>
+</i>  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="https://hubs.mozilla.com/labs/best-screen-capture-tips-for-mozilla-hubs/" title="Copy to clipboard" data-label="Copied!" aria-label="Copy to clipboard">
+    <i class="icon icon-copy icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#copy"></use>
+  </svg>
+</i>  </button>
+  
+</div>
+
+    </article>
+
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">Published by</div>
+          <span class="special-delimiter"></span>
+              <div class="card author-card author-mattcool" data-type="post">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/mattcool/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow" data-srcset="/labs/content/images/size/w300/2022/03/mattprofile_8RGm2df.png 300w,
+            /labs/content/images/size/w600/2022/03/mattprofile_8RGm2df.png 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/03/mattprofile_8RGm2df.png" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/mattprofile_8RGm2df.png" alt="Matt Cool">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/mattcool/">Matt Cool</a></div>
+    
+      <div class="author-card__descr text-acc-2 m-b">Community and the open web. Curious about new technologies. I blog sometimes at mattcool.tech</div>
+    
+      <div class="author-card__details flex">
+
+        <div class="author-card__social flex">
+            <a href="https://twitter.com/MattBCool" target="_blank" title="Twitter" aria-label="Twitter">
+              <i class="icon icon-twitter icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>            </a>
+            <a href="https://mattcool.tech/" target="_blank" title="Website" aria-label="Website">
+              <i class="icon icon-link icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#link"></use>
+  </svg>
+</i>            </a>
+        </div>
+      </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+
+        <div class="related-posts m-t-lg">
+      <div class="section__title m-b">You might also like</div>
+      
+      <div class="row post-feed">
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/installing-mozilla-hubs-community-edition-on-your-own-microsoft-azure-kubernetes-service/" aria-label="Installing Community Edition on Microsoft Azure AKS">Installing Community Edition on Microsoft Azure AKS</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">14 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Community Edition Documentation Awardee Stan Tophoven's guide takes you through his process of deploying Community Edition on Azure's AKS. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/stan/" class="author-mini__item has-icon nr-1" title="Stan Tophoven" aria-label="Stan Tophoven">
+            <span class="author-mini__tooltip">Stan Tophoven</span>
+              <span class="author-mini__letter">Stan Tophoven</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-google-cloud-with-aws-services-ri-ben-yu-ban/" aria-label="Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版">Community Edition Case Study: Quick Start on Google Cloud with AWS Services 日本語版</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">12 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        Documentation Awardee Kojiro Yano translates Mozilla's quick start guide to Community Edition on GCP. 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2024-01-23" class="post-card__date flex-1">
+        Jan 23, 2024
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/kojiro/" class="author-mini__item has-icon nr-1" title="Kojiro Yano" aria-label="Kojiro Yano">
+            <span class="author-mini__tooltip">Kojiro Yano</span>
+              <span class="author-mini__letter">Kojiro Yano</span>
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-advanced tag-tutorials h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-advanced tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" aria-label="Advanced">
+            <span class="tag-list__item--accent" style="background-color: #007AB8"></span>Advanced
+          </a>
+          <a class="tag-tutorials tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tutorials/" aria-label="Tutorials">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Tutorials
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/deploying-mozilla-hubs-ce-on-gcp-with-ease-a-guide-to-the-personal-edition-helm-chart/" aria-label="Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart">Deploying Mozilla Hubs CE on GCP with Ease: A Guide to the Personal Edition Helm Chart</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">13 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        In this guide, Alex Griggs shows readers how to deploy his Community Edition Helm Chart: Personal Edition on GCP 
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2023-12-27" class="post-card__date flex-1">
+        Dec 27, 2023
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/alex/" class="author-mini__item has-img  nr-1" title="Alex Griggs" aria-label="Alex Griggs">
+            <span class="author-mini__tooltip">Alex Griggs</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2023/12/alex-avatar.png" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/alex-avatar.png" alt="Alex Griggs">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+      </div>
+    </div>
+  </div>
+
+    </main><script id="pocket-btn-js" src="./How To Get the Best Screen Captures in Mozilla Hubs_files/btn.js"></script>
+
+      <footer class="footer">
+  <div class="container wrapper">
+
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">Creator Labs</div>
+          <div class="m-b text-acc-3">Mozilla Hubs Creator Labs</div>
+          <div class="social flex">
+  <a class="social__item" href="https://twitter.com/MozillaHubs" target="_blank" title="Twitter" aria-label="Twitter" rel="noreferrer">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://github.com/mozilla/hubs" target="_blank" title="Github" aria-label="Github" rel="noreferrer">
+    <i class="icon icon-github icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#github"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://hubs.mozilla.com/rss" target="_blank" title="RSS" aria-label="RSS" rel="noreferrer">
+    <i class="icon icon-rss icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#rss"></use>
+  </svg>
+</i>  </a>
+</div>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Navigation</div>
+          <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Tags</div>
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+                <a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a>
+                <a href="https://hubs.mozilla.com/labs/tag/inspiration-2/">Inspiration</a>
+                <a href="https://hubs.mozilla.com/labs/tag/beginner/">Beginner</a>
+                <a href="https://hubs.mozilla.com/labs/tag/intermediate/">Intermediate</a>
+                <a href="https://hubs.mozilla.com/labs/tag/advanced/">Advanced</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom text-center">
+      <span>Visit <a href="https://www.mozilla.org/en-US/">Mozilla Corporation’s</a> not-for-profit parent, the <a href="https://foundation.mozilla.org/?utm_source=www.mozilla.org&amp;utm_medium=referral&amp;utm_campaign=footer">Mozilla Foundation</a>&gt;.
+Portions of this content are ©1998–2024 by individual mozilla.org contributors. Content available under a <a href="https://www.mozilla.org/en-US/foundation/licensing/website-content/">Creative Commons license</a></span>
+    </div>
+  </div>
+</footer>
+      <button class="btn-toggle-round scroll-top js-scroll-top" type="button" title="Scroll to top" aria-label="Scroll to top">
+  <svg class="progress-circle" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+  </svg>
+  <i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up"></use>
+  </svg>
+</i></button>
+
+    
+    
+
+    <div class="notifications">
+  <a tabindex="0" class="notify notify-signup js-notify-close" href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Great! Next, complete checkout for full access to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-signin js-notify-close" href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Welcome back! You've successfully signed in.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">You've successfully subscribed to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-checkout js-notify-close" href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your account is fully activated, you now have access to all content.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your billing info has been updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Your billing was not updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+</div>
+
+
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+      <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('637c150db6727a0001d358f7')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+
+  <script>
+    if (CONFIG.ENABLE_COLOR_SCHEME_PICKER && 'content' in document.createElement('template')) {
+      const themeButton = document.querySelector('.js-theme-toggle');
+      themeButton ? themeButton.classList.add('is-visible') : '';
+
+      let colorSchemePicker = document.querySelector('.js-color-scheme-picker');
+      let colorSchemeTemplate = document.querySelector('.js-color-scheme-template');
+
+      COLOR_SCHEMES.map(function(theme) { 
+        var colorSchemeBtn = colorSchemeTemplate.content.cloneNode(true).querySelector('button');
+        colorSchemeBtn.setAttribute('data-color-scheme', theme.id);
+        colorSchemeBtn.querySelector('.color-scheme__name').textContent = theme.name;
+        colorSchemePicker.appendChild(colorSchemeBtn);
+      }).join(' ')
+    } 
+
+    const colorSchemeBtns = document.querySelectorAll('.js-color-scheme');
+    colorSchemeBtns.forEach(function(colorSchemeBtn) {
+      colorSchemeBtn.onclick = function(event) {
+        setColorScheme(event.currentTarget.getAttribute('data-color-scheme'));
+      }
+    })
+  </script>
+
+  <script>
+    const scrollTop = document.querySelector('.js-scroll-top');
+
+    if (scrollTop && CONFIG.ENABLE_SCROLL_TO_TOP) {
+      const progressPath = document.querySelector('.scroll-top path');
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
+      const updateProgress = function() {
+        const scroll = window.scrollY || window.scrollTop || document.documentElement.scrollTop;
+    
+        const docHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+    
+        const windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    
+        const height = docHeight - windowHeight;
+        var progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      }
+    
+      updateProgress();
+      const offset = 60;
+
+      window.addEventListener('scroll', function(event) {
+        updateProgress();
+        
+        //Scroll back to top
+        const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+        scrollPos > offset ? scrollTop.classList.add('is-active') : scrollTop.classList.remove('is-active');
+      
+      }, false);
+    }
+  </script>
+
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        // window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+
+
+    
+  
+
+<div id="sodo-search-root"></div></body></html>

@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<!-- saved from url=(0093)https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/ -->
+<html lang="en" data-grid-columns="3" data-color-scheme="dark" data-view-type="grid"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Community Edition Case Study: Quick Start on Google Cloud with AWS Services</title>
+
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+
+    <link rel="preload" href="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/app.min.js" as="script">
+    <link rel="preload" href="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/app.min.css" as="style">
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <script type="text/javascript" async="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/analytics.js"></script><script type="text/javascript" async="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/js"></script><script async="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/js(1)">
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-77033033-12');
+    </script>
+
+        <link rel="stylesheet" href="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/css2" as="style" onload="this.onload=null;this.rel=&#39;stylesheet&#39;" crossorigin="">
+
+        <noscript>
+          <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        </noscript>
+
+
+
+
+
+    <script async="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/app.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/app.min.css">
+
+    <!--cssential--><style></style><!--/cssential-->
+
+    <script>
+  // Basic Config
+  let CONFIG = {
+    GHOST_URL: ``, 
+    GHOST_KEY: ``,
+    GHOST_SEARCH_IN_CONTENT: !!``,
+    GHOST_VERSION: 'v4', /* Ghost version: v4 or v3 */
+    GHOST_SEARCH_LIMIT: 8, /* Search result limit */
+    DEFAULT_VIEW_TYPE: `grid`,
+    DEFAULT_GRID_COLUMNS: 3, /* Nr of columns for post cards. Possible values 2 or 3. */
+    DEFAULT_COLOR_SCHEME: `System`,
+    ENABLE_COLOR_SCHEME_PICKER: true, /* Enable Color cheme picker */
+    ENABLE_IMAGE_LIGHTBOX: !!`true`,
+    ENABLE_SCROLL_TO_TOP: true, /* Enable Scroll Top Button */
+    ENABLE_FILTER: true, /* Enable filter feature on homepage */
+    ENABLE_HYPHENS: false, /* Enable hyphens */
+    ENABLE_PWA: false, /* Enable PWA - Progressive Web App */
+    ENABLE_STICKY_HEADER: !!``,
+    ENABLE_MENU_AUTO_CLOSE: true, /* Auto close menu when clicking outside of it */
+    DISQUS_SHORTNAME: 'biron-demo', /* Replace 'biron-demo' with your disqus account shortname */
+    COVE_ID: '9a56f94608ec8169ab6bb801d004f591', /* To use Cove, replace the below id with your cove publication id*/
+    OPEN_LINKS_IN_NEW_TAB: !!`true`,
+  }
+
+  // Color schemes, you can either modify the existing ones or add new ones
+  const COLOR_SCHEMES = [
+    {
+      "id": "light",
+      "name": "Light",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 10%)",
+        "text_acc_1": "hsl(0, 0%, 20%)",
+        "text_acc_2": "hsl(0, 0%, 30%)",
+        "text_acc_3": "hsl(0, 0%, 40%)",
+        "text_reverse": "hsl(0, 0%, 90%)",
+        "bg": "hsl(0, 100%, 100%)",
+        "bg_body": "hsl(219,23%,97%)",
+        "bg_acc_1": "hsl(0, 0%, 98%)",
+        "bg_acc_2": "hsl(0, 0%, 96%)",
+        "bg_acc_3": "hsl(0, 0%, 94%)",
+        "bg_reverse": "hsl(0, 0%, 10%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 95%)"
+      }
+    },
+    {
+      "id": "dark",
+      "name": "Dark",
+      "colors": {
+        "primary": "var(--ghost-accent-color)",
+        "secondary": "#f77a3b",
+        "text": "hsl(0, 0%, 90%)",
+        "text_acc_1": "hsl(0, 0%, 80%)",
+        "text_acc_2": "hsl(0, 0%, 70%)",
+        "text_acc_3": "hsl(0, 0%, 60%)",
+        "text_reverse": "hsl(0, 0%, 10%)",
+        "bg": "hsl(0, 0%, 8%)",
+        "bg_body": "hsl(0, 0%, 3%)",
+        "bg_acc_1": "hsl(0, 0%, 10%)",
+        "bg_acc_2": "hsl(0, 0%, 12%)",
+        "bg_acc_3": "hsl(0, 0%, 15%)",
+        "bg_reverse": "hsl(0, 0%, 90%)",
+        "neutral": "hsl(0, 0%, 50%)",
+        "border": "hsl(0, 0%, 15%)"
+      }
+    } /* 
+    {
+      "id": "whitesmoke",
+      "name": "Whitesmoke",
+      "colors": {
+        "primary": "hsl(354, 81%, 65%)",
+        "secondary": "hsl(185, 54%, 45%)",
+        "text": "hsl(34, 36%, 10%)",
+        "text_acc_1": "hsl(34, 36%, 20%)",
+        "text_acc_2": "hsl(34, 36%, 30%)",
+        "text_acc_3": "hsl(34, 36%, 40%)",
+        "text_reverse": "hsl(34, 36%, 90%)",
+        "bg": "hsl(34, 36%, 96%)",
+        "bg_body": "hsl(34, 36%, 93%)",
+        "bg_acc_1": "hsl(34, 36%, 90%)",
+        "bg_acc_2": "hsl(34, 36%, 88%)",
+        "bg_acc_3": "hsl(34, 36%, 85%)",
+        "bg_reverse": "hsl(34, 36%, 10%)",
+        "neutral": "hsl(34, 36%, 50%)",
+        "border": "hsl(34, 36%, 85%)"
+      }
+    }, 
+    {
+      "id": "midnight",
+      "name": "Midnight",
+      "colors": {
+        "primary": "hsl(309, 52%, 50%)",
+        "secondary": "hsl(56, 88%, 60%)",
+        "text": "hsl(250, 63%, 90%)",
+        "text_acc_1": "hsl(250, 63%, 85%)",
+        "text_acc_2": "hsl(250, 63%, 80%)",
+        "text_acc_3": "hsl(250, 63%, 75%)",
+        "text_reverse": "hsl(250, 63%, 10%)",
+        "bg": "hsl(250, 63%, 10%)",
+        "bg_body": "hsl(250, 63%, 5%)",
+        "bg_acc_1": "hsl(250, 63%, 15%)",
+        "bg_acc_2": "hsl(250, 63%, 20%)",
+        "bg_acc_3": "hsl(250, 63%, 25%)",
+        "bg_reverse": "hsl(250, 63%, 90%)",
+        "neutral": "hsl(250, 63%, 50%)",
+        "border": "hsl(250, 63%, 23%)"
+      }
+    } */
+  ];
+</script>
+
+<style>
+  body {
+    --global-max-width: 1280px;
+    --global-radius: 2px;
+    --global-radius-round: 50%;
+    --global-header-position: initial;
+    --global-hyphens: none; /* none / auto */
+    --global-menu-icons: none;
+    --global-menu-alignement: flex-start; /* flex-start / center / flex-end */
+    --global-breadcrumb: none; /* none / flex */
+    --global-menu-cta: flex; /* none / flex */
+  }
+</style>
+
+    <script>
+  // Dark/Light Theme Handling
+  let preferredTheme; 
+  if (CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase() === 'system') {
+    const preferredColorScheme = 
+    ( window.matchMedia 
+      && window.matchMedia('(prefers-color-scheme: dark)').matches
+    ) 
+    ? 'dark' 
+    : 'light'
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || preferredColorScheme;
+  } else {
+    preferredTheme = localStorage.getItem('USER_COLOR_SCHEME') || CONFIG.DEFAULT_COLOR_SCHEME.toLowerCase();
+  }
+  document.documentElement.setAttribute('data-color-scheme', preferredTheme);
+
+
+
+  // Grid/List View Handling
+  let preferredView = localStorage.getItem('USER_VIEW_TYPE') || CONFIG.DEFAULT_VIEW_TYPE;
+  document.documentElement.setAttribute('data-view-type', preferredView);
+
+  // Grid columns setting
+  document.documentElement.setAttribute('data-grid-columns', CONFIG.DEFAULT_GRID_COLUMNS);
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  const root = document.documentElement;
+  if (CONFIG.ENABLE_HYPHENS) {
+    root.style.setProperty('--global-hyphens', 'auto')
+  }
+
+  // =========================
+  // Set Hyphens property
+  // =========================
+  if (CONFIG.ENABLE_STICKY_HEADER) {
+    //root.style.setProperty('--global-header-position', 'sticky');
+    document.documentElement.setAttribute('data-header', 'sticky');
+  }
+  
+  // Global values needed
+  const GLOBAL = {
+    CURRENT_PAGE: parseInt(''),
+    NEXT_PAGE: parseInt(''),
+    NEXT_PAGE_LINK: '',
+    MAX_PAGES: parseInt(''), 
+    LAST_PAGE: `` === `` ? true : false,
+    POSTS_PER_PAGE: parseInt('12'),
+    ADD_BOOKMARK_MSG: `Saved!`,
+    REMOVE_BOOKMARK_MSG: `Removed!`,
+    API: ''
+  }
+
+  // Set Themes
+  let style = document.createElement('style');
+  style.innerHTML = `
+    ${COLOR_SCHEMES.map(function(theme) { 
+      return `
+        html[data-color-scheme="${theme.id}"], button[data-color-scheme="${theme.id}"] {
+          --color-primary: ${theme.colors.primary};
+          --color-secondary: ${theme.colors.secondary};
+
+          --color-text: ${theme.colors.text};
+          --color-text-acc-1: ${theme.colors.text_acc_1};
+          --color-text-acc-2: ${theme.colors.text_acc_2};
+          --color-text-acc-3: ${theme.colors.text_acc_3};
+          --color-text-reverse: ${theme.colors.text_reverse};
+
+          --color-bg-body: ${theme.colors.bg_body};  
+          --color-bg: ${theme.colors.bg}; 
+          --color-bg-acc-1: ${theme.colors.bg_acc_1}; 
+          --color-bg-acc-2: ${theme.colors.bg_acc_2}; 
+          --color-bg-acc-3: ${theme.colors.bg_acc_3}; 
+          --color-bg-reverse: ${theme.colors.bg_reverse};
+
+          --color-neutral: ${theme.colors.neutral}; 
+          --color-border: ${theme.colors.border};
+        }
+        .btn-theme-toggle{display: none}
+      `.replace(/\s+/g,'');
+    }).join(' ')}
+  `
+  document.getElementsByTagName('head')[0].appendChild(style);
+</script><style>
+    html[data-color-scheme="light"],button[data-color-scheme="light"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,10%);--color-text-acc-1:hsl(0,0%,20%);--color-text-acc-2:hsl(0,0%,30%);--color-text-acc-3:hsl(0,0%,40%);--color-text-reverse:hsl(0,0%,90%);--color-bg-body:hsl(219,23%,97%);--color-bg:hsl(0,100%,100%);--color-bg-acc-1:hsl(0,0%,98%);--color-bg-acc-2:hsl(0,0%,96%);--color-bg-acc-3:hsl(0,0%,94%);--color-bg-reverse:hsl(0,0%,10%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,95%);}.btn-theme-toggle{display:none} html[data-color-scheme="dark"],button[data-color-scheme="dark"]{--color-primary:var(--ghost-accent-color);--color-secondary:#f77a3b;--color-text:hsl(0,0%,90%);--color-text-acc-1:hsl(0,0%,80%);--color-text-acc-2:hsl(0,0%,70%);--color-text-acc-3:hsl(0,0%,60%);--color-text-reverse:hsl(0,0%,10%);--color-bg-body:hsl(0,0%,3%);--color-bg:hsl(0,0%,8%);--color-bg-acc-1:hsl(0,0%,10%);--color-bg-acc-2:hsl(0,0%,12%);--color-bg-acc-3:hsl(0,0%,15%);--color-bg-reverse:hsl(0,0%,90%);--color-neutral:hsl(0,0%,50%);--color-border:hsl(0,0%,15%);}.btn-theme-toggle{display:none}
+  </style>
+    <meta name="description" content="This article walks you through one way of setting up a Community Edition instance. For this guide, we are using Kubernetes on Google Cloud with our DNS and SMTP services on AWS. This guide is perfect for those familiar with the Hubs Cloud looking to get started quickly.">
+    <link rel="icon" href="https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png" type="image/png">
+    <link rel="canonical" href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <link rel="amphtml" href="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/amp/">
+    
+    <meta property="og:site_name" content="Creator Labs">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Community Edition Case Study: Quick Start on Google Cloud with AWS Services">
+    <meta property="og:description" content="This article walks you through one way of setting up a Community Edition instance. For this guide, we are using Kubernetes on Google Cloud with our DNS and SMTP services on AWS. This guide is perfect for those familiar with the Hubs Cloud looking to get started quickly.">
+    <meta property="og:url" content="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/">
+    <meta property="og:image" content="https://hubs.mozilla.com/labs/content/images/2023/10/universe.webp">
+    <meta property="article:published_time" content="2023-10-16T20:12:51.000Z">
+    <meta property="article:modified_time" content="2024-02-28T16:26:29.000Z">
+    <meta property="article:tag" content="Code">
+    <meta property="article:tag" content="Advanced">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Community Edition Case Study: Quick Start on Google Cloud with AWS Services">
+    <meta name="twitter:description" content="This article walks you through one way of setting up a Community Edition instance. For this guide, we are using Kubernetes on Google Cloud with our DNS and SMTP services on AWS. This guide is perfect for those familiar with the Hubs Cloud looking to get started quickly.">
+    <meta name="twitter:url" content="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/">
+    <meta name="twitter:image" content="https://hubs.mozilla.com/labs/content/images/2023/10/universe.webp">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="Zach Fox">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="Code, Advanced">
+    <meta name="twitter:site" content="@MozillaHubs">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Creator Labs",
+        "url": "https://hubs.mozilla.com/labs/",
+        "logo": {
+            "@type": "ImageObject",
+            "url": "https://hubs.mozilla.com/labs/content/images/size/w256h256/2022/03/creatorlabs-favicon.png",
+            "width": 60,
+            "height": 60
+        }
+    },
+    "author": {
+        "@type": "Person",
+        "name": "Zach Fox",
+        "image": {
+            "@type": "ImageObject",
+            "url": "https://www.gravatar.com/avatar/9b81ecbb87e52c355a45e5e7a347b98f?s=250&r=x&d=mp",
+            "width": 250,
+            "height": 250
+        },
+        "url": "https://hubs.mozilla.com/labs/author/zach/",
+        "sameAs": []
+    },
+    "headline": "Community Edition Case Study: Quick Start on Google Cloud with AWS Services",
+    "url": "https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/",
+    "datePublished": "2023-10-16T20:12:51.000Z",
+    "dateModified": "2024-02-28T16:26:29.000Z",
+    "image": {
+        "@type": "ImageObject",
+        "url": "https://hubs.mozilla.com/labs/content/images/2023/10/universe.webp",
+        "width": 1200,
+        "height": 630
+    },
+    "keywords": "Code, Advanced",
+    "description": "This article walks you through one way of setting up a Community Edition instance. For this guide, we are using Kubernetes on Google Cloud with our DNS and SMTP services on AWS. This guide is perfect for those familiar with the Hubs Cloud looking to get started quickly.",
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://hubs.mozilla.com/labs/"
+    }
+}
+    </script>
+
+    <meta name="generator" content="Ghost 5.30">
+    <link rel="alternate" type="application/rss+xml" title="Creator Labs" href="https://hubs.mozilla.com/labs/rss/">
+    
+    <script defer="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/sodo-search.min.js" data-key="e3e2620efdf47912b1552dbb5b" data-styles="https://cdn.jsdelivr.net/ghost/sodo-search@~1.1/umd/main.css" data-sodo-search="https://hubs.mozilla.com/labs/" crossorigin="anonymous"></script>
+    <link href="https://hubs.mozilla.com/labs/webmention" rel="webmention">
+    <script defer="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/cards.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/cards.min.css">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/js(2)"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-77033033-12');
+</script>
+<style>:root {--ghost-accent-color: #007AB8;}</style>
+  <style class="fslightbox-styles">.fslightbox-absoluted{position:absolute;top:0;left:0}.fslightbox-fade-in{animation:fslightbox-fade-in .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out{animation:fslightbox-fade-out .3s ease}.fslightbox-fade-in-strong{animation:fslightbox-fade-in-strong .3s cubic-bezier(0,0,.7,1)}.fslightbox-fade-out-strong{animation:fslightbox-fade-out-strong .3s ease}@keyframes fslightbox-fade-in{from{opacity:.65}to{opacity:1}}@keyframes fslightbox-fade-out{from{opacity:.35}to{opacity:0}}@keyframes fslightbox-fade-in-strong{from{opacity:.3}to{opacity:1}}@keyframes fslightbox-fade-out-strong{from{opacity:1}to{opacity:0}}.fslightbox-cursor-grabbing{cursor:grabbing}.fslightbox-full-dimension{width:100%;height:100%}.fslightbox-open{overflow:hidden;height:100%}.fslightbox-flex-centered{display:flex;justify-content:center;align-items:center}.fslightbox-opacity-0{opacity:0!important}.fslightbox-opacity-1{opacity:1!important}.fslightbox-scrollbarfix{padding-right:17px}.fslightbox-transform-transition{transition:transform .3s}.fslightbox-container{font-family:Arial,sans-serif;position:fixed;top:0;left:0;background:linear-gradient(rgba(30,30,30,.9),#000 1810%);touch-action:pinch-zoom;z-index:1000000000;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}.fslightbox-container *{box-sizing:border-box}.fslightbox-svg-path{transition:fill .15s ease;fill:#ddd}.fslightbox-nav{height:45px;width:100%;position:absolute;top:0;left:0}.fslightbox-slide-number-container{display:flex;justify-content:center;align-items:center;position:relative;height:100%;font-size:15px;color:#d7d7d7;z-index:0;max-width:55px;text-align:left}.fslightbox-slide-number-container .fslightbox-flex-centered{height:100%}.fslightbox-slash{display:block;margin:0 5px;width:1px;height:12px;transform:rotate(15deg);background:#fff}.fslightbox-toolbar{position:absolute;z-index:3;right:0;top:0;height:100%;display:flex;background:rgba(35,35,35,.65)}.fslightbox-toolbar-button{height:100%;width:45px;cursor:pointer}.fslightbox-toolbar-button:hover .fslightbox-svg-path{fill:#fff}.fslightbox-slide-btn-container{display:flex;align-items:center;padding:12px 12px 12px 6px;position:absolute;top:50%;cursor:pointer;z-index:3;transform:translateY(-50%)}@media (min-width:476px){.fslightbox-slide-btn-container{padding:22px 22px 22px 6px}}@media (min-width:768px){.fslightbox-slide-btn-container{padding:30px 30px 30px 6px}}.fslightbox-slide-btn-container:hover .fslightbox-svg-path{fill:#f1f1f1}.fslightbox-slide-btn{padding:9px;font-size:26px;background:rgba(35,35,35,.65)}@media (min-width:768px){.fslightbox-slide-btn{padding:10px}}@media (min-width:1600px){.fslightbox-slide-btn{padding:11px}}.fslightbox-slide-btn-container-previous{left:0}@media (max-width:475.99px){.fslightbox-slide-btn-container-previous{padding-left:3px}}.fslightbox-slide-btn-container-next{right:0;padding-left:12px;padding-right:3px}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-left:22px}}@media (min-width:768px){.fslightbox-slide-btn-container-next{padding-left:30px}}@media (min-width:476px){.fslightbox-slide-btn-container-next{padding-right:6px}}.fslightbox-down-event-detector{position:absolute;z-index:1}.fslightbox-slide-swiping-hoverer{z-index:4}.fslightbox-invalid-file-wrapper{font-size:22px;color:#eaebeb;margin:auto}.fslightbox-video{object-fit:cover}.fslightbox-youtube-iframe{border:0}.fslightbox-loader{display:block;margin:auto;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:67px;height:67px}.fslightbox-loader div{box-sizing:border-box;display:block;position:absolute;width:54px;height:54px;margin:6px;border:5px solid;border-color:#999 transparent transparent transparent;border-radius:50%;animation:fslightbox-loader 1.2s cubic-bezier(.5,0,.5,1) infinite}.fslightbox-loader div:nth-child(1){animation-delay:-.45s}.fslightbox-loader div:nth-child(2){animation-delay:-.3s}.fslightbox-loader div:nth-child(3){animation-delay:-.15s}@keyframes fslightbox-loader{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}.fslightbox-source{position:relative;z-index:2;opacity:0}</style><style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><meta http-equiv="origin-trial" content="AymqwRC7u88Y4JPvfIF2F37QKylC04248hLCdJAsh8xgOfe/dVJPV3XS3wLFca1ZMVOtnBfVjaCMTVudWM//5g4AAAB7eyJvcmlnaW4iOiJodHRwczovL3d3dy5nb29nbGV0YWdtYW5hZ2VyLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><style>.App{text-align:center}.App-logo{height:40vmin;pointer-events:none}@media (prefers-reduced-motion: no-preference){.App-logo{animation:App-logo-spin infinite 20s linear}}.App-header{background-color:#282c34;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:calc(10px + 2vmin);color:#fff}.App-link{color:#61dafb}@keyframes App-logo-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}
+</style></head>
+  <body class="post-template tag-code tag-advanced">
+      <script>
+
+
+
+
+
+</script>
+
+<header class="header">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 header__left flex items-center">
+<a class="header__brand" href="https://hubs.mozilla.com/" target="_blank">        <img class="light" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/mozilla-hubs-logo.svg" alt="Creator Labs">
+         <img class="dark" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/mozilla-hubs-logo-dark.svg" alt="Creator Labs">    
+</a><a href="https://hubs.mozilla.com/labs">          <span class="header__title m-0">Creator Labs</span>
+</a>        
+        <div class="flex-1"></div>
+
+
+      </div>
+
+      <div class="col-md-6 col-lg-4 header__center middle-xs flex-1 js-header-search">
+      </div>
+
+      <div class="col-xs col-md-6 col-lg-8 header__right items-center content-end">
+        
+
+        <div class="user-menu js-user-menu">
+    <a class="signup-link" href="https://hubs.mozilla.com/signup/" tabindex="0" title="Sign up" aria-label="Sign up">
+      <i class="icon icon-arrow-up-right icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up-right"></use>
+  </svg>
+</i>Sign up
+    </a>
+    <a class="signin-link" href="https://hubs.mozilla.com/signin/" tabindex="0" title="Sign in" aria-label="Sign in">
+      <i class="icon icon-log-in icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#log-in"></use>
+  </svg>
+</i>Sign in
+    </a>
+</div>      </div>
+       
+    </div>
+  </div>
+</header>
+      <nav class="menu js-menu" style="top: 0px;">
+  <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+          <i class="icon icon-spoke icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#spoke"></use>
+  </svg>
+</i>        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+          <i class="icon icon-mozilla-hubs icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/menu-icons.svg?v=0ae973b935#mozilla-hubs"></use>
+  </svg>
+</i>        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+
+  
+  <span class="flex-1"></span>
+
+
+
+
+  <button class="btn-toggle btn-theme-toggle js-theme-toggle is-visible" tabindex="0" title="Theme color scheme" aria-label="Theme color scheme">
+    <span class="btn-toggle-icons">
+      <i class="icon icon-settings icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#settings"></use>
+  </svg>
+</i>    </span>
+    <span>Theme</span>
+  </button>
+
+  <div class="color-scheme-picker js-color-scheme-picker">
+<button class="color-scheme w-100 js-color-scheme" data-color-scheme="light">
+    <span class="color-scheme__name flex-1 text-left">Light</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button><button class="color-scheme w-100 js-color-scheme" data-color-scheme="dark">
+    <span class="color-scheme__name flex-1 text-left">Dark</span>
+    <span class="color-scheme__color bg-primary"></span>
+    <span class="color-scheme__color bg-secondary"></span>
+    <span class="color-scheme__color bg-default"></span>
+    <span class="color-scheme__color bg-text"></span>
+  </button></div>
+
+<template class="js-color-scheme-template"></template>
+
+</nav>
+    <main class="main">
+      <script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
+  <div class="container wrapper">
+    <div class="hero">
+    <ul class="breadcrumb">
+	<li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs">Home</a></li>
+    <li class="breadcrumb-item"><a href="https://hubs.mozilla.com/labs/tag/code/">Code</a></li>
+  <li class="breadcrumb-item breadcrumb-item-current">Community Edition Case Study: Quick Start on Google Cloud with AWS Services</li>
+</ul>  
+  <div class="hero__content flex flex-col flex-cc m-b-lg">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-code tag-list__item has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/code/" title="Code" aria-label="Code">
+              <span class="tag-list__item--accent" style="background-color: #F5325C"></span>
+            Code
+          </a>
+          <a class="tag-advanced tag-list__item m-l-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/advanced/" title="Advanced" aria-label="Advanced">
+              <span class="tag-list__item--accent" style="background-color: #007AB8"></span>
+            Advanced
+          </a>
+      </div>
+
+    <h1 class="hero__title text-center">Community Edition Case Study: Quick Start on Google Cloud with AWS Services</h1>
+
+      <div class="flex flex-cc text-acc-3 fw-500">
+        <span>Oct 16, 2023</span>
+        <span class="m-l-sm m-r-sm">—</span>
+        <span>16 min read</span>
+      </div>
+
+  </div>
+
+    <div class="hero__media">
+      <figure class="hero__figure">
+        <img class="hero__img lazyautosizes lazyloaded" data-srcset="/labs/content/images/size/w300/2023/10/universe.webp 300w,
+                  /labs/content/images/size/w600/2023/10/universe.webp 600w,
+                  /labs/content/images/size/w1000/2023/10/universe.webp 1000w,
+                  /labs/content/images/size/w2000/2023/10/universe.webp 2000w" srcset="/labs/content/images/size/w300/2023/10/universe.webp 300w,
+                  /labs/content/images/size/w600/2023/10/universe.webp 600w,
+                  /labs/content/images/size/w1000/2023/10/universe.webp 1000w,
+                  /labs/content/images/size/w2000/2023/10/universe.webp 2000w" data-sizes="auto" data-src="/labs/content/images/size/w300/2023/10/universe.webp" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/universe.webp" alt="Community Edition Case Study: Quick Start on Google Cloud with AWS Services" sizes="640px">
+      </figure>
+    </div>
+</div>
+    <article class="post tag-code tag-advanced content-wrap post-access-public">
+     
+
+      <div class="content">
+          <p class="content-excerpt">
+            This article walks you through one way of setting up a Community Edition instance. For this guide, we are using Kubernetes on Google Cloud with our DNS and SMTP services on AWS. This guide is perfect for those familiar with the Hubs Cloud looking to get started quickly.
+          </p>
+        
+          <hr><h2 id="introduction"><u>Introduction</u></h2><p>In this step-by-step guide, you will learn how to quickly deploy an instance of <a href="https://github.com/mozilla/hubs-cloud/tree/feature/ce/community-edition" target="_blank" rel="noreferrer noopener">Hubs Community Edition</a> on Google Cloud using AWS's Route53 and Simple Email Service (SES). This guide is perfect for Hubs Cloud customers who are familiar with navigating AWS services and interested in learning about how to host Hubs on a new platform like Google Cloud.</p><p>To begin, it is important to understand some basic information about the technology that makes up Community Edition, Kubernetes, and how they work together. If you are already familiar with this information, you may skip ahead to the start of the tutorial at the subheading "Deployment Prerequisites".</p><h2 id="understanding-the-hubs-community-edition-infrastructure"><u>Understanding the Hubs Community Edition Infrastructure</u></h2><p>The product known as "Mozilla Hubs" is composed of several powerful pieces of software. For example, when you visit a Hub with your Web browser, you are interacting with the <a href="https://github.com/mozilla/hubs/" target="_blank" rel="noreferrer noopener">Hubs Client</a>.</p><p>The Hubs Client itself interacts with several <strong>other</strong> pieces of software, such as:</p><ul><li><a href="https://github.com/mozilla/reticulum" target="_blank" rel="noreferrer noopener">Reticulum</a> | Hubs' networking and API server</li><li><a href="https://zachfox.io/hubs-webrtc-tester/about/" target="_blank" rel="noreferrer noopener">Dialog</a> | Hubs' WebRTC voice and video communication server</li></ul><p>The Hubs Client, Dialog, and Reticulum are just three components of a larger stack of software. Each of this stack's components are individually configured and networked to other components to make Hubs work properly.</p><p>Hubs Community Edition eliminates the need for developers to download, install, configure, connect, and update each of the stack's components individually. Community Edition simplifies and automates most of that complex deployment process using software called <strong>Kubernetes, </strong>which is a <strong>containerized software orchestration system.</strong></p><h2 id="an-introduction-to-containerized-software"><u>An Introduction to Containerized Software</u></h2><p>Consider the Web browser you are using right now to read this article:</p><ol><li>Unless that browser was installed onto your device from the factory, you first had to download a version of your browser that corresponds to your device's operating system.</li><li>Next, you installed the browser, perhaps specifying a directory into which its application files were placed.</li><li>After that, you opened the browser and may have signed into a Firefox account or a Google account.</li><li>Then, you may have installed an ad blocker extension or a password manager.</li><li>Finally, you might have navigated to a website and added it to your favorites bar...</li></ol><p>Imagine if you could package up the complete state of your Web browser installation -- including its configuration settings, logged-in accounts, extensions, browser history, favorites, and more -- and make use of that package on any other computer, regardless of operating system.</p><p>Similarly, imagine if you could package up the complete state of <strong>any </strong>application -- its dependencies, libraries, configuration files, and application code -- and run that package on any other computer.</p><p><strong>This is possible </strong>using open-source software called Docker. A <strong>Docker Container </strong>is a process executed on a computer running its own packaged and configured software. You can learn more about Docker and Docker Containers here <a href="https://docs.docker.com/get-started/" target="_blank" rel="noreferrer noopener">on the official docs</a>.</p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">It is common for self-hosted software to be distributed as Docker Containers to aid in a swift software deployment with minimal configuration.<br><br>Other examples of popular software that is packed as a Docker Container include:<br> <a href="https://hub.docker.com/_/wordpress" target="_blank" rel="noreferrer noopener">Wordpress</a> | The blogging website system<br> <a href="https://hub.docker.com/_/nextcloud" target="_blank" rel="noreferrer noopener">Nextcloud</a> | A suite of content collaboration software<br> <a href="https://hub.docker.com/_/ubuntu" target="_blank" rel="noreferrer noopener">Ubuntu</a> | The entire Linux distribution</div></div><p><strong>Many components of Hubs Community Edition run inside separate Docker Containers.</strong> By themselves, these containers don't know much about one another. If you were to run a Reticulum container on your computer without also running a Dialog container, anyone who connected to your Hub would be able to see each other, <strong>but not</strong> hear each other.</p><p>Therefore, we need a way for these containers to talk to each other. We need a way for people who connect to a Hub to also connect to that Hub's associated Dialog server. We also need a way to update the Dialog container's code without bringing down the Reticulum container. How do we coordinate all of these containers?</p><p><strong>Kubernetes!</strong></p><h2 id="kubernetes-introduction"><u>Kubernetes Introduction</u></h2><p>Kubernetes, often shortened to "K8s", acts as an <strong>organizer </strong>for containerized software. A Kubernetes deployment, called a "cluster", consists of two parts:</p><ol><li><strong>A control plane</strong> that is responsible for maintaining the state of the cluster as defined by an administrator/developer.</li><li><strong>Nodes</strong>, which are virtual or physical computers that run software defined by the control plane. Each node contains a set of one or more <strong>pods, </strong>which share storage and network resources. Each pod runs one or more <strong>containers.</strong></li></ol><figure class="kg-card kg-image-card"><a data-no-swup="" data-fslightbox="" href="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/kubernetes-cluster.webp" aria-label="Click for Lightbox"><img src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/kubernetes-cluster.webp" class="kg-image" alt="" loading="lazy" width="1200" height="630" srcset="https://hubs.mozilla.com/labs/content/images/size/w600/2023/10/kubernetes-cluster.webp 600w, https://hubs.mozilla.com/labs/content/images/size/w1000/2023/10/kubernetes-cluster.webp 1000w, https://hubs.mozilla.com/labs/content/images/2023/10/kubernetes-cluster.webp 1200w" sizes="(min-width: 720px) 720px"></a></figure><p>To deploy software built using Kubernetes, a developer must supply a Kubernetes executable with a plain-text configuration file describing the cluster's pods, those pods' containers, the computing resources that a container needs to function, networking information, and more. This configuration file is called a <strong><a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment" target="_blank" rel="noreferrer noopener">deployment spec</a>.</strong></p><div class="kg-card kg-callout-card kg-callout-card-grey"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">A Hubs developer might write a configuration file that says "I want my K8s cluster to run version <code>ret.prod.220712.200</code> of the Reticulum server on port 9100 and version <code>dialog.prod.220303.63</code> of the Dialog server on port 4443."<br><br>The control plane would ingest that configuration file and instruct its nodes to download and run that specific, containerized software.</div></div><p>Kubernetes clusters can be deployed on many types of computers, including:</p><ul><li>Your home desktop computer</li><li><a href="https://ubuntu.com/tutorials/how-to-kubernetes-cluster-on-raspberry-pi#1-overview" target="_blank" rel="noreferrer noopener">Two $35 Raspberry Pi Computers</a></li><li>Computers owned by a cloud services provider, such as:<br> - <a href="https://cloud.google.com/kubernetes-engine?hl=en" target="_blank" rel="noreferrer noopener">Google Kubernetes Engine</a><br> - <a href="https://aws.amazon.com/eks/" target="_blank" rel="noreferrer noopener">Amazon Elastic Kubernetes Service</a><br> - <a href="https://azure.microsoft.com/en-us/products/kubernetes-service" target="_blank" rel="noreferrer noopener">Microsoft Azure Kubernetes Service</a><br> - <a href="https://www.digitalocean.com/products/kubernetes" target="_blank" rel="noreferrer noopener">DigitalOcean Kubernetes</a></li></ul><h2 id="community-editions-containerized-services"><u>Community Edition's Containerized Services</u></h2><p>Here is a rundown of each container that makes up Hubs Community Edition:</p><ol><li><strong><a href="https://github.com/mozilla/hubs/" target="_blank" rel="noreferrer noopener">Hubs</a></strong> | The Hubs Client for Web browsers.</li><li><strong><a href="https://github.com/mozilla/spoke/" target="_blank" rel="noreferrer noopener">Spoke</a> </strong>| A web-based content authorizing tool used to create custom 3D environments for Hubs.</li><li><strong><a href="https://github.com/mozilla/reticulum/" target="_blank" rel="noreferrer noopener">Reticulum</a></strong> | Hubs' networking and API server. This handles authorization, avatar positioning, object manipulation, and way more.</li><li><a href="https://github.com/mozilla/dialog/" target="_blank" rel="noreferrer noopener"><strong>Dialog</strong></a> | A WebRTC audio and video communication server. This contains a WebRTC Selective Forwarding Unit. For more information about how Hubs uses WebRTC, check out <a href="https://zachfox.io/hubs-webrtc-tester/about/" target="_blank" rel="noreferrer noopener">this resource</a>.</li><li><strong><a href="https://github.com/coturn/coturn" target="_blank" rel="noreferrer noopener">Coturn</a> </strong>| A TURN and STUN server used for WebRTC communication. For more information about how Hubs uses WebRTC, check out <a href="https://zachfox.io/hubs-webrtc-tester/about/" target="_blank" rel="noreferrer noopener">this resource</a>.</li><li><a href="https://github.com/MozillaReality/nearspark" target="_blank" rel="noreferrer noopener"><strong>Nearspark</strong></a><strong> </strong>| A service used to generate thumbnails from images.</li><li><strong><a href="https://github.com/mozilla/speelycaptor" target="_blank" rel="noreferrer noopener">Speelycaptor</a> </strong>| A service used to convert video to a Hubs-compatible format. Uses ffmpeg.</li><li><strong><a href="https://www.pgbouncer.org/install.html" target="_blank" rel="noreferrer noopener">PgBouncer</a></strong> | A lightweight connection pooler for PostgreSQL. Rather than making new, expensive PostgreSQL database connections for every client or query, a connection pooler creates a long-lived group of connections to a database, and reuses those connections as necessary. This improves database access performance and availability.</li><li><strong><a href="https://github.com/MozillaReality/photomnemonic" target="_blank" rel="noreferrer noopener">Photomnemonic</a> </strong>| A service used to take screenshots of websites. </li></ol><p>After deploying your own version of Community Edition, you will be able to see these containerized services running in their own individual pod. Now that all of those details are out of the way, let's get to the deployment tutorial!</p><h2 id="deployment-prerequisites"><u>Deployment Prerequisites</u></h2><div class="kg-card kg-callout-card kg-callout-card-red"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">In the weeks following the release of this guide, we expect that users may encounter unexpected bugs. The most effective way to let us know about these issues is in the #community-edition channel of our Discord server or by creating an issue on the Hubs Cloud repository.</div></div><p>To successfully deploy Community Edition, certain prerequisites must be met. The requirements discussed below are tailored to this case study and do not precisely match those in the Communit Edition codebase. It is important to note that this tutorial was created using a 2021 M1 Macbook Pro running macOS Ventura 13.1 . The individual commands used to deploy Community Edition may depend on your device and operating system.</p><p><strong>Part 1: </strong>Before getting started, we need to configure billing on our Amazon Web Services and Google Cloud Platform accounts. This guide does not go through the individual steps of setting up your account and billing information, but you can find more information about the setup process at the following links: <a href="https://docs.aws.amazon.com/accounts/latest/reference/welcome-first-time-user.html" target="_blank" rel="noreferrer noopener">AWS</a> | <a href="https://cloud.google.com/billing/docs/how-to/create-billing-account" target="_blank" rel="noreferrer noopener">GCP</a></p><p><strong>Part 2: </strong>We will be using the following free, 3rd-party applications:</p><p> A.<strong> </strong><a href="https://code.visualstudio.com/" target="_blank" rel="noreferrer noopener"><strong>VSCode</strong></a> | A code editor for us to configure and deploy Community Edition.<br> B. <strong><a href="https://k8slens.dev/" target="_blank" rel="noreferrer noopener">Lens</a></strong> | An interface where we can inspect and manage our K8s cluster.</p><p><strong>Part 3: </strong>We need to make sure our computer has the following software installed. We have included the commands that we ran for installation:</p><p>A. <a href="https://brew.sh/" target="_blank" rel="noreferrer noopener">Homebrew</a></p><pre><code>/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</code></pre><p>B. <a href="https://cloud.google.com/sdk?hl=en" target="_blank" rel="noreferrer noopener">The Google Cloud SDK </a></p><pre><code>brew install --cask google-cloud-sdk</code></pre><p>C. <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-macos/" target="_blank" rel="noreferrer noopener">Kubectl</a></p><pre><code>curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"</code></pre><p>D. <a href="https://www.gnu.org/software/gettext/" target="_blank" rel="noreferrer noopener">gettext</a></p><pre><code>brew install gettext</code></pre><h2 id="step-1-configuring-your-dns-on-awss-route53"><u>Step 1: Configuring your DNS on AWS's Route53</u></h2><p>TIf you have set up a Hubs Cloud instance on AWS, you will be familiar with the process of registering a domain on Route53. In fact, you may even have an existing domain that you wish to use for your Community Edition instance. However, unlike Hubs Cloud, you need only <strong>one </strong>registered domain in order to deploy Community Edition. </p><p>If you do not already own a domain that you plan to use for this deployment, you will need to purchase on on AWS Route53:</p><ol><li>Navigate to Route53 on the AWS console.</li><li>Select the "Registered Domains" tab in the left-hand toolbar.</li><li>Select the "Register Domain" button, search for your desired domain, and follow the checkout process to purchase your domain.</li><li>Wait for a confirmation email indicating that your purchase was successful. You will also have to wait for the registration process to complete.</li><li>Lastly, disable Transfer Lock on your domain. This can be done by selecting your domain in the "Registered Domains" tab and clicking the "disable" hyperlink next to "Transfer Lock".</li></ol><p>Once we have registered our desired domain, we need to create four records...</p><ol><li>Navigate to the "Hosted Zones" tab in the left-hand toolbar and click on your domain.</li><li>In the domain's details, you will select "Create Record" to create 4 A-records with placeholder values. Don't worry, we will update these later:<br>a. <strong>Record Name: </strong>{keep blank}<br> <strong>Record Type: </strong>A<br> <strong>Value: </strong>0.0.0.0 (placeholder)<br>b. <strong>Record Name: </strong>assets<br> <strong>Record Type: </strong>A<strong> </strong><br> <strong>Value: </strong>0.0.0.0 (placeholder)<br>c. <strong>Record Name: </strong>stream<br> <strong>Record Type: </strong>A<br> <strong>Value: </strong>0.0.0.0 (placeholder)<br>d. <strong>Record Name: </strong>cors<br> <strong>Record Type: </strong>A<br> <strong>Value: </strong>0.0.0.0 (placeholder)<strong> </strong></li></ol><p>After this is complete, we have properly configured our domain for deployment. Once again, we will come back to update those placeholder record values later in the guide.</p><h2 id="step-2-configuring-your-smtp-on-awss-simple-email-service-ses"><u>Step 2: Configuring your SMTP on AWS's Simple Email Service (SES)</u></h2><p>Hubs relies on the ability to associate a user's email address with important account information, such as their Spoke scenes, rooms, avatars, and more. We will need to configure an Simple Mail Transfer Protocol service (SMTP) in order for our instance to send emails to users.</p><ol><li>Navigate to "Amazon Simple Email Service" in the AWS console.</li><li>Select "SMTP settings" in the left-hand toolbar.</li><li>Make note of your <strong>SMTP endpoint URL</strong>, this will be used later.</li><li>Select the "Create SMTP credentials" button.</li><li>(Optional) On the "Specify User Details" page, you may customize your assigned IAM user name.</li><li>Verify that the following keys in "Permissions policy for user" have the corresponding values:<br>"Effect": "Allow"<br>"Action": "ses:SendRawEmail"<br>"Resource": "*"</li><li>Select "Create User".</li><li>Download or copy the <strong>SMTP user name </strong>and <strong>SMTP password</strong>. These will be used when configuring the Community Edition deployment spec later in the guide.</li></ol><p>Once this is complete, our email service is properly configured for deployment!</p><div class="kg-card kg-callout-card kg-callout-card-red"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">This quick start guide was tested with SES still in sandbox-mode with my hub's domain and admin email address as verified identities (SES prevents unverified recipients and senders in the sandbox). Like Hubs Cloud, we recommend requesting a limit increase from SES as part of making your version of Hubs production-ready.</div></div><h2 id="step-3-create-your-kubernetes-cluster-using-google-cloud-kubernetes-engine"><u>Step 3: Create Your Kubernetes Cluster using Google Cloud Kubernetes Engine</u></h2><p>Next, we need to create a new Kubernetes cluster to hold our Community Edition containers. We can create this cluster using the command line with google-cloud-sdk installed:</p><ol><li>Log in to the google cloud sdk.</li></ol><pre><code>gcloud auth login</code></pre><p>2. Check that you are working in the project where you would like to create your cluster. If you need to create a project, <a href="https://cloud.google.com/sdk/gcloud/reference/projects/create" target="_blank" rel="noreferrer noopener">follow these steps</a>.</p><pre><code>gcloud config list</code></pre><p>3. If you are <strong>not</strong> working in the correct project, run the following command to change to the correct project.</p><pre><code>gcloud config set project &lt;YOUR_PROJECT_ID&gt;
+</code></pre><p>4. Create your K8s cluster. We generally recommend assigning your cluster to the zone nearest to your intended user base. You can find more information on zones <a href="https://cloud.google.com/compute/docs/regions-zones" target="_blank" rel="noreferrer noopener">here</a>.</p><pre><code>gcloud container clusters create &lt;YOUR_DESIRED_NAMESPACE&gt; --zone=&lt;YOUR_DESIRED_ZONE&gt;</code></pre><p>5. Wait for your cluster to be configured. This may take several minutes. When completed, you will receive confirmation and information about your cluster. </p><pre><code>Created [https://container.googleapis.com/v1/projects/YOUR_PROJECT_ID/zones/YOUR_DESIRED_ZONE/clusters/YOUR_DESIRED_NAMESPACE].</code></pre><p>Our K8s cluster is now ready to receive our deployment spec for Community Edition!</p><h2 id="step-4-download-configure-and-deploy-community-edition"><u>Step 4: Download, Configure, and Deploy Community Edition</u></h2><p>The code that makes up Community Edition currently lives in <a href="https://github.com/mozilla/hubs-cloud/tree/feature/ce/community-edition" target="_blank" rel="noreferrer noopener">this section of the Hubs Cloud GitHub repository</a>. In order to deploy it to our K8s cluster, we must download the repository, edit the deployment scripts with information from our chosen services, and deploy the configuration files.</p><p>1. Clone the GitHub repository using the command line in VSCode.</p><pre><code>git clone https://github.com/mozilla/hubs-cloud.git</code></pre><p>2. Move into the community-edition directory.</p><pre><code>cd community-edition</code></pre><p>3. Editing <code>render_hcce.sh</code> in VSCode, replace the following <strong>required</strong> parameters with your chosen services. You will also configure multiple secret passwords that you should save locally on your device:<br><strong> HUB_DOMAIN</strong> | Your domain from Route53.<br><strong> ADM_EMAIL</strong> | The email address to be assigned admin privileges on creation.<br> <strong>Namespace </strong>| The namespace to use within your Kubernetes cluster.<br> <strong>DB_PASS</strong> | A secret password chosen by you.<br> <strong>SMTP_SERVER</strong> | The SMTP endpoint URL from SES.<br> <strong>SMTP_PORT </strong>| 587<br> <strong>SMTP_USER</strong> | The SMTP user name from SES.<br> <strong>SMTP_PASS</strong> | The SMTP password from SES.<br> <strong>NODE_COOKIE</strong> | A secret password chosen by you.<br> <strong>GUARDIAN_KEY</strong> | A secret password chosen by you. <br> <strong>PHX_KEY </strong>| A secret password chosen by you.</p><p>4. (Optional) Editing <code>render_hcce.sh</code> in VSCode, replace the <strong>SKETCHFAB_API_KEY </strong>and <strong>TENOR_API_KEY</strong> with credentials from these services. If you would not like to configure <a href="https://sketchfab.com/developers" target="_blank" rel="noreferrer noopener">Sketchfab</a> (for searching 3D models) or <a href="https://tenor.com/gifapi/documentation" target="_blank" rel="noreferrer noopener">Tenor</a> (for searching animated GIFs) you can simply leave these values as they are.</p><p>5. Once you have finished configuring the deployment script, run the following command to create the deployment spec and apply it to your cluster.</p><pre><code>bash render_hcce.sh &amp;&amp; kubectl apply -f hcce.yaml</code></pre><p>6. Wait for the deployment to complete. This may take several minutes. </p><p>7. Verify the deployment with the following command. You should see 11 pods listed in the returned value. </p><pre><code>kubectl get deployment -n NAMESPACE_WITHIN_CLUSTER</code></pre><p>8. If you would like to look deeper, you can look into the details of each pod to make sure the intended values are present. We recommend verifying the information in the Reticulum pod. </p><pre><code>kubectl describe deployment POD_NAME -n NAMESPACE_WITHIN_CLUSTER</code></pre><div class="kg-card kg-callout-card kg-callout-card-red"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">The scripts in the Community Edition codebase may need to be adjusted depending on your device and operating system. For example, lines 58 and 59 of <code>render_hcce.sh</code> were edited from <code>base64 &lt;secret&gt; -w 0</code> to <code>base64 -i &lt;secret&gt;</code> in order to run on M1 macOS 13.1.</div></div><h2 id="step-5-expose-services"><u>Step 5: Expose Services</u></h2><p>Before we can access our Community Edition instance, we need to point our domain to its automatically assigned external IP.</p><p>1. Get your instance's external IP address.</p><pre><code>kubectl -n NAMESPACE_WITHIN_CLUSTER get svc lb</code></pre><p>2. Navigate back to the "Hosted Zones" tab of AWS Route53 and select your domain.</p><p>3. Replace the placeholder values of all four A-records you created previously with your instance's external IP address. These should be:<br> <strong>&lt;HUB_DOMAIN&gt;<br> assets.&lt;HUB_DOMAIN&gt;<br> stream.&lt;HUB_DOMAIN&gt;<br> cors.&lt;HUB_DOMAIN&gt;</strong></p><p>4. Save all records and wait a few minutes for the changes to propogate.</p><h2 id="step-6-verify-and-manage-your-instance-with-lens"><u>Step 6: Verify and Manage Your Instance with Lens</u></h2><p>Once you have exposed your IP to your domain, you should now be able to begin using your Community Edition instance at its intended domain.</p><p><strong>Connecting to your domain for the first time...</strong></p><ol><li>Attempt to connect to your domain. Since we have not yet configured certificates for our Hub, we will need to 'self-sign' the certificates. Your Web browser will warn you when joining an domain without certificates and will provide you the option to view the page anyway. On Firefox, this is achieved by clicking "Advanced" and "Accept the Risk and Continue".</li><li>The first time you join your URL, you should be prompted to sign-in using your email address.</li></ol><p><strong>Looking into Reticulum logs...</strong></p><ol><li>It is useful to look into the backend of your K8s cluster using a free interface called Lens. During the setup process, Lens should automatically detect all accessible clusters associated with your Google Cloud account. You can then look into your individual cluster and its pods using the left-hand toolbar.</li><li>Select the pod for Reticulum and open its logs in the top right-hand corner of the details page. The logs icon is indicated by four horizontal lines with the fourth line shorter than the others.</li><li>After selecting the Reticulum logs, you should be able to view the processes occurring on the backend of your instance.</li></ol><p><strong>Verify that SMTP is working correctly...</strong></p><ol><li>With the Reticulum logs open, attempt to sign-in to your instance in the Web browser with your ADM_EMAIL email address.</li><li>If successful, Reticulum should register the request and you should receive an email from noreply@&lt;HUB_DOMAIN&gt;. After this, you can begin to create rooms, upload assets, and deploy scenes to your Hub!</li><li>If unsuccessful, Reticulum should log the reason for the error, which you can then use to troubleshoot.</li></ol><p><strong>Verify your configuration values...</strong></p><p>1. Back in Lens, select the "Pods" tab in the left-hand toolbar and select your Reticulum pod. </p><p>2. Open the "Pod Shell" to ssh into your Reticulum pod. This icon should be immediately left of the "Pod Logs" icon.</p><p>3. In the Pod Shell, run the following command:</p><pre><code>cat config.toml</code></pre><p>4. This will return the values you have used to configure your deployment. Verify the values running match your intended values.</p><p><strong>Update configuration values and redeploy...</strong></p><ol><li>You can re-run the command to deploy Community Edition with updated configuration values at any time.</li><li>After re-deploying your configuration, you will have to cycle your current pods for any changes to take effect. This can be achieved by simply deleting all/individual pods using the Lens interface on the "Pods" tab. Thanks to Kubernetes, Community Edition will automatically attempt to create a new pod containing the latest updates.</li></ol><div class="kg-card kg-callout-card kg-callout-card-red"><div class="kg-callout-emoji">💡</div><div class="kg-callout-text">Be advised that terminating pods may compromise and delete important data. While useful for troubleshooting during the deployment process, you should not arbitrarily terminate K8s pods in a production environment.</div></div><h2 id="step-7-configure-certificates"><u>Step 7: Configure Certificates</u></h2><p>The last step of this guide is to configure certificates in order to secure your instance and get rid of the automatic SSL warnings on your Web browser. The Community Edition GitHub README specifies that there are two options for configuring certificates:</p><p>A. You can deploy the Hubs team's certbotbot service.<br>B. You can manually configure certificates using the command line or an interface like Lens.</p><p>For this tutorial, we will stick with <strong>Option A.</strong></p><p>1. Editing <code>cbb.sh</code> in VSCode, replace the following <strong>required </strong>parameters with your chosen configurations:<br> <strong>ADM_EMAIL </strong>| The same email address you specified in <code>render_hcce.sh</code><br> <strong>HUB_DOMAIN</strong> | Your domain from Route53.<br> <strong>Namespace</strong> | YOUR_DESIRED_NAMESPACE from your K8s cluster.</p><p>2. Once you have configured the required parameters, run the following command to add the service to your K8s cluster.</p><pre><code>bash cbb.sh</code></pre><p>3. Once applied, verify that the service has been added using the Lens interface. Navigate to the "Pods" tab in the left-hand toolbar. You should see <code>certbotbot-http</code> present with no visible errors.</p><p>4. After a few minutes, attempt to connect to your Community Edition domain. You should no longer encounter the SSL warning on your Web browser.</p><h2 id="conclusion"><u>Conclusion</u></h2><p>We hope that this guide has been informative about the technology that makes up Hubs Community Edition and helpful as you set up your own instance. As a reminder, this guide is a quick start and there are many upgrades you should consider to make your version of Community Edition production-ready.</p><ul><li><strong>Scalability</strong> | Instances created with this method can support ~15 concurrent users. You can increase capacity by adding additional services for horizontal and vertical scaling. </li><li><strong>AWS SMTP sandbox</strong> | Instances created with this method may have limits on the emails they can send to users of their Hub. The process for requesting a limit increase is the same as Hubs Cloud and is <a href="https://hubs.mozilla.com/docs/hubs-cloud-aws-troubleshooting.html#youre-in-the-aws-sandbox-and-people-dont-receive-magic-link-emails">documented here</a>.</li><li><strong>Dev Ops for Custom Apps</strong> | Instances created with this method will automatically track with the latest version of Hubs codebases. We know that many developers will want to deploy their own versions of the Hubs Client, Reticulum, and Spoke. Doing so will require you to set up your own deployment system. <strong>Stay tuned</strong> for more documentation about this process in the coming months.</li><li><strong>Migrate Your Hubs Cloud Data</strong> | Existing Hubs Cloud customers may want to migrate their existing data to their Community Edition instance. <strong>Stay tuned </strong>as we release automated tools and documentation over the coming months to make this process fast and easy.</li></ul><p>We are so excited to see how the community uses this new technology and can't wait to hear more from you about how to improve Community Edition. The best way to share your thoughts and stay up-to-date on the latest developments is to <a href="https://discord.gg/v8xTFVNA" target="_blank" rel="noreferrer noopener">join our Discord server</a> and check out the #community-edition channel.</p><p>Lastly, if you have experience with Kubernetes or self-hosting Hubs and want to share your own documentation, we are currently accepting applications from capable developers for paid documentation commissions. Complete <a href="https://forms.gle/NBnSDdqePUUF74QWA" target="_blank" rel="noreferrer noopener">this interest form</a> and we will contact you with more details.</p><div class="kg-card kg-header-card kg-width-full kg-size-small kg-style-dark" style="" data-kg-background-image=""><h2 class="kg-header-card-header" id="update-december-2023">Update: December 2023</h2><h3 class="kg-header-card-subheader" id="hey-readers-i-am-updating-this-document-with-a-new-section-on-configuring-settings-found-in-hubs-clouds-version-of-the-admin-panel-and-how-to-deploy-a-custom-version-of-any-of-the-services-that-make-up-hubs-using-the-process-that-the-hubs-team-uses">Hey Readers, I am updating this document with a new section on configuring settings found in Hubs Cloud's version of the admin panel and how to deploy a custom version of any of the services that make up Hubs using the process that the Hubs team uses!</h3></div><h2 id="configure-admin-settings"><u>Configure Admin Settings</u></h2><p>Hubs Community Edition uses much of the same code as the Hubs Subscription, including its version of the admin panel. A key difference between this version of the admin panel and Hubs Cloud's version of the admin panel is the difference in fields to configure certain settings, including...</p><p>- Extra Content Security Policy Rules, including those which allow developers to access external APIs<br>- Extra Headers, HTML, and scripts for avatars, rooms, and scenes</p><p>With Community Edition, these settings are still configurable when deploying your charts to a K8s cluster. To configure these, look <code>config.toml.template</code> and enter your desired values into these portions of the chart:</p><pre><code>[ret."Elixir.RetWeb.Plugs.AddCSP"]
+child_src = ""
+connect_src = "wss://*.stream.&lt;DOMAIN&gt;:4443"
+font_src = ""
+form_action = ""
+frame_src = ""
+img_src = "nearspark.reticulum.io"
+manifest_src = ""
+media_src = ""
+script_src = ""
+style_src = ""
+worker_src = ""
+
+[ret."Elixir.RetWeb.PageController"]
+skip_cache = false
+extra_avatar_headers = ""
+extra_index_headers = ""
+extra_room_headers = ""
+extra_scene_headers = ""
+
+extra_avatar_html = ""
+extra_index_html = ""
+extra_room_html = ""
+extra_scene_html = ""
+
+extra_avatar_script = ""
+extra_index_script = ""
+extra_room_script = ""
+extra_scene_script = ""</code></pre><p>For example, if I want to allow my hub to call the OpenAI APIs for prompt moderation and image generation, my code for <code>script_src</code> would look like the following with each url separated by a single space:</p><pre><code>script_src = "https://api.openai.com/v1/moderations https://api.openai.com/v1/images/generations"</code></pre><h2 id="deploy-custom-apps"><u>Deploy Custom Apps</u></h2><p>By default, Community Edition tracks with the latest release of the Hubs code bases contained in our public docker registries. Many developers may wish to deploy their own version of Hubs' various code bases. Here, we'll step through the process that the Hubs teams uses with GitHub Actions to build your own docker registries and how to have your Community Edition instance use this code.</p><ol><li>First, create a <a href="https://hub.docker.com/" target="_blank" rel="noreferrer noopener">docker hub </a>account and, optionally, a registry for your image. By default, docker hub will create a registry with your username.</li><li>Fork the Hubs code base you would like to customize in GitHub (you must have a GitHub account to do so). For this tutorial, we'll use <a href="https://github.com/mozilla/hubs" target="_blank" rel="noreferrer noopener">the Hubs client</a> and use the master branch as a starting point for adding our customizations.</li><li>When you have made your customizations and are ready to deploy, go to <code>.github/workflows/</code> and add a file called <code>ce-build.yml</code> and populate with <a href="https://github.com/mikemorran/hubs/blob/master/.github/workflows/ce-build.yml" target="_blank" rel="noreferrer noopener">this code</a> created by Hubs Team member, Brandon Patterson. Once complete, ensure these changes are checked-in and merged with your fork's master branch.</li><li>Navigate to the Actions section of your GitHub repository. After adding and committing <code>ce-build.yml</code>, you should see “ce” listed as an action.</li><li>Go to the settings tab of your fork, select "Secrets and Variables" and "actions". Create a new repository secret titled "DOCKER_HUB_PWD". In the secret value, either input your docker hub password or create an access token in docker hub and use the password from that secret.</li><li>After saving the secret, go back to the "Actions" tab, select "ce" and select "Run Workflow." In the pop-up, choose the master branch, leave the "Code path" blank, enter your docker hub username, make sure the dockerfile is <code>RetPageOriginDockerfile</code>, and enter your docker hub registry name.</li><li>Wait for the build to complete successfully. You can check the successful deployment in docker hub.</li><li>Lastly, we have to update our community edition deployment to use our customized version of the Hubs client. Within <code>hcce.ymal</code>, instead of pointing to <code>mozillareality/hubs:stable-latest</code>, point to your docker image with the deployed code.</li></ol>
+      </div>
+        <div class="social-share">
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://twitter.com/share?text=Community%20Edition%20Case%20Study%3A%20Quick%20Start%20on%20Google%20Cloud%20with%20AWS%20Services&amp;url=https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/" title="Share on Twitter" aria-label="Share on Twitter">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/&amp;title=Community%20Edition%20Case%20Study%3A%20Quick%20Start%20on%20Google%20Cloud%20with%20AWS%20Services&amp;summary=Community%20Edition%20Case%20Study%3A%20Quick%20Start%20on%20Google%20Cloud%20with%20AWS%20Services" title="Share on Linkedin" aria-label="Share on Linkedin">
+    <i class="icon icon-linkedin icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#linkedin"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item js-share" tabindex="0" target="_blank" href="https://getpocket.com/save" data-save-url="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/" data-pocket-label="pocket" data-pocket-count="none" title="Save on Pocket" aria-label="Save on Pocket">
+    <i class="icon icon-pocket icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#pocket"></use>
+  </svg>
+</i>  </a>
+  <a class="social-share__item" tabindex="0" href="mailto:?subject=Community%20Edition%20Case%20Study%3A%20Quick%20Start%20on%20Google%20Cloud%20with%20AWS%20Services&amp;body=https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/%C2%A0Community%20Edition%20Case%20Study%3A%20Quick%20Start%20on%20Google%20Cloud%20with%20AWS%20Services" title="Share by email" aria-label="Share by email">
+    <i class="icon icon-mail icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#mail"></use>
+  </svg>
+</i>  </a>
+  <button class="copy-link js-copy-link" tabindex="0" data-url="https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/" title="Copy to clipboard" data-label="Copied!" aria-label="Copy to clipboard">
+    <i class="icon icon-copy icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#copy"></use>
+  </svg>
+</i>  </button>
+  
+</div>
+
+    </article>
+
+      <div class="content-wrap">
+        <div class="post-authors p flex flex-wrap bg-default">
+          <div class="section__title text-acc-3 m-b-sm">Published by</div>
+          <span class="special-delimiter"></span>
+              <div class="card author-card author-zach" data-type="post-mini">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/zach/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow m-b-0" data-srcset="https://www.gravatar.com/avatar/9b81ecbb87e52c355a45e5e7a347b98f?s=250&amp;r=x&amp;d=mp 300w,
+            https://www.gravatar.com/avatar/9b81ecbb87e52c355a45e5e7a347b98f?s=250&amp;r=x&amp;d=mp 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="https://www.gravatar.com/avatar/9b81ecbb87e52c355a45e5e7a347b98f?s=250&amp;r=x&amp;d=mp" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/9b81ecbb87e52c355a45e5e7a347b98f.png" alt="Zach Fox">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1 content-center">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/zach/">Zach Fox</a></div>
+    
+  </div>
+</div>
+              <div class="card author-card author-michael" data-type="post-mini">
+    <a class="author-card__media flex flex-cc" href="https://hubs.mozilla.com/labs/author/michael/">
+      <img class="lazyload author-card__img is-round z-index-1 has-shadow m-b-0" data-srcset="/labs/content/images/size/w300/2023/04/7C2A0225_1.JPG 300w,
+            /labs/content/images/size/w600/2023/04/7C2A0225_1.JPG 600w" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" data-sizes="auto" data-src="/labs/content/images/size/w100/2023/04/7C2A0225_1.JPG" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/7C2A0225_1.JPG" alt="Michael Morran">
+    
+  </a>
+
+  <div class="author-card__content flex-1 flex flex-col text-acc-1 content-center">
+      <div class="author-card__name fw-600 text-lg m-b-xs"><a href="https://hubs.mozilla.com/labs/author/michael/">Michael Morran</a></div>
+    
+  </div>
+</div>
+        </div>
+      </div>
+
+
+        <div class="related-posts m-t-lg">
+      <div class="section__title m-b">You might also like</div>
+      
+      <div class="row post-feed">
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-code tag-tools h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-code tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/code/" aria-label="Code">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Code
+          </a>
+          <a class="tag-tools tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/tools/" aria-label="Tools">
+            <span class="tag-list__item--accent" style="background-color: #FF911A"></span>Tools
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/hubs-lod-support/" aria-label="Hubs LOD Support">Hubs LOD Support</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">5 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        We are happy to announce that Hubs now supports LOD! This feature allows richer,
+more performant, and more efficient model…
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2022-11-03" class="post-card__date flex-1">
+        Nov 3, 2022
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/takahiro/" class="author-mini__item has-img  nr-1" title="Takahiro Aoyagi" aria-label="Takahiro Aoyagi">
+            <span class="author-mini__tooltip">Takahiro Aoyagi</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="//www.gravatar.com/avatar/8f03321e6c981ab6d6f2b82fba6b4bb2?s=250&amp;d=mm&amp;r=x" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/8f03321e6c981ab6d6f2b82fba6b4bb2.jpeg" alt="Takahiro Aoyagi">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-code h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-code tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/code/" aria-label="Code">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Code
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/building-an-enhanced-chat-experience-for-hubs/" aria-label="Building a 3D Chat Experience">Building a 3D Chat Experience</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">6 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        When Pokemon Go, the hugely successful mobile augmented-reality game, launched
+in 2016 it had no in-game chat communication. Jonathan Zarra…
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2022-08-26" class="post-card__date flex-1">
+        Aug 26, 2022
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/james-robertson/" class="author-mini__item has-img  nr-1" title="James Robertson" aria-label="James Robertson">
+            <span class="author-mini__tooltip">James Robertson</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/07/profile-pic-new.jpeg" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/profile-pic-new.jpeg" alt="James Robertson">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+          <div class="col-xs-12 col-md-6 col-lg-4 m-b-lg">
+            <article class="card post-card post tag-code h-100 js-post-card"> 
+
+
+  <div class="post-card__content">
+      <div class="tag-list flex flex-wrap m-b-sm">
+          <a class="tag-code tag-list__item m-r-sm has-accent flex flex-cc" href="https://hubs.mozilla.com/labs/tag/code/" aria-label="Code">
+            <span class="tag-list__item--accent" style="background-color: #F5325C"></span>Code
+          </a>
+      </div>
+
+    <h2 class="post-card__title">
+      <a href="https://hubs.mozilla.com/labs/top-tips-from-community-hubs-devs/" aria-label="Tips from Community Devs for Working with Hubs Code">Tips from Community Devs for Working with Hubs Code</a>
+    </h2>
+
+    <div class="post-card__details flex items-center m-b">
+      <span class="visibility m-r">public</span>
+      <span class="m-r fw-400">–</span>
+      <span class="read-time">2 min read</span>
+    </div>
+
+    <div class="post-card__exc m-b">
+        In the past few months, we have seen an increasing number of people and groups forking Mozilla Hubs, making modifications…
+    </div>
+
+    <div class="flex-1"></div>
+
+    <div class="post-card__ftr">      
+      <time datetime="2022-06-01" class="post-card__date flex-1">
+        Jun 1, 2022
+      </time>
+
+      <div class="author-mini flex items-center">
+          <a href="https://hubs.mozilla.com/labs/author/mattcool/" class="author-mini__item has-img  nr-1" title="Matt Cool" aria-label="Matt Cool">
+            <span class="author-mini__tooltip">Matt Cool</span>
+              <img class="lazyload author-mini__img" data-sizes="auto" data-src="/labs/content/images/size/w100/2022/03/mattprofile_8RGm2df.png" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/mattprofile_8RGm2df.png" alt="Matt Cool">
+          </a>
+      </div>
+    </div>
+  </div>
+
+</article>          </div>
+      </div>
+    </div>
+  </div>
+
+    </main><script id="pocket-btn-js" src="./Community Edition Case Study_ Quick Start on Google Cloud with AWS Services_files/btn.js"></script>
+
+      <footer class="footer">
+  <div class="container wrapper">
+
+    <div class="footer__top p-t-lg p-b border-bottom-1 text-acc-1">
+      <div class="row">
+        <div class="col-xs-12 col-md-4 m-b-sm">
+          <div class="footer__title">Creator Labs</div>
+          <div class="m-b text-acc-3">Mozilla Hubs Creator Labs</div>
+          <div class="social flex">
+  <a class="social__item" href="https://twitter.com/MozillaHubs" target="_blank" title="Twitter" aria-label="Twitter" rel="noreferrer">
+    <i class="icon icon-twitter icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#twitter"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://github.com/mozilla/hubs" target="_blank" title="Github" aria-label="Github" rel="noreferrer">
+    <i class="icon icon-github icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#github"></use>
+  </svg>
+</i>  </a>
+  <a class="social__item" href="https://hubs.mozilla.com/rss" target="_blank" title="RSS" aria-label="RSS" rel="noreferrer">
+    <i class="icon icon-rss icon--sm">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#rss"></use>
+  </svg>
+</i>  </a>
+</div>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Navigation</div>
+          <ul class="nav" role="menu">
+    <li class="nav-spoke" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/spoke">
+        <span>Spoke</span>
+      </a>
+    </li>
+    <li class="nav-mozilla-hubs" data-test="" role="menuitem">
+      <a href="https://hubs.mozilla.com/">
+        <span>Mozilla Hubs</span>
+      </a>
+    </li>
+</ul>
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+        </div>
+        <div class="col-xs-12 col-md-2 m-b-sm">
+          <div class="footer__title">Tags</div>
+            <div class="footer__tags text-acc-3 flex flex-col m-b">
+                <a href="https://hubs.mozilla.com/labs/tag/tutorials/">Tutorials</a>
+                <a href="https://hubs.mozilla.com/labs/tag/inspiration-2/">Inspiration</a>
+                <a href="https://hubs.mozilla.com/labs/tag/beginner/">Beginner</a>
+                <a href="https://hubs.mozilla.com/labs/tag/intermediate/">Intermediate</a>
+                <a href="https://hubs.mozilla.com/labs/tag/advanced/">Advanced</a>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom text-center">
+      <span>Visit <a href="https://www.mozilla.org/en-US/">Mozilla Corporation’s</a> not-for-profit parent, the <a href="https://foundation.mozilla.org/?utm_source=www.mozilla.org&amp;utm_medium=referral&amp;utm_campaign=footer">Mozilla Foundation</a>&gt;.
+Portions of this content are ©1998–2024 by individual mozilla.org contributors. Content available under a <a href="https://www.mozilla.org/en-US/foundation/licensing/website-content/">Creative Commons license</a></span>
+    </div>
+  </div>
+</footer>
+      <button class="btn-toggle-round scroll-top js-scroll-top is-active" type="button" title="Scroll to top" aria-label="Scroll to top">
+  <svg class="progress-circle" width="100%" height="100%" viewBox="-1 -1 102 102">
+    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 246.323;"></path>
+  </svg>
+  <i class="icon icon-arrow-up">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#arrow-up"></use>
+  </svg>
+</i></button>
+
+    
+    
+
+    <div class="notifications">
+  <a tabindex="0" class="notify notify-signup js-notify-close" href="javascript:;" data-class="signup-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Great! Next, complete checkout for full access to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-signin js-notify-close" href="javascript:;" data-class="signin-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Welcome back! You've successfully signed in.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-subscribe js-notify-close" href="javascript:;" data-class="subscribe-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">You've successfully subscribed to Creator Labs.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-checkout js-notify-close" href="javascript:;" data-class="checkout-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your account is fully activated, you now have access to all content.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-success js-notify-close" href="javascript:;" data-class="billing-success">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Success! Your billing info has been updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+
+  <a tabindex="0" class="notify notify-billing-cancel js-notify-close" href="javascript:;" data-class="billing-cancel">
+    <div class="container wrapper flex flex-cc">
+      <div class="notify__msg flex-1">Your billing was not updated.</div> 
+      <span class="notify__close"><i class="icon icon-x icon--xs">
+  <svg class="icon__svg">
+    <use xlink:href="/labs/assets/icons/feather-sprite.svg?v=0ae973b935#x"></use>
+  </svg>
+</i></span>
+    </div>
+  </a>
+</div>
+
+
+    <script>
+      if (CONFIG.ENABLE_PWA && 'serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
+    </script>
+
+      <script>
+    // Check if current post is bookmarked
+    const bookmarkBtn = document.querySelector('.js-handle-bookmark');
+    if (bookmarkBtn) {
+      bookmarkBtn.onclick = function(event) {
+        handleBookmark(event);
+      }
+    }
+    let bookmarks = JSON.parse(localStorage.getItem('bookmarks')) || [];
+    let bookmarked = bookmarks.some(function(i) { return i.id.includes('652b4b8f0a09f7000107e82e')});
+    bookmarked ? bookmarkBtn.classList.add('is-saved') : '';
+
+    /** 
+    * Handle bookmark
+    * @id - Post ID
+    * @url - Post url
+    * @title - Post title
+    */ 
+    const handleBookmark = function(event) {
+      // Save input values in an object
+      let bookmarkObject = {
+        id: event.currentTarget.getAttribute('data-id'),
+        url: event.currentTarget.getAttribute('data-url'),
+        title: event.currentTarget.getAttribute('data-title')
+      }
+
+      if (bookmarked) { 
+        // Remove bookmark
+        const index = bookmarks.findIndex( function(b) { b.id == bookmarkObject.id });
+        bookmarks.splice(index, 1);
+        localStorage.setItem("bookmarks", JSON.stringify(bookmarks));
+        localStorage
+        bookmarked = false;
+        bookmarkBtn.classList.remove('is-saved'); 
+        bookmarkBtn.setAttribute('data-label', GLOBAL.REMOVE_BOOKMARK_MSG);   
+      } else { 
+        // Add bookmark
+        bookmarks.push(bookmarkObject);
+        localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+        bookmarked = true;
+        bookmarkBtn.classList.add('is-saved');  
+        bookmarkBtn.setAttribute('data-label', GLOBAL.ADD_BOOKMARK_MSG);  
+      }
+
+      bookmarkBtn.classList.add('has-tooltip'); 
+      bookmarkBtn.blur();
+
+      setTimeout(function(){
+        bookmarkBtn.classList.remove('has-tooltip');
+      }, 1000); 
+    };    
+    
+    const copyBtn = document.querySelector('.js-copy-link');
+    if (copyBtn) {
+      copyBtn.onclick = function(event) {
+        copyToClipboard(event.currentTarget, event.currentTarget.getAttribute('data-url'));
+      }
+    }
+    
+    /** 
+    * Copy to clipboard
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const copyToClipboard = function(src, str) {
+      const el = document.createElement('textarea');
+      el.value = str;
+      el.setAttribute('readonly', '');
+      el.style.position = 'absolute';
+      el.style.left = '-9999px';
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+
+      src.classList.add('has-tooltip');
+      src.setAttribute('data-label', 'Copied!');
+
+      src.onmouseleave = function() { 
+        src.classList.remove('has-tooltip');
+        setTimeout(function(){
+          src.setAttribute('data-label', '');
+        }, 500); 
+      }
+    };
+
+    // General share settings
+    const shareBtns = document.querySelectorAll('.js-share');
+    if (shareBtns) {
+      shareBtns.forEach(shareBtn = function() {
+        shareBtn.onclick = function(event) {
+          socialShare(event.currentTarget.getAttribute('href'));
+        }
+      });
+    }
+
+    /** 
+    * Social Share
+    * @src - source element
+    * @str - string to copy
+    */ 
+    const socialShare = function(href) {
+      window.open(href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=290,width=580');
+      return false;
+    }
+  </script>
+
+  <script>
+    if (CONFIG.ENABLE_COLOR_SCHEME_PICKER && 'content' in document.createElement('template')) {
+      const themeButton = document.querySelector('.js-theme-toggle');
+      themeButton ? themeButton.classList.add('is-visible') : '';
+
+      let colorSchemePicker = document.querySelector('.js-color-scheme-picker');
+      let colorSchemeTemplate = document.querySelector('.js-color-scheme-template');
+
+      COLOR_SCHEMES.map(function(theme) { 
+        var colorSchemeBtn = colorSchemeTemplate.content.cloneNode(true).querySelector('button');
+        colorSchemeBtn.setAttribute('data-color-scheme', theme.id);
+        colorSchemeBtn.querySelector('.color-scheme__name').textContent = theme.name;
+        colorSchemePicker.appendChild(colorSchemeBtn);
+      }).join(' ')
+    } 
+
+    const colorSchemeBtns = document.querySelectorAll('.js-color-scheme');
+    colorSchemeBtns.forEach(function(colorSchemeBtn) {
+      colorSchemeBtn.onclick = function(event) {
+        setColorScheme(event.currentTarget.getAttribute('data-color-scheme'));
+      }
+    })
+  </script>
+
+  <script>
+    const scrollTop = document.querySelector('.js-scroll-top');
+
+    if (scrollTop && CONFIG.ENABLE_SCROLL_TO_TOP) {
+      const progressPath = document.querySelector('.scroll-top path');
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'none';
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = pathLength;
+      progressPath.getBoundingClientRect();
+      progressPath.style.transition = progressPath.style.WebkitTransition = 'stroke-dashoffset 10ms linear';		
+      const updateProgress = function() {
+        const scroll = window.scrollY || window.scrollTop || document.documentElement.scrollTop;
+    
+        const docHeight = Math.max(
+          document.body.scrollHeight, document.documentElement.scrollHeight,
+          document.body.offsetHeight, document.documentElement.offsetHeight,
+          document.body.clientHeight, document.documentElement.clientHeight
+        );
+    
+        const windowHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    
+        const height = docHeight - windowHeight;
+        var progress = pathLength - (scroll * pathLength / height);
+        progressPath.style.strokeDashoffset = progress;
+      }
+    
+      updateProgress();
+      const offset = 60;
+
+      window.addEventListener('scroll', function(event) {
+        updateProgress();
+        
+        //Scroll back to top
+        const scrollPos = window.scrollY || window.scrollTop || document.getElementsByTagName('html')[0].scrollTop;
+        scrollPos > offset ? scrollTop.classList.add('is-active') : scrollTop.classList.remove('is-active');
+      
+      }, false);
+    }
+  </script>
+
+  <script>
+    // Give the parameter a variable name
+    const action = getParameterByName('action');
+    const stripe = getParameterByName('stripe');
+
+    switch (action) {
+      case 'subscribe':
+        document.body.classList.add('subscribe-success')
+        break;
+      case 'signup': 
+        // window.location = '/signup/?action=checkout';
+        break;
+      case 'checkout':
+        document.body.classList.add('signup-success');
+        break;
+      case 'signin':
+        document.body.classList.add('signin-success');
+        break;
+      default:
+        break;
+    }
+
+    switch (stripe) {
+      case 'success':
+        document.body.classList.add('checkout-success');
+        break;
+      case 'billing-update-success':
+        document.body.classList.add('billing-success');
+        break;
+      case 'billing-update-cancel':
+        document.body.classList.add('billing-cancel');
+        break;
+      default:
+        break;
+    }
+
+    /**
+    * Members Parse the URL parameter
+    * @param {string} name - The parameter name
+    * @param {string} url - The URL
+    * @param {string} action - Name of the action
+    */
+    function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, '\\$&');
+      var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+    
+    /**
+    * Clean URI
+    */
+    function clearURI() {
+      var uri = window.location.toString();
+      if (uri.indexOf("?") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("?"));
+        window.history.replaceState({}, document.title, clean_uri);
+      }
+    }
+  </script>
+
+
+    
+  
+
+<div id="sodo-search-root"></div></body></html>
