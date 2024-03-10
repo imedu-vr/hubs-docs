@@ -79,7 +79,9 @@ az aks create -g <resource group name> -s <CLUSTERTYPE> -n <cluster name> -l <lo
 
 __Important: the '--enable node public ip' option is essential as it will configure the VMSS to assign public IP addresses to your nodes. If left out, your coturn/dialog services will not work while they need a public IP to set up a WebRTC connection. More info here: <https://learn.microsoft.com/en-us/azure/aks/use-node-public-ips>__
 
-### Some guidelines for choosing a clustertype:
+In case you want to connect your cluster to an Azure Container Registry, you can add the parameter `--attach-acr <acr name>` directly instead of adding it later (see 'Give our Kubernetes cluster rights to pull from the registry and create a secret' below)
+
+### Some guidelines for choosing a clustertype
 
 * For Personal use -> standard_f2s
 * For Medium use -> standard_f4s
@@ -109,67 +111,62 @@ See this manual for detailed steps => <https://learn.microsoft.com/en-us/azure/a
 
 ## Set up a static IP address for your cluster
 
-When you create a load balancer resource in an Azure Kubernetes Service (AKS) cluster, the public IP address assigned to it is only valid for the lifespan of that resource. If you delete the Kubernetes service, the associated load balancer and IP address are also deleted.
+AKS automatically creates a static public IP address for your cluster. This can be found in the automatic created cluster's resource group (starting with `MC_<your cluster name>`)
 
-If you want to assign a specific IP address or retain an IP address for redeployed Kubernetes services, you can create and use a static public IP address.
+## Pausing restarting your cluster
 
-See this manual for more details => <https://learn.microsoft.com/en-us/azure/aks/static-ip>
-
-* Get the name of the node resource group using the az aks show command and query for the nodeResourceGroup property.
+To pause your cluster, you can scale down the deployments to 0 as follows:
 
 ```bash
-az aks show --name myAKSCluster --resource-group myNetworkResourceGroup --query nodeResourceGroup -o tsv
+kubectl scale --replicas=0 deployment --all -n hcce
 ```
 
-* Create a static public IP address in the node resource group
+To unpause the deployments you can do:
 
 ```bash
-az network public-ip create --resource-group <node resource group name> --name myAKSPublicIP --sku Standard --allocation-method static
+kubectl scale --replicas=1 deployment --all -n hcce
 ```
 
-* Show the ip address
+Note that this will not pause any other external services outside the cluster (eg. like an external database)
 
-```bash
-az network public-ip show --resource-group <node resource group name> --name myAKSPublicIP --query ipAddress --output tsv
-```
-
-* Give the cluster identity rights to the public IP resource group
-
-```bash
-CLIENT_ID=$(az aks show --name myAKSCluster --resource-group myNetworkResourceGroup --query identity.principalId -o tsv)
-RG_SCOPE=$(az group show --name <node resource group> --query id -o tsv)
-az role assignment create --assignee ${CLIENT_ID} --role "Network Contributor" --scope ${RG_SCOPE}
-```
-
-* Add the following 'annotations' to the Loadbalancer configuration in hcce.yam
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    service.beta.kubernetes.io/azure-load-balancer-resource-group: myNetworkResourceGroup
-    service.beta.kubernetes.io/azure-pip-name: myAKSPublicIP
-spec:
-  type: LoadBalancer
-  ...
-```
 
 ## Set up an external database
 
 Hubs clouds comes with an included postgresql server that is run on a separate pod (behind a pgbouncer pod). For flexibility or more control you can also set up a separate database.
 
-The most cost-efficient way is to start a VM with PostgresSQL on it (from the Azure marketplace), and link the pg-bouncer pod to that database server. This can be done with the following instructions. You can also use an Azure PostgreSQL service (which can even includes its one pgbouncer if you want), but this is significantly more expensive.
+The most cost-efficient way is to start a VM with PostgresSQL on it. You can install it yourself, but here (as a middle of the road solution) we'll use an image from the Azure marketplace and link it to our application.
 
-1. In the portal, select 'Create a service', and find the `PostgreSQL + pgAdmin on Ubuntu xx` image.
+You can also use an Azure PostgreSQL service (which can even includes its one pgbouncer if you want), but this is significantly more expensive.
 
-2. Install the VM in THE SAME resource group and virtual network as your cluster, but choose a different security group.
+This can be done with the following instructions.
 
-3. Choose an appropriate VM size, and install the VM. For a small production database or test situation Bs v2-series might already be sufficient.
+1. First we want to enable encryption on our host disk, so we need to enable that for our subscription (so only once!). See: <https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-host-based-encryption-portal?tabs=azure-cli#prerequisites>
 
-4. When your installation in finished, log in to the VM  and set up postgreSQL.
+```bash
+az feature register --name EncryptionAtHost  --namespace Microsoft.Compute
+```
 
-You may need to add a (temporary) inbound security rule to allow ssh (for 'Destination', choose 'any'). Then follow these instructions to set up the postgres server: <https://cloudinfrastructureservices.co.uk/how-to-setup-install-postgresql-server-on-azure-aws-gcp>
+This can take a few minutes, check the status with:
+
+```bash
+az feature show --name EncryptionAtHost --namespace Microsoft.Compute
+```
+
+When state is 'Registered' run the following to propagate the change
+
+```bash
+az provider register -n Microsoft.Compute
+```
+
+2. To create our server, go to the portal and select 'Create a service'. Find a postgres server, eg. the `PostgreSQL Server and pgAdmin on Ubuntu Server 20.04` image (from Cloud Infrastructure Services, under Microsoft Standard Contract).
+
+3. Install the VM in THE SAME resource group, virtual network and security group as your cluster.
+
+4. Choose an appropriate VM size, and install the VM. For a small production database or test situation Bs v2-series might already be sufficient.
+
+5. When your installation in finished, log in to the VM  and set up postgreSQL.
+
+You may need to add a (temporary) inbound security rule to allow ssh (for 'Source' choose 'My IP, for 'Destination', choose 'any'). Then follow these instructions to set up the postgres server: <https://cloudinfrastructureservices.co.uk/how-to-setup-install-postgresql-server-on-azure-aws-gcp>
 
 In short, the steps are:
 
@@ -198,15 +195,20 @@ sudo nano /etc/postgresql/12/main/postgresql.conf
 sudo nano /etc/postgresql/12/main/pg_hba.conf
 # ==> Add the following line at the bottom: host all all 0.0.0.0/0 md5
 # ==> You can replace 0.0.0.0/0 with a subnet for more security
+
+# restart the DB server
+sudo systemctl restart postgresql
 ```
 
 * To make sure you can access the database open up port 5432, 80 and 443 in your inbound security group rules in Azure. You can restrict to the subnet of the cluster and/or include any other systems that you want to have access from.
+
+* Todo: Not 100% sure, but you may also need to open up port 5432 outbound, in case you want to access your server remotely with e.g. PGADMIN.
 
 * Test access to your database with pgAdmin or similar tool. You will need to (temporarily) configure inbound access from your system.
 
 Now your database is working, we need to connect the cluster to it:
 
-* Open your `render_hcce.sh` and change the following variable declarations:
+6. Open your `render_hcce.sh` and change the following variable declarations:
 
 ```bash
 export DB_PASS=<the password of your postgres admin user>
@@ -216,7 +218,7 @@ export PGRST_DB_URI="postgres://$DB_USER:$DB_PASS@$DB_HOST/$DB_NAME"
 export PSQL="postgres://$DB_USER:$DB_PASS@$DB_HOST/$DB_NAME"
 ```
 
-* Rebuild your .yaml files and apply it to the cluster
+7. Rebuild your .yaml files and apply it to the cluster
 
 When all is done, you can remove any unnecessary inbound firewalls rules.
 
@@ -250,110 +252,11 @@ Now your cluster is ready, and you have an email service, we can start to deploy
 
 2) On the overview page, click on 'connect' in the top navigation bar, and follow the instructions in a terminal, to connect to your cluster on the command line
 
-## Deploy Hubs CE
-
-1) Although it was written for a different cloud environment (but still with Kubernetes), you can read this installation manual for a good understanding of the required steps: <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/> .
-
-2) Clone the hubs repo
-
-3) Go to the /community-edition directory
-
-4) Connect to your cluster (see above)
-
-5) Change the setup values in the installation script `render_hcce_sh`
-
-6) Follow the instructions and run : `bash render_hcce.sh && kubectl apply -f hcce.yaml`
-
->Tip: use a docker image to avoid issues with local versions of openssl, see 'Use Docker image to deploy' below
-
-__Important: Make sure to check the ouput logs, you are problably missing an NPM package (pem-jwk) . Install it using the instructions given (this is already included in the Docker image)__
-
-## Connect your domain to Hubs CE
-
-Now your cluster is running, you need to connect it to your domain. This needs to be done at your DNS provider.
-
-1) IF you didn't use a static IP address, you can find the public IP of your Kubernetes cluster via:
-
-```bash
-kubectl get svc lb -n hcce
-```
-
-Alternatively you can go to `Services and ingresses` under you Kubernetes service in the Azure portal, and look for the `External IP` for the loadbalancer service (`lb`)
-
-2) At your DNS provider, change the DNS 'A-entries' for `<your-domain>`, `assets.<domain>`, `stream.<domain>` and `cors.<domain>` to the public IP of the cluster
-
-__You should now be able to access your cluster (with bypassing the warning for self-signed certificates)!__
-
-## Set up your certificates
-
-### Use certobot
-
-You could try installing the certificates with certobot (see <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/>), but this didn't work for me. It kept provisioning 'self-signed certificates'
-
-### Use a custom certificate
-
-To install your own certificates, you need to update the respective Azure secrets for you main domain and the assets, cors, stream subdomains
-
-1) To list all secrets: `kubectl get secrets -n hcce`
-
-You will see something like this:
-
-```bash
-# We leave this alone
-cert-hcce                   kubernetes.io/tls   2      40h
-configs                     Opaque              20     40h
-
-# This might be present or not, but we are going to add/replace this anyway
-cert-assets.<your domain>   kubernetes.io/tls   2      36h
-cert-cors.<your domain>     kubernetes.io/tls   2      36h
-cert-<your domain>          kubernetes.io/tls   2      36h
-cert-stream.<your domain>   kubernetes.io/tls   2      36h
-
-```
-
-2) The bottom part show all secrets we need to set up or add (if they aren't there). Note while tls secrets are immutable, you can't edit existing secrets unfortunately, and you might need to remove existing secrets first like this:
-
-```bash
-kubectl delete secret cert-<your-domain> -n hcce
-```
-
-3) Then (re)create the secret it with the same name and as content your own certificates.
-
-```bash
-kubectl create secret tls cert-<your-domain> -n hcce --cert=path_to_certs/certificate.pem --key=path_to_certs/key.pem
-```
-
-Some things to check:
-
-* Don't forget to create them in the right namespace, in this case `hcce`.
-
-* If you want to create a backup of the existing certs before you delete them (not sure why but it might feel safe), this can be done by using the portal to view the contents of the secrets as explained further below
-
-* Make sure to build your certificate.pem with the domain certificate _on top_ and paste the cabundle below that.
-
-* If you already visited your cluster, it might take a while before the cached self-signed certificates are updated. You could check the validity of your new certificates at e.g. https://stream.\<your-domain\> as that might not have been cached yet in your network.
-
-### Adjust kubernetes configuration to make sure your main domain certificate is working
-
-In Azure I had to make the following change, to ensure the main certificate was working: change the default-ssl-certificate in the haproxy config (in hcce.yaml) to point to your main domain certificate secret
-
-```yaml
-https://discord.com/channels/498741086295031808/1181690949156470925/1181742705001386054
-      containers:
-        - name: haproxy
-...
-            - --log=warning #error warning info debug trace
-            # REPLACE THIS LINE
-            - --default-ssl-certificate=$Namespace/cert-hcce
-            # INTO THIS LINE
-            - --default-ssl-certificate=$Namespace/<NAME OF YOUR MAIN DOMAIN CERTIFICATE SECRET>
-```
-
 ## Add persistent storage for files (and/or database pods)
 
 By default the Hubs CE configuration uses the local storage of the pods to store the pgsql database and reticulum files. However, these volumes on pods are ephemeral, which results in data-loss when deleting a pod.
 
-To work around that we need to connect our volumes to a persistent storage solution. See this article for more details about (persistant) storage in Azure Kubernetes Services: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>. To set up our  dynamic persistant volumes, we used these instructions <https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision>
+To work around that we need to connect our volumes to a persistent storage solution, and change that in our hcce.yaml file. See this article for more details about (persistant) storage in Azure Kubernetes Services: <https://learn.microsoft.com/en-us/azure/aks/concepts-storage>. To set up our  dynamic persistant volumes, we used these instructions <https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision>
 
 > Obviously, if you are using a seperate PSQL database server you only have to add the persistent storage for the reticulum storage. But let's discuss both.
 
@@ -367,18 +270,16 @@ The cluster contains a reticulum  server and a postgress DB, which both store th
 
 2) Fill in the form to create a new storage account, use default settings where given
 
-* On the 'Networking' tab, set the `network access` to Enable public access from selected virtual networks and IP addresses. 
+* On the 'Networking' tab, set the `network access` to Enable public access from selected virtual networks and IP addresses.
 * In the configuration field, choose the Virtual Network in which your cluster is installed. This should block public access.
 
 3) Finish the process and create your storage account
 
 ### Create a persistent volume claim
 
-We need to add a `Persistent Volume Claim` to our cluster, to which we can connect our reticulum  storage. Note that this will automatically create a `Persistent volume`, based on the given (default) Storage Class. 
+We need to add a `Persistent Volume Claim` to our cluster, to which we can connect our reticulum  storage. Note that this will automatically create a `Persistent volume`, based on the given (default) Storage Class.
 
 We can choose between Azure Disk and Azure Files. While we want multiple pods to be able to access the shared volume, we need to use a Storage class that uses Azure Files. See: <https://learn.microsoft.com/en-us/azure/aks/azure-files-csi>
-
-
 
 Once we created this, we can change the reticulum  and postgresdb config in `hcce.yaml` to use this new persistent storage. For details see: <https://learn.microsoft.com/en-us/azure/aks/azure-csi-files-storage-provision>
 
@@ -390,6 +291,7 @@ We can choose from two default storage classes that should be fine:
 - azurefile-csi: Uses Azure Standard Storage to create an Azure file share.
 - azurefile-csi-premium: Uses Azure Premium Storage to create an Azure file share.
 ```
+
 
 ```yaml
 apiVersion: v1
@@ -418,6 +320,8 @@ spec:
     requests:
       storage: 100Gi
 ```
+
+Both of the default storage classes should allow you to increase storage , by updating the above yaml later. If you want to change or check this, you can edit the storage class with `kubectl edit sc azurefile-csi` and look for `allowVolumeExpansion: true`.
 
 2) Apply the configuration to your cluster with `kubectl apply -f azure-pvc.yaml -n hcce`
 
@@ -481,7 +385,110 @@ metadata:
 
 6) You should now have persistent storage. You can find it in the Azure portal, under `Kubernetes service`  > `Storage`
 
-## Open ports for the Dialog server (audio/speech)
+
+## Deploy Hubs CE
+
+1) Although it was written for a different cloud environment (but still with Kubernetes), you can read this installation manual for a good understanding of the required steps: <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/> .
+
+2) Clone the hubs repo
+
+3) Go to the /community-edition directory
+
+4) Connect to your cluster (see above)
+
+5) Change the setup values in the installation script `render_hcce_sh`
+
+6) Follow the instructions and run : `bash render_hcce.sh && kubectl apply -f hcce.yaml`
+
+>Tip: use a docker image to avoid issues with local versions of openssl, see 'Use Docker image to deploy' below
+
+__Important: Make sure to check the ouput logs, you are problably missing an NPM package (pem-jwk) . Install it using the instructions given (this is already included in the Docker image)__
+
+## Connect your domain to Hubs CE
+
+Now your cluster is running, you need to connect it to your domain. This needs to be done at your DNS provider.
+
+1) You can find the public IP of your Kubernetes cluster via:
+
+```bash
+kubectl get svc lb -n hcce
+```
+
+Alternatively you can go to `Services and ingresses` under you Kubernetes service in the Azure portal, and look for the `External IP` for the loadbalancer service (`lb`)
+
+2) At your DNS provider, change the DNS 'A-entries' for `<your-domain>`, `assets.<domain>`, `stream.<domain>` and `cors.<domain>` to the public IP of the cluster
+
+__You should now be able to access your cluster (with bypassing the warning for self-signed certificates)!__
+
+## Set up your certificates
+
+### Use certobot
+
+You could try installing the certificates with certobot (see <https://hubs.mozilla.com/labs/community-edition-case-study-quick-start-on-gcp-w-aws-services/>), but this didn't work for me. It kept provisioning 'self-signed certificates'
+
+### Use a custom certificate
+
+To install your own certificates, you need to update the respective Azure secrets for you main domain and the assets, cors, stream subdomains
+
+1) To list all secrets: `kubectl get secrets -n hcce`
+
+You will see something like this:
+
+```bash
+# We leave this alone
+cert-hcce                   kubernetes.io/tls   2      40h
+configs                     Opaque              20     40h
+
+# This might be present or not, but we are going to add/replace this anyway
+cert-assets.<your domain>   kubernetes.io/tls   2      36h
+cert-cors.<your domain>     kubernetes.io/tls   2      36h
+cert-<your domain>          kubernetes.io/tls   2      36h
+cert-stream.<your domain>   kubernetes.io/tls   2      36h
+
+```
+
+2) The bottom part show all secrets we need to set up or add (if they aren't there). Note while tls secrets are immutable, you can't edit existing secrets unfortunately, and you might need to remove existing secrets first like this:
+
+```bash
+kubectl delete secret cert-<your-domain> -n hcce
+```
+
+3) Then (re)create the secret it with the same name and as content your own certificates.
+
+```bash
+kubectl create secret tls cert-<your-domain> -n hcce --cert=path_to_certs/certificate.pem --key=path_to_certs/key.pem
+```
+
+So , when your domain is running on `myhubs.com`, your secret will be called:`cert-myhubsce.com`
+
+Use the same command for `cert-assets.<your-domain>`, `cert-cors.<your-domain>`, and  `cert-stream.<your-domain>`
+
+Some things to check:
+
+* Don't forget to create them in the right namespace, in this case `hcce`.
+
+* If you want to create a backup of the existing certs before you delete them (not sure why but it might feel safe), this can be done by using the portal to view the contents of the secrets as explained further below
+
+* Make sure to build your certificate.pem with the domain certificate _on top_ and paste the cabundle below that. REMOVE ANY EMPTY LINES BETWEEN THE CERTIFICATES!
+
+* If you already visited your cluster, it might take a while before the cached self-signed certificates are updated. You could check the validity of your new certificates at e.g. https://stream.\<your-domain\> as that might not have been cached yet in your network.
+
+### Adjust kubernetes configuration to make sure your main domain certificate is working
+
+Make the following change to ensure the main certificate is working: change the default-ssl-certificate in the haproxy config (in hcce.yaml) to point to your main domain certificate secret
+
+```yaml
+      containers:
+        - name: haproxy
+...
+            - --log=warning #error warning info debug trace
+            # REPLACE THIS LINE
+            - --default-ssl-certificate=$Namespace/cert-hcce
+            # INTO THIS LINE
+            - --default-ssl-certificate=$Namespace/<NAME OF YOUR MAIN DOMAIN CERTIFICATE SECRET>
+```
+
+## Configure your firewall (for audio/speech and more)
 
 To make sure our dialog server works, we need to create a few inbound network security group (NSG) rules for our Azure Kubernetes Service (AKS) cluster. These will open the TCP ports 4443, 5349, and UDP ports 35000-60000 on our cluster.
 See: <https://discord.com/channels/498741086295031808/1179831347984998411/1182434406015701063>
@@ -503,13 +510,17 @@ See: <https://discord.com/channels/498741086295031808/1179831347984998411/118243
   * Priority: Use the default (note that lower numbers will be prioritized)
   * Name & description: a clear recognizable name/description for this port setting
 7) Do the same for port range 5349 with TCP, and port range 35000-60000 for UDP
+8) If you are using an external SMTP server, you also need to open up port 587 outbound
+9) If you want to connect to your database remotely (eg. using PGadmin), you may also need to open up port 5432 outbound
 
 ## Setup container registry for custom client code
 
 To use a custom client you need to store the docker image somewhere. We use the Azure Container Registry for this so everything is in one place. The following things need to happen:
 
 * We need to create a container registry service on Azure
-* The Kubernetes cluster needs to have 'pull' rights from the registry
+
+* We need to give the Kubernets cluster 'pull' rights from the registry
+
 * We need access from the command line to push/pull our custom client code
 
 ### Create the Azure Container Registry service
@@ -520,12 +531,23 @@ Azure offers it's own container registry service that is compatible with docker 
 You can set it up via the Azure portal, as follows:
 <https://learn.microsoft.com/en-us/azure/container-registry/container-registry-get-started-portal?tabs=azure-cli>
 
-### Give our Kubernetes cluster rights to pull from the registry and create a secret 
+### Give our Kubernetes cluster rights to pull from the registry and create a secret
+
+In case you didn't create the cluster with `--attach-acr <acrName>` (see above), you can still do that now.
+
+Azure has an integrated option to the `az aks` command to attach a registry. This will give the cluster rights to pull from the registry.
+
+To update an existing cluster, use this command:
+
+```bash
+az aks update -n myAKSCluster -g myResourceGroup --attach-acr <acrName>
+```
+
+### Alternative method
+
+An alternative way is to manually grant access to the registry, and create a pull secret. Here we can leverage the managed identity that is automatically created for the Kubernetes cluster (as it is for every Azure entity).
 
 To let our cluster pull from the registry we need to give our cluster access to the registry, and create an image pull secret to use during deployment (see <https://learn.microsoft.com/en-us/azure/container-registry/container-registry-auth-kubernetes>)
-
-**Give cluster access to our registry**
-Here we can leverage the managed identity that is automatically created for the Kubernetes cluster (as it is for every Azure entity).
 
 1) Go to Access Control (IAM) in the Azure Container Registry
 2) Add a new role assignment
@@ -533,7 +555,7 @@ Here we can leverage the managed identity that is automatically created for the 
 4) Assign it to a 'Managed identity', and under 'Select members', select your Kubernetes cluster.
 5) Store changes
 
-**Create and use an image pull secret**
+Then create and use an image pull secret in your cluster configuration:
 
 1) Use the following `kubectl` command to create your secret (you can choose your own name)
 
@@ -544,6 +566,8 @@ kubectl create secret docker-registry <secret-name> \
     --docker-username=<service-principal-ID> \
     --docker-password=<service-principal-password>
 ```
+
+By default your cluster will be installed as a managed service identity (msi) and won't have a service principal ID, you need to create one.
 
 2) Then change your cluster configuration to uses the pull secret. In your `hcce.yaml` file:
 
@@ -624,7 +648,7 @@ metadata:
 
 >todo: this is not complete yet, these are some tips I found elsewhere, and needs to be checked.
 
-1) In the hubs client directory, (assuming you have docker desktop installed already) rename or copy `RetPageOriginDockerfile` to `Dockerfile`
+1) In the hubs client directory, (assuming you have docker desktop installed already) you can find the docker file as `RetPageOriginDockerfile`. For convenience, we rename it to `Dockerfile` here.
 
 2) Build the container by running the following command from the project root:
 
@@ -706,11 +730,10 @@ Fixed by rebuilding package.json.lock locally first with node 16.16 and npm 8.11
 
 ### Debugging dependencies while building custom client container
 
-A tip for anyone else who finds themself in dependency hell trying to make their custom client work: in the Dockerfile, where it does this:
+If you are trying to resolve dependencies, you might want to see a bit more output. You can change that in the dockerfile here:
 
 ```bash
 run npm run build 1> /dev/null
 ```
 
-you can remove that 1> /dev/null to actually see the logs
-
+Just remove `1> /dev/null` to actually see the logs.
