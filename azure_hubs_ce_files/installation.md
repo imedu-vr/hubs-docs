@@ -134,11 +134,48 @@ Note that this will not pause any other external services outside the cluster (e
 
 Hubs clouds comes with an included postgresql server that is run on a separate pod (behind a pgbouncer pod). For flexibility or more control you can also set up a separate database.
 
-The most cost-efficient way is to start a VM with PostgresSQL on it. You can install it yourself, but here (as a middle of the road solution) we'll use an image from the Azure marketplace and link it to our application.
+We are using the 'Azure Database for Postgres' resource. You can create this from the Azure portal
 
-You can also use an Azure PostgreSQL service (which can even includes its one pgbouncer if you want), but this is significantly more expensive.
+1) Click on `Create a Resource`
 
-This can be done with the following instructions.
+2) Select `Azure Database for PostgresSQL`
+
+3) The configuration is pretty self-explanantory. Few things to consider:
+
+* Install it in the same Resource group
+
+* For networking, 
+  - choose `Public access` and 
+  - add the IP of your current machine (only for setting up, you can remove this later)
+  * select `Allow public access from any Azure service within Azure to this server`
+
+* Select a suitable size for your machine
+
+*IMPORTANT: Add a database user and database*
+We don't want to use the admin user for our database access. We also need to create a databse for our application.
+
+4) After the installation is finished, you need to disable the server parameter `require_secure_transport` <https://learn.microsoft.com/en-us/azure/postgresql/flexible-server/how-to-connect-tls-ssl>
+
+5) To create your database and user, go to your resource and select the 'Connect' tab
+
+5) Find the option 'Connect from browser or locally', to find the command line string to connect
+
+6) Run the following commands to create the user and database. See <https://learn.microsoft.com/EN-us/azure/postgresql/single-server/how-to-create-users>
+
+We call the database retdb, as this is the default name but we can choose a different one. Remember these values, as you will need them later when setting up Hubs CE.
+
+```bash
+CREATE DATABASE retdb;
+CREATE USER <your_db_user, eg. hubs> PASSWORD '<StrongPassword!>';
+GRANT ALL PRIVILEGES ON DATABASE retdb TO hubs;
+```
+
+7) Type 'exit' to close the connection.
+
+
+### Alternative solution
+
+You can also start a VM with PostgresSQL on it. You can install it yourself, but here (as a middle of the road solution) we'll use an image from the Azure marketplace and link it to our application. This can be done with the following instructions.
 
 1. First we want to enable encryption on our host disk, so we need to enable that for our subscription (so only once!). See: <https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-host-based-encryption-portal?tabs=azure-cli#prerequisites>
 
